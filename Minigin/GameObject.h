@@ -1,32 +1,29 @@
 #pragma once
 #include <memory>
 #include "Transform.h"
+#include <unordered_map>
 
 namespace dae
 {
-	class Texture2D;
+	class Component;
 
-	// todo: this should become final.
-	class GameObject 
+	class GameObject final
 	{
-	public:
-		virtual void Update(float elapsedSec);
-		virtual void FixedUpdate(float elapsedSec);
-		virtual void Render() const;
+		public:
 
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+			void Update(float elapsedSec);
+			void FixedUpdate(float elapsedSec);
+			void Render() const;
 
-		GameObject() = default;
-		virtual ~GameObject();
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
+			void SetPosition(float x, float y);
+			glm::vec3 GetPosition();
 
-	private:
-		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_texture{};
+			bool AddComponent(std::string name, std::unique_ptr<Component> component);
+			Component* GetComponent(std::string name) const;
+			bool RemoveComponent(std::string name);
+
+		private:
+			Transform m_transform{};
+			std::unordered_map<std::string, std::unique_ptr<Component>> m_pComponents;
 	};
 }

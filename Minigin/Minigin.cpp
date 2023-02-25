@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <chrono>
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -85,35 +86,36 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 
 	bool doContinue = true;
-	const float fixedTimeStep{ 0.2f };
-	const float FPS{ 30.0 };
-	const float frameTime{ 1 / FPS };
+	const float fixedTimeStepSec{ 0.02f };
+	const float desiredFPS{ 60.0f };
+	const float frameTimeMs{ 1000 / desiredFPS };
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+		const float deltaTimeSec = float(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(currentTime - lastTime)).count()) / 1000.0f;
+		
 		lastTime = currentTime;
-		lag += deltaTime;
+		lag += deltaTimeSec;
 
 		// Process input
 		doContinue = input.ProcessInput();
 
 		// Fixed Update
-		while (lag >= fixedTimeStep)
-		{
-			sceneManager.FixedUpdate(fixedTimeStep);
-			lag -= fixedTimeStep;
+		while (lag >= fixedTimeStepSec) {
+			sceneManager.FixedUpdate(fixedTimeStepSec);
+			lag -= fixedTimeStepSec;
 		}
 
 		// Normal Update
-		sceneManager.Update(deltaTime);
+		sceneManager.Update(deltaTimeSec);
 
+		// Renders
 		renderer.Render();
 
-		// Sleep if for rest of frame
-		const auto sleepTime = std::chrono::duration<float>(currentTime - std::chrono::high_resolution_clock::now()).count() + frameTime;
-		Sleep(int(sleepTime));
+		// Sleep for rest of frame
+		const auto sleepTimeMs = frameTimeMs - float(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(std::chrono::high_resolution_clock::now() - currentTime)).count());
+		Sleep(int(sleepTimeMs));
 	}
 }

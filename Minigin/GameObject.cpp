@@ -29,13 +29,23 @@ void dae::GameObject::Render() const
 	});
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void dae::GameObject::SetLocalPosition(float x, float y)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_LocalPosition = glm::vec3{ x,y, 0.0f };
+	m_PositionChanged = true;
 }
 
-glm::vec3 dae::GameObject::GetPosition() {
-	return m_transform.GetPosition();
+void dae::GameObject::SetLocalPosition(glm::vec3 position)
+{
+	SetLocalPosition(position.x, position.y);
+}
+
+glm::vec3 dae::GameObject::GetWorldPosition() {
+
+	if (HasPositionChanged()) {
+		UpdateWorldPosition();
+	}
+	return m_WorldPosition;
 }
 
 bool dae::GameObject::AddComponent(std::string name, std::unique_ptr<Component> component) {
@@ -67,4 +77,41 @@ bool dae::GameObject::RemoveComponent(std::string name) {
 	}
 
 	return false;
+}
+
+void dae::GameObject::SetParent(std::shared_ptr<GameObject> pParent, bool keepWorldPosition) {
+
+	m_pParent = pParent;
+
+	if (pParent == nullptr) {
+		SetLocalPosition(GetWorldPosition());
+		return;
+	}
+
+	if (keepWorldPosition) {
+		SetLocalPosition(m_LocalPosition - m_pParent->GetWorldPosition());
+	}
+
+	m_PositionChanged = true;
+}
+
+void dae::GameObject::UpdateWorldPosition() {
+	if (HasPositionChanged()) {
+		if (m_pParent) {
+			m_WorldPosition = m_pParent->GetWorldPosition() + m_LocalPosition;
+		}
+		else {
+			m_WorldPosition = m_LocalPosition;
+		}
+	}
+	m_PositionChanged = false;
+}
+
+bool dae::GameObject::HasPositionChanged() {
+
+	if (m_pParent) {
+		m_PositionChanged = m_PositionChanged || m_pParent->HasPositionChanged();
+	}
+
+	return m_PositionChanged;
 }

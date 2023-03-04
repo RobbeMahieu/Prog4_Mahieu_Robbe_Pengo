@@ -1,5 +1,4 @@
 #include "TextRenderComponent.h"
-#include "Transform.h"
 #include <stdexcept>
 #include <SDL_ttf.h>
 #include "Renderer.h"
@@ -18,7 +17,7 @@ void TextRenderComponent::Render() const{
 	
 	if (m_TextTexture != nullptr)
 	{
-		const glm::vec3 position{ m_pGameObject->GetPosition() };
+		const glm::vec3 position{ m_pGameObject->GetWorldPosition() };
 		dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, position.x, position.y);
 	}
 }

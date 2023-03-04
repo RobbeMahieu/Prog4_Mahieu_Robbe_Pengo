@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <chrono>
+#include <thread>
 #include <iostream>
 
 SDL_Window* g_window{};
@@ -88,13 +89,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	bool doContinue = true;
 	const float fixedTimeStepSec{ 0.02f };
 	const float desiredFPS{ 60.0f };
-	const float frameTimeMs{ 1000 / desiredFPS };
+	const int frameTimeMs{ int(1000 / desiredFPS) };
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 	while (doContinue)
 	{
 		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTimeSec = float(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(currentTime - lastTime)).count()) / 1000.0f;
+		const float deltaTimeSec = std::chrono::duration<float>(currentTime - lastTime).count();	
 		
 		lastTime = currentTime;
 		lag += deltaTimeSec;
@@ -115,7 +116,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		renderer.Render();
 
 		// Sleep for rest of frame
-		const auto sleepTimeMs = frameTimeMs - float(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(std::chrono::high_resolution_clock::now() - currentTime)).count());
-		Sleep(int(sleepTimeMs));
+		const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) - std::chrono::high_resolution_clock::now();
+		std::this_thread::sleep_for(sleepTime);
 	}
 }

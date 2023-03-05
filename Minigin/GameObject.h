@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <unordered_map>
+#include <vector>
 #include <glm/glm.hpp>
 
 namespace dae
@@ -28,6 +29,8 @@ namespace dae
 
 		private:
 			void UpdateWorldPosition();
+			void AddChild(GameObject* child);
+			void RemoveChild(GameObject* child);
 
 			glm::vec3 m_LocalPosition{};
 			glm::vec3 m_WorldPosition{};
@@ -36,5 +39,6 @@ namespace dae
 			std::unordered_map<std::string, std::unique_ptr<Component>> m_pComponents;
 
 			std::shared_ptr<GameObject> m_pParent;
+			std::vector<GameObject*> m_pChildren;
 	};
 }

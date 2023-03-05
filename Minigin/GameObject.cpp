@@ -81,8 +81,16 @@ bool dae::GameObject::RemoveComponent(std::string name) {
 
 void dae::GameObject::SetParent(std::shared_ptr<GameObject> pParent, bool keepWorldPosition) {
 
+	// Update hierarchy
+	if (m_pParent) {
+		m_pParent->RemoveChild(this);
+	}
 	m_pParent = pParent;
+	if (m_pParent) {
+		m_pParent->AddChild(this);
+	}
 
+	// Update positions
 	if (pParent == nullptr) {
 		SetLocalPosition(GetWorldPosition());
 		return;
@@ -93,6 +101,14 @@ void dae::GameObject::SetParent(std::shared_ptr<GameObject> pParent, bool keepWo
 	}
 
 	m_PositionChanged = true;
+}
+
+void dae::GameObject::AddChild(GameObject* pChild) {
+	m_pChildren.push_back(pChild);
+}
+
+void dae::GameObject::RemoveChild(GameObject* pChild) {
+	m_pChildren.erase(remove(m_pChildren.begin(), m_pChildren.end(), pChild), m_pChildren.end());
 }
 
 void dae::GameObject::UpdateWorldPosition() {

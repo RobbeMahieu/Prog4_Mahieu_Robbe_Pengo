@@ -6,7 +6,7 @@ class CircleRotationComponent : public dae::Component
 {
 
 public:
-	CircleRotationComponent( glm::vec3 orbitPoint, float speed, float distance );
+	CircleRotationComponent(float speed, float distance );
 	virtual ~CircleRotationComponent() = default;
 
 	CircleRotationComponent(const CircleRotationComponent& other) = delete;
@@ -21,6 +21,5 @@ protected:
 	float m_Distance{ 30.0f };
 	float m_CurrentAngle{ 0.0f };
 	float m_RotateSpeed{ 5.0f };
-	glm::vec3 m_OrbitPoint;
 };
 

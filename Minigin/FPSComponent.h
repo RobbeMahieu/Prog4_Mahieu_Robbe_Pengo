@@ -5,7 +5,7 @@
 class FPSComponent : public Component
 {
 	public:
-		FPSComponent(dae::GameObject* pOwner, std::string textRenderName);
+		FPSComponent(dae::GameObject* pOwner);
 		virtual ~FPSComponent() = default;
 
 		FPSComponent(const FPSComponent& other) = delete;
@@ -18,7 +18,6 @@ class FPSComponent : public Component
 
 	protected:
 		float m_Fps;
-		std::string m_TextRenderName;
 
 };
 

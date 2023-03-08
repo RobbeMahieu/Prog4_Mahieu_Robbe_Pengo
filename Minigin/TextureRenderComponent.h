@@ -16,6 +16,8 @@ public:
 	TextureRenderComponent& operator=(TextureRenderComponent&& other) = delete;
 
 	virtual void Render() const override;
+	virtual void Update([[maybe_unused]] float elapsedSec) {};
+	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {};
 
 private:
 	std::shared_ptr<dae::Texture2D> m_Texture;

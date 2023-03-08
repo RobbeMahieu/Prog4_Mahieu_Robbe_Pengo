@@ -16,6 +16,8 @@ class TextRenderComponent : public Component
 		TextRenderComponent& operator=(const TextRenderComponent& other) = delete;
 		TextRenderComponent& operator=(TextRenderComponent&& other) = delete;
 
+		virtual void Update([[maybe_unused]] float elapsedSec) {};
+		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {};
 		virtual void Render() const override;
 		void SetText(const std::string& text);
 

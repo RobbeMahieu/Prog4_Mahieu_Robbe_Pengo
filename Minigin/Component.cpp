@@ -1,6 +1,15 @@
 #include "Component.h"
 #include "GameObject.h"
 
-void dae::Component::SetOwner(dae::GameObject* gameObject) {
-	m_pGameObject = gameObject;
+Component::Component(dae::GameObject* pOwner)
+	: m_pOwner{ pOwner}
+	, m_IsMarkedForDestroy{ false }
+{}
+
+void Component::Destroy() {
+	m_IsMarkedForDestroy = true;
+}
+
+bool Component::IsMarkedForDestroy() {
+	return m_IsMarkedForDestroy;
 }

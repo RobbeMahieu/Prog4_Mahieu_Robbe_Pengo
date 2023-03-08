@@ -48,7 +48,7 @@ namespace dae
 
 				std::vector<ComponentType*> pComponents{};
 
-				std::for_each(m_pComponents.begin(), m_pComponents.end(), [&](auto& component) {
+				std::for_each(m_pComponents.begin(), m_pComponents.end(), [&](const auto& component) {
 					if (typeid(*(component.get())) == typeid(ComponentType)) {
 						pComponents.push_back(static_cast<ComponentType*>(component.get()));
 					}
@@ -59,7 +59,7 @@ namespace dae
 
 			template<typename ComponentType>
 			bool RemoveComponent() const {
-				auto foundComponent = std::find_if(m_pComponents.begin(), m_pComponents.end(), [](auto& component) {
+				auto foundComponent = std::find_if(m_pComponents.begin(), m_pComponents.end(), [](const auto& component) {
 					return typeid(*(component.get())) == typeid(ComponentType);
 				});
 

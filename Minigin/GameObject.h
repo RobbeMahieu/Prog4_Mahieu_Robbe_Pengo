@@ -5,10 +5,10 @@
 #include <glm/glm.hpp>
 #include <string>
 
+class Component;
+
 namespace dae
 {
-	class Component;
-
 	class GameObject final
 	{
 		public:

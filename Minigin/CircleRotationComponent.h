@@ -2,11 +2,11 @@
 #include "Component.h"
 #include "glm/glm.hpp"
 
-class CircleRotationComponent : public dae::Component
+class CircleRotationComponent : public Component
 {
 
 public:
-	CircleRotationComponent(float speed, float distance );
+	CircleRotationComponent(dae::GameObject* pOwner, float speed, float distance );
 	virtual ~CircleRotationComponent() = default;
 
 	CircleRotationComponent(const CircleRotationComponent& other) = delete;
@@ -18,8 +18,8 @@ public:
 	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
 
 protected:
-	float m_Distance{ 30.0f };
-	float m_CurrentAngle{ 0.0f };
-	float m_RotateSpeed{ 5.0f };
+	float m_Distance;
+	float m_CurrentAngle;
+	float m_RotateSpeed;
 };
 

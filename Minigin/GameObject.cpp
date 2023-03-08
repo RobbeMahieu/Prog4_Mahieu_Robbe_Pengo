@@ -4,10 +4,9 @@
 #include "Renderer.h"
 #include <algorithm>
 #include <iterator>
-#include "RenderComponent.h"
 #include "Component.h"
 
-typedef std::pair<const std::string, std::unique_ptr<dae::Component>> NamedComponent;
+typedef std::pair<const std::string, std::unique_ptr<Component>> NamedComponent;
 
 void dae::GameObject::Update(float elapsedSec){
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](NamedComponent& component) { component.second->Update(elapsedSec); });
@@ -19,14 +18,7 @@ void dae::GameObject::FixedUpdate(float elapsedSec){
 
 void dae::GameObject::Render() const
 {
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const NamedComponent& component) {
-
-		const RenderComponent* renderComponent = dynamic_cast<RenderComponent*>(component.second.get());
-		if (renderComponent) {
-			renderComponent->Render();
-		}
-
-	});
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const NamedComponent& component) { component.second->Render();	});
 }
 
 void dae::GameObject::SetLocalPosition(float x, float y)
@@ -60,7 +52,7 @@ bool dae::GameObject::AddComponent(std::string name, std::unique_ptr<Component> 
 }
 
 
-dae::Component* dae::GameObject::GetComponent(std::string name) const {
+Component* dae::GameObject::GetComponent(std::string name) const {
 	
 	if (m_pComponents.count(name)) {
 		return m_pComponents.find(name)->second.get();

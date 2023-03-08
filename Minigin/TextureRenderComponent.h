@@ -1,13 +1,13 @@
 #pragma once
-#include "RenderComponent.h"
+#include "Component.h"
 #include "Texture2D.h"
 #include <memory>
 #include <string>
 
-class TextureRenderComponent : public RenderComponent
+class TextureRenderComponent : public Component
 {
 public:
-	TextureRenderComponent(const std::string& texturePath);
+	TextureRenderComponent(dae::GameObject* pOwner, const std::string& texturePath);
 	virtual ~TextureRenderComponent() = default;
 
 	TextureRenderComponent(const TextureRenderComponent& other) = delete;

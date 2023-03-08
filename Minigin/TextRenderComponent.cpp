@@ -4,8 +4,8 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-TextRenderComponent::TextRenderComponent(const std::string& text, std::shared_ptr<dae::Font> font)
-	: RenderComponent()
+TextRenderComponent::TextRenderComponent(dae::GameObject* pOwner, const std::string& text, std::shared_ptr<dae::Font> font)
+	: Component(pOwner)
 	, m_Text{ "" }
 	, m_Font{ std::move(font) }
 	, m_TextTexture{ nullptr }
@@ -15,9 +15,9 @@ TextRenderComponent::TextRenderComponent(const std::string& text, std::shared_pt
 
 void TextRenderComponent::Render() const{
 	
-	if (m_TextTexture != nullptr)
+	if (m_TextTexture)
 	{
-		const glm::vec3 position{ m_pGameObject->GetWorldPosition() };
+		const glm::vec3 position{ m_pOwner->GetWorldPosition() };
 		dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, position.x, position.y);
 	}
 }

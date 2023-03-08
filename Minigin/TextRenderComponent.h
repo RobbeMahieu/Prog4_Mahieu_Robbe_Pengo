@@ -1,14 +1,14 @@
 #pragma once
-#include "RenderComponent.h"
 #include <string>
 #include "Font.h"
 #include "Texture2D.h"
 #include <memory>
+#include "Component.h"
 
-class TextRenderComponent : public RenderComponent
+class TextRenderComponent : public Component
 {
 	public:
-		TextRenderComponent(const std::string& text, std::shared_ptr<dae::Font> font);
+		TextRenderComponent(dae::GameObject* pOwner, const std::string& text, std::shared_ptr<dae::Font> font);
 		virtual ~TextRenderComponent() = default;
 
 		TextRenderComponent(const TextRenderComponent& other) = delete;

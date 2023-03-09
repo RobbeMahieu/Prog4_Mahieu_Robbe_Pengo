@@ -23,10 +23,9 @@ namespace dae
 			glm::vec3 GetWorldPosition();
 			bool HasPositionChanged();
 
-
 			template<typename ComponentType, typename... Args>
-			ComponentType* AddComponent(Args&&... arguments) {
-				std::unique_ptr<ComponentType> component{ std::make_unique<ComponentType>(this, std::forward<Args>(arguments)...) };
+			ComponentType* AddComponent(const Args&... arguments) {
+				std::unique_ptr<ComponentType> component{ std::make_unique<ComponentType>(this, arguments...) };
 				m_pComponents.push_back(std::move(component));
 				return component.get();
 			}

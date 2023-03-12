@@ -4,27 +4,54 @@
 #include "Renderer.h"
 #include <algorithm>
 #include <iterator>
-#include "Component.h"
+
+dae::GameObject::~GameObject() {
+	
+	// Delete all the children
+	for (auto child : m_pChildren) {
+		delete child;
+	}
+}
+
+void dae::GameObject::Destroy() {
+	m_IsMarkedForDestroy = true;
+}
+
+bool dae::GameObject::IsMarkedForDestroy() {
+	return m_IsMarkedForDestroy;
+}
 
 void dae::GameObject::Update(float elapsedSec){
+	
 	// Update
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->Update(elapsedSec); });
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Update(elapsedSec); });
 
-	// Remove objects marked for delete
+	// Remove components marked for destroy
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { 
 		if (component->IsMarkedForDestroy()) {
 			m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), component), m_pComponents.end());
+		}
+	});
+
+	// Remove children marked for destroy
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { 
+		if (child->IsMarkedForDestroy()) {
+			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
+			delete child;
 		}
 	});
 }
 
 void dae::GameObject::FixedUpdate(float elapsedSec){
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->FixedUpdate(elapsedSec); });
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->FixedUpdate(elapsedSec); });
 }
 
 void dae::GameObject::Render() const
 {
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const auto& component) { component->Render();	});
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Render(); });
 }
 
 void dae::GameObject::SetLocalPosition(float x, float y)
@@ -46,7 +73,7 @@ glm::vec3 dae::GameObject::GetWorldPosition() {
 	return m_WorldPosition;
 }
 
-void dae::GameObject::SetParent(std::shared_ptr<GameObject> pParent, bool keepWorldPosition) {
+void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
 	// Update hierarchy
 	if (m_pParent) {

@@ -5,14 +5,21 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-
-class Component;
+#include "Component.h"
 
 namespace dae
 {
 	class GameObject final
 	{
 		public:
+
+			GameObject() = default;
+			~GameObject();
+
+			GameObject(const GameObject& other) = delete;
+			GameObject(GameObject&& other) = delete;
+			GameObject& operator=(const GameObject& other) = delete;
+			GameObject& operator=(GameObject&& other) = delete;
 
 			void Update(float elapsedSec);
 			void FixedUpdate(float elapsedSec);
@@ -27,7 +34,7 @@ namespace dae
 			ComponentType* AddComponent(const Args&... arguments) {
 				std::unique_ptr<ComponentType> component{ std::make_unique<ComponentType>(this, arguments...) };
 				m_pComponents.push_back(std::move(component));
-				return component.get();
+				return GetComponent<ComponentType>();
 			}
 
 			template<typename ComponentType>
@@ -79,7 +86,9 @@ namespace dae
 				});
 			}
 
-			void SetParent(std::shared_ptr<GameObject> pParent, bool keepWorldPosition);
+			void AttachTo(GameObject* pParent, bool keepWorldPosition);
+			bool IsMarkedForDestroy();			
+			void Destroy();
 
 		private:
 			void UpdateWorldPosition();
@@ -89,10 +98,11 @@ namespace dae
 			glm::vec3 m_LocalPosition{};
 			glm::vec3 m_WorldPosition{};
 			bool m_PositionChanged;
+			bool m_IsMarkedForDestroy{ false };
 
 			std::vector<std::unique_ptr<Component>> m_pComponents;
 
-			std::shared_ptr<GameObject> m_pParent;
+			GameObject* m_pParent;
 			std::vector<GameObject*> m_pChildren;
 	};
 }

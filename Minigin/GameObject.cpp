@@ -37,8 +37,8 @@ void dae::GameObject::Update(float elapsedSec){
 	// Remove children marked for destroy
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { 
 		if (child->IsMarkedForDestroy()) {
-			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
 			delete child;
+			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
 		}
 	});
 }

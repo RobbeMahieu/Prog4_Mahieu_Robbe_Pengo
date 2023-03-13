@@ -75,20 +75,20 @@ glm::vec3 dae::GameObject::GetWorldPosition() {
 
 void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
+	// Detach it from the scene == destroy it
+	// Still needs to be attached to the current parent to be deleted
+	if (!pParent) {
+		Destroy();
+		return;
+	}
+
 	// Update hierarchy
 	if (m_pParent) {
 		m_pParent->RemoveChild(this);
 	}
-	m_pParent = pParent;
-	if (m_pParent) {
-		m_pParent->AddChild(this);
-	}
 
-	// Update positions
-	if (pParent == nullptr) {
-		SetLocalPosition(GetWorldPosition());
-		return;
-	}
+	m_pParent = pParent;
+	m_pParent->AddChild(this);
 
 	if (keepWorldPosition) {
 		SetLocalPosition(m_LocalPosition - m_pParent->GetWorldPosition());

@@ -7,7 +7,7 @@
 class XBoxController final : public InputDevice
 {
 	public:
-		XBoxController(int controllerIndex);
+		XBoxController(int deviceID, int controllerIndex);
 		~XBoxController() = default;
 
 		XBoxController(const XBoxController& other) = delete;

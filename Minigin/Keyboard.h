@@ -5,7 +5,7 @@
 class Keyboard final: public InputDevice
 {
 	public:
-		Keyboard();
+		Keyboard(int deviceID);
 		~Keyboard();
 
 		Keyboard(const Keyboard& other) = delete;

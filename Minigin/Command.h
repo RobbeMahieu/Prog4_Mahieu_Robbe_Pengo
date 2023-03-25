@@ -1,17 +1,12 @@
 #pragma once
 #include <functional>
 
-namespace dae {
-	class GameObject;
-}
+class Component;
 
 class Command final
 {
 	public:
-		// Member function
-		explicit Command(dae::GameObject* pSubject, std::function<void(dae::GameObject*)> function);
-		// Global function
-		explicit Command(std::function<void(void)> function);
+		explicit Command(std::function<void()> function);
 
 		~Command() = default;
 
@@ -23,8 +18,6 @@ class Command final
 		void Execute();
 
 	private:
-		dae::GameObject* m_pSubject;
-		std::function<void(dae::GameObject*)> m_MemberFunction;
-		std::function<void(void)> m_GlobalFunction;
+		std::function<void(void)> m_Function;
 };
 

@@ -1,7 +1,7 @@
 #include "XBoxController.h"
 
-XBoxController::XBoxController(int controllerIndex)
-	: InputDevice()
+XBoxController::XBoxController(int deviceID, int controllerIndex)
+	: InputDevice(deviceID)
 	, m_ControllerIndex{ controllerIndex }
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));

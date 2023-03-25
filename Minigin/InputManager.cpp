@@ -1,19 +1,13 @@
-#include <SDL.h>
 #include "InputManager.h"
-#include <iostream>
+#include "SDL.h"
 
 bool dae::InputManager::ProcessInput()
 {
+	// Handle SDL events
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
-		}
-		if (e.type == SDL_KEYDOWN) {
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
 		}
 	}
 
@@ -30,12 +24,6 @@ bool dae::InputManager::ProcessInput()
 	}
 
 	return true;
-}
-
-void dae::InputManager::AddInputDevice(InputDevice* pDevice) {
-
-	std::unique_ptr<InputDevice> device{ pDevice };
-	m_InputDevices.push_back(std::move(device));
 }
 
 void dae::InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex) {

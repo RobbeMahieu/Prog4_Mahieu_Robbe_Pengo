@@ -2,7 +2,10 @@
 class InputDevice
 {
 	public:
-		InputDevice() = default;
+		InputDevice(int deviceID)
+			: m_DeviceID{ deviceID }
+		{}
+
 		virtual ~InputDevice() = default;
 
 		InputDevice(const InputDevice& other) = delete;
@@ -14,5 +17,10 @@ class InputDevice
 		virtual bool IsPressed(unsigned int key) const = 0;
 		virtual bool IsPressedThisFrame(unsigned int key) const = 0;
 		virtual bool IsReleasedThisFrame(unsigned int key) const = 0;
+		
+		int GetID() { return m_DeviceID; }
+
+	private:
+		int m_DeviceID;
 };
 

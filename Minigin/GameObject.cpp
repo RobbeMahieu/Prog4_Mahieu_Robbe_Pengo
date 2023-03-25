@@ -56,6 +56,11 @@ void dae::GameObject::SetLocalPosition(glm::vec3 position)
 	SetLocalPosition(position.x, position.y);
 }
 
+glm::vec3 dae::GameObject::GetLocalPosition()
+{
+	return m_LocalPosition;
+}
+
 glm::vec3 dae::GameObject::GetWorldPosition() {
 
 	if (HasPositionChanged()) {

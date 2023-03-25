@@ -17,7 +17,14 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
-		void AddInputDevice(InputDevice* pDevice);
+
+		template<typename DeviceType, typename... Args>
+		InputDevice* AddInputDevice(Args&&... arguments) {
+			std::unique_ptr<DeviceType> device{ std::make_unique<DeviceType>(m_InputDevices.size(), std::forward<Args>(arguments)...) };
+			m_InputDevices.push_back(std::move(device));
+			return m_InputDevices.back().get();
+		}
+
 		void BindAction(unsigned int key, Command* pCommand, int deviceIndex = 0);
 
 	private:

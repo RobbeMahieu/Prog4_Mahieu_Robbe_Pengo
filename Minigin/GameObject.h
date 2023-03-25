@@ -27,6 +27,7 @@ namespace dae
 
 			void SetLocalPosition(float x, float y);
 			void SetLocalPosition(glm::vec3 position);
+			glm::vec3 GetLocalPosition();
 			glm::vec3 GetWorldPosition();
 			bool HasPositionChanged();
 

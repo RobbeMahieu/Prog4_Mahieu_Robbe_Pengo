@@ -1,6 +1,10 @@
 #pragma once
 #include "Singleton.h"
 #include <vector>
+#include <memory>
+
+class Command;
+class InputDevice;
 
 namespace dae
 {
@@ -10,8 +14,7 @@ namespace dae
 		bool ProcessInput();
 
 	private:
-
-
+		std::vector<std::unique_ptr<InputDevice>> m_InputDevices;
 	};
 
 }

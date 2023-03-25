@@ -78,6 +78,12 @@
     <ClInclude Include="Command.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="InputDevice.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="XBoxController.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -129,6 +135,9 @@
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="XBoxController.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>

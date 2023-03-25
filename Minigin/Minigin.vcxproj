@@ -185,6 +185,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputDevice.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Renderer.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureRenderComponent.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="XBoxController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CircleRotationComponent.cpp" />
@@ -215,6 +217,7 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureRenderComponent.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="XBoxController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

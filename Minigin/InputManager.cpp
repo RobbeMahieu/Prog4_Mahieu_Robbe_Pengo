@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "InputManager.h"
+#include "InputDevice.h"
 
 bool dae::InputManager::ProcessInput()
 {
@@ -15,6 +16,11 @@ bool dae::InputManager::ProcessInput()
 			
 		}
 		// etc...
+	}
+
+	// Update key presses for each input device
+	for (auto& inputDevice : m_InputDevices) {
+		inputDevice->Update();
 	}
 
 	return true;

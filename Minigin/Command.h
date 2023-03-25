@@ -5,14 +5,15 @@ namespace dae {
 	class GameObject;
 }
 
-class Command
+class Command final
 {
 	public:
 		// Member function
 		explicit Command(dae::GameObject* pSubject, std::function<void(dae::GameObject*)> function);
 		// Global function
 		explicit Command(std::function<void(void)> function);
-		virtual ~Command() = default;
+
+		~Command() = default;
 
 		Command(const Command& other) = delete;
 		Command(Command&& other) = delete;

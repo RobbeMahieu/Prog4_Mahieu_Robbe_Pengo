@@ -20,7 +20,7 @@ void Scene::Add(GameObject* object)
 
 void Scene::Remove(GameObject* object)
 {
-	object->Destroy();
+	object->AttachTo(nullptr, true);
 }
 
 void Scene::RemoveAll()
@@ -43,4 +43,3 @@ void Scene::Render() const
 {
 	m_SceneRoot->Render();
 }
-

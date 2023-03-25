@@ -5,14 +5,6 @@
 #include <algorithm>
 #include <iterator>
 
-dae::GameObject::~GameObject() {
-	
-	// Delete all the children
-	for (auto child : m_pChildren) {
-		delete child;
-	}
-}
-
 void dae::GameObject::Destroy() {
 	m_IsMarkedForDestroy = true;
 }
@@ -37,7 +29,6 @@ void dae::GameObject::Update(float elapsedSec){
 	// Remove children marked for destroy
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { 
 		if (child->IsMarkedForDestroy()) {
-			delete child;
 			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
 		}
 	});
@@ -75,34 +66,42 @@ glm::vec3 dae::GameObject::GetWorldPosition() {
 
 void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
-	// Detach it from the scene == destroy it
-	// Still needs to be attached to the current parent to be deleted
-	if (!pParent) {
-		Destroy();
-		return;
-	}
-
 	// Update hierarchy
+	std::unique_ptr<GameObject> child;
+
 	if (m_pParent) {
-		m_pParent->RemoveChild(this);
+		auto childIt = std::find_if(m_pParent->m_pChildren.begin(), m_pParent->m_pChildren.end(), [&](const std::unique_ptr<GameObject>& child) {
+			return child.get() == this;
+		});
+
+		child = std::move(*childIt);
+		m_pParent->m_pChildren.erase(childIt);
 	}
 
 	m_pParent = pParent;
-	m_pParent->AddChild(this);
+	
+	if (m_pParent) {
+
+		// Make sure the unique pointer has a value
+		if (!child.get()) {
+			child.reset(this);
+		}
+
+		m_pParent->m_pChildren.push_back(std::move(child));
+	}
+
+
+	// Update position
+	if (pParent == nullptr) {
+		SetLocalPosition(GetWorldPosition());
+		return;
+	}
 
 	if (keepWorldPosition) {
 		SetLocalPosition(m_LocalPosition - m_pParent->GetWorldPosition());
 	}
 
 	m_PositionChanged = true;
-}
-
-void dae::GameObject::AddChild(GameObject* pChild) {
-	m_pChildren.push_back(pChild);
-}
-
-void dae::GameObject::RemoveChild(GameObject* pChild) {
-	m_pChildren.erase(remove(m_pChildren.begin(), m_pChildren.end(), pChild), m_pChildren.end());
 }
 
 void dae::GameObject::UpdateWorldPosition() {

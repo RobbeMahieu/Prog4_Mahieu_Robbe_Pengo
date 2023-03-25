@@ -14,7 +14,7 @@ namespace dae
 		public:
 
 			GameObject() = default;
-			~GameObject();
+			~GameObject() = default;
 
 			GameObject(const GameObject& other) = delete;
 			GameObject(GameObject&& other) = delete;
@@ -31,8 +31,8 @@ namespace dae
 			bool HasPositionChanged();
 
 			template<typename ComponentType, typename... Args>
-			ComponentType* AddComponent(const Args&... arguments) {
-				std::unique_ptr<ComponentType> component{ std::make_unique<ComponentType>(this, arguments...) };
+			ComponentType* AddComponent(Args&&... arguments) {
+				std::unique_ptr<ComponentType> component{ std::make_unique<ComponentType>(this, std::forward<Args>(arguments)...) };
 				m_pComponents.push_back(std::move(component));
 				return GetComponent<ComponentType>();
 			}
@@ -92,17 +92,15 @@ namespace dae
 
 		private:
 			void UpdateWorldPosition();
-			void AddChild(GameObject* child);
-			void RemoveChild(GameObject* child);
 
 			glm::vec3 m_LocalPosition{};
 			glm::vec3 m_WorldPosition{};
-			bool m_PositionChanged;
+			bool m_PositionChanged{ false };
 			bool m_IsMarkedForDestroy{ false };
 
 			std::vector<std::unique_ptr<Component>> m_pComponents;
 
-			GameObject* m_pParent;
-			std::vector<GameObject*> m_pChildren;
+			GameObject* m_pParent{ nullptr };
+			std::vector<std::unique_ptr<GameObject>> m_pChildren;
 	};
 }

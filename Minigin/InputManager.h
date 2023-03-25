@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include <vector>
 
 namespace dae
 {
@@ -7,6 +8,10 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
+
+	private:
+
+
 	};
 
 }

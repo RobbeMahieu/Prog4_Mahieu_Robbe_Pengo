@@ -70,7 +70,7 @@ void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 	std::unique_ptr<GameObject> child;
 
 	if (m_pParent) {
-		auto childIt = std::find_if(m_pParent->m_pChildren.begin(), m_pParent->m_pChildren.end(), [&](const std::unique_ptr<GameObject>& child) {
+		auto childIt = std::find_if(m_pParent->m_pChildren.begin(), m_pParent->m_pChildren.end(), [&](const auto& child) {
 			return child.get() == this;
 		});
 
@@ -82,7 +82,7 @@ void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 	
 	if (m_pParent) {
 
-		// Make sure the unique pointer has a value
+		// Make sure the unique pointer has a value (used first attach)
 		if (!child.get()) {
 			child.reset(this);
 		}
@@ -92,7 +92,7 @@ void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
 
 	// Update position
-	if (pParent == nullptr) {
+	if (m_pParent == nullptr) {
 		SetLocalPosition(GetWorldPosition());
 		return;
 	}

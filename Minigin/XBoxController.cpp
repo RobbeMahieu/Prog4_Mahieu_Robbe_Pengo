@@ -19,13 +19,13 @@ void XBoxController::Update() {
 }
 
 bool XBoxController::IsPressed(unsigned int key) const {
-	return key & m_CurrentState.Gamepad.wButtons;
+	return m_CurrentState.Gamepad.wButtons & key ;
 }
 
 bool XBoxController::IsPressedThisFrame(unsigned int key) const {
-	return m_ButtonsPressedThisFrame & m_CurrentState.Gamepad.wButtons;
+	return m_ButtonsPressedThisFrame & key;
 }
 
 bool XBoxController::IsReleasedThisFrame(unsigned int key) const {
-	return m_ButtonsReleasedThisFrame & m_CurrentState.Gamepad.wButtons;
+	return m_ButtonsReleasedThisFrame & key;
 }

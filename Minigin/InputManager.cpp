@@ -18,16 +18,40 @@ bool dae::InputManager::ProcessInput()
 
 	// Check action mappings
 	for (const auto& actionMap : m_ActionMapping) {
-		if (m_InputDevices[actionMap.deviceIndex]->IsPressed(actionMap.key)) {
-			actionMap.command->Execute();
+
+		switch (actionMap.keystate) {
+			case KeyState::OnPress:
+				if (m_InputDevices[actionMap.deviceIndex]->IsPressedThisFrame(actionMap.key)) {
+					actionMap.command->Execute();
+				}
+				break;
+
+			case KeyState::OnRelease:
+				if (m_InputDevices[actionMap.deviceIndex]->IsReleasedThisFrame(actionMap.key)) {
+					actionMap.command->Execute();
+				}
+				break;
+
+			case KeyState::Pressed:
+				if (m_InputDevices[actionMap.deviceIndex]->IsPressed(actionMap.key)) {
+					actionMap.command->Execute();
+				}
+				break;
+
+			case KeyState::Released:
+				if (!m_InputDevices[actionMap.deviceIndex]->IsPressed(actionMap.key)) {
+					actionMap.command->Execute();
+				}
+				break;
 		}
+
 	}
 
 	return true;
 }
 
-void dae::InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex) {
+void dae::InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex, KeyState state) {
 	
 	std::unique_ptr<Command> command{ pCommand };
-	m_ActionMapping.push_back(ActionMap{ std::move(command), key, deviceIndex });
+	m_ActionMapping.push_back(ActionMap{ std::move(command), key, deviceIndex, state });
 }

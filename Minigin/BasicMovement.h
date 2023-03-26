@@ -2,10 +2,12 @@
 #include "Component.h"
 #include "glm/glm.hpp"
 
+class InputDevice;
+
 class BasicMovement : public Component
 {
 public:
-	BasicMovement(dae::GameObject* pOwner, float speed);
+	BasicMovement(dae::GameObject* pOwner, float speed, InputDevice* device);
 	virtual ~BasicMovement() = default;
 
 	BasicMovement(const BasicMovement& other) = delete;

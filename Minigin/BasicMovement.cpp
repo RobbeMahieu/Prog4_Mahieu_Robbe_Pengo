@@ -1,10 +1,26 @@
 #include "BasicMovement.h"
 #include "GameObject.h"
+#include "InputDevice.h"
+#include "InputManager.h"
 
-BasicMovement::BasicMovement(dae::GameObject* pOwner, float speed)
+#include "Keyboard.h"
+#include "XBoxController.h"
+
+BasicMovement::BasicMovement(dae::GameObject* pOwner, float speed, InputDevice* device)
 	: Component(pOwner)
 	, m_MovementSpeed{ speed }
-{}
+{
+
+	int upKey{ typeid(*device) == typeid(Keyboard) ? SDL_SCANCODE_W : ControllerButton::DPAD_UP };
+	int downKey{ typeid(*device) == typeid(Keyboard) ? SDL_SCANCODE_S : ControllerButton::DPAD_DOWN };
+	int leftKey{ typeid(*device) == typeid(Keyboard) ? SDL_SCANCODE_A : ControllerButton::DPAD_LEFT };
+	int rightKey{ typeid(*device) == typeid(Keyboard) ? SDL_SCANCODE_D : ControllerButton::DPAD_RIGHT };
+
+	dae::InputManager::GetInstance().BindAction(upKey, new Command(std::bind(&BasicMovement::MoveUp, this)), device->GetID());
+	dae::InputManager::GetInstance().BindAction(downKey, new Command(std::bind(&BasicMovement::MoveDown, this)), device->GetID());
+	dae::InputManager::GetInstance().BindAction(leftKey, new Command(std::bind(&BasicMovement::MoveLeft, this)), device->GetID());
+	dae::InputManager::GetInstance().BindAction(rightKey, new Command(std::bind(&BasicMovement::MoveRight, this)), device->GetID());
+}
 
 void BasicMovement::Update(float elapsedSec) {
 

@@ -2,12 +2,14 @@
 #include "Component.h"
 #include "glm/glm.hpp"
 
-class InputDevice;
+class Keyboard;
+class XBoxController;
 
 class BasicMovement : public Component
 {
 public:
-	BasicMovement(dae::GameObject* pOwner, float speed, InputDevice* device);
+	BasicMovement(dae::GameObject* pOwner, float speed, Keyboard* device);
+	BasicMovement(dae::GameObject* pOwner, float speed, XBoxController* device);
 	virtual ~BasicMovement() = default;
 
 	BasicMovement(const BasicMovement& other) = delete;
@@ -18,10 +20,7 @@ public:
 	virtual void Update(float elapsedSec);
 	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
 
-	void MoveUp();
-	void MoveDown();
-	void MoveLeft();
-	void MoveRight();
+	void Move(glm::vec2 direction);
 
 protected:
 	float m_MovementSpeed;

@@ -5,7 +5,6 @@
 Keyboard::Keyboard(int deviceID)
 	: InputDevice(deviceID)
 {
-
 	m_CurrentState = SDL_GetKeyboardState(&m_KeysLength);
 	m_PreviousState = new Uint8[m_KeysLength]{};
 };

@@ -6,7 +6,7 @@ class Component;
 class Command final
 {
 	public:
-		explicit Command(std::function<void()> function);
+		explicit Command(const std::function<void()>& function);
 
 		~Command() = default;
 

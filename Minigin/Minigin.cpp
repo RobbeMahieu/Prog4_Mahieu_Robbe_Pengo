@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "EventManager.h"
 #include <chrono>
 #include <thread>
 #include <iostream>

@@ -3,17 +3,17 @@
 
 bool dae::InputManager::ProcessInput()
 {
+	// Update key presses for each input device
+	for (auto& inputDevice : m_InputDevices) {
+		inputDevice->Update();
+	}
+
 	// Handle SDL events
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-	}
-
-	// Update key presses for each input device
-	for (auto& inputDevice : m_InputDevices) {
-		inputDevice->Update();
 	}
 
 	// Check action mappings

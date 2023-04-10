@@ -7,6 +7,11 @@
 
 void dae::GameObject::Destroy() {
 	m_IsMarkedForDestroy = true;
+
+	// Destroy children
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) {
+		child->Destroy();
+	});
 }
 
 bool dae::GameObject::IsMarkedForDestroy() {

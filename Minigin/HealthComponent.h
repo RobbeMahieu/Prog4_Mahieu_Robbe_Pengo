@@ -1,13 +1,10 @@
 #pragma once
 #include "Component.h"
-#include <memory>
-
-class Keyboard;
 
 class HealthComponent : public Component
 {
 	public:
-		HealthComponent(dae::GameObject* pOwner, int startingHealth, Keyboard* device);
+		HealthComponent(dae::GameObject* pOwner, int startingHealth);
 		virtual ~HealthComponent() = default;
 
 		HealthComponent(const HealthComponent& other) = delete;

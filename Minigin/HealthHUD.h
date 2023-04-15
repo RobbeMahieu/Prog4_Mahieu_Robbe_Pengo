@@ -8,6 +8,7 @@ namespace dae {
 }
 
 class HealthComponent;
+class TextRenderComponent;
 
 class HealthHUD : public Component
 {
@@ -30,5 +31,6 @@ class HealthHUD : public Component
 		std::unique_ptr<Observer> m_pDeathListener;
 		std::unique_ptr<Observer> m_pGameOverListener;
 		HealthComponent* m_pHealthComponent;
+		TextRenderComponent* m_pTextRenderer;
 };
 

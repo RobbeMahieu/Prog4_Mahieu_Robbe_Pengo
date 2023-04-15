@@ -7,12 +7,11 @@
 
 #include "Keyboard.h"
 
-HealthComponent::HealthComponent(dae::GameObject* pOwner, int startingHealth, Keyboard* device)
+HealthComponent::HealthComponent(dae::GameObject* pOwner, int startingHealth)
 	: Component(pOwner)
 	, m_StartHealth{startingHealth}
 	, m_CurrentHealth{startingHealth}
 {
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_SPACE, new Command(std::bind(&HealthComponent::TakeDamage, this,1)), device->GetID(), KeyState::OnPress);
 }
 
 void HealthComponent::TakeDamage(int amount) {

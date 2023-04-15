@@ -10,13 +10,13 @@ HealthHUD::HealthHUD(dae::GameObject* pOwner, HealthComponent* pHealthComponent)
 	, m_pDeathListener{ std::make_unique<Observer>(std::bind(&HealthHUD::OnDeath, this, _1)) }
 	, m_pGameOverListener{ std::make_unique<Observer>(std::bind(&HealthHUD::OnGameOver, this, _1)) }
 	, m_pHealthComponent{ pHealthComponent }
+	, m_pTextRenderer{ pOwner->GetComponent<TextRenderComponent>() }
 {
 	EventManager::GetInstance().AddListener(EventType::PlayerDied, m_pDeathListener.get());
 	EventManager::GetInstance().AddListener(EventType::GameOver, m_pGameOverListener.get());
 
-	TextRenderComponent* textRenderer = m_pOwner->GetComponent<TextRenderComponent>();
-	if (textRenderer) {
-		textRenderer->SetText("Lives: " + std::to_string(m_pHealthComponent->GetHealth()));
+	if (m_pTextRenderer) {
+		m_pTextRenderer->SetText("Lives: " + std::to_string(m_pHealthComponent->GetHealth()));
 	}
 }
 
@@ -26,9 +26,8 @@ void HealthHUD::OnDeath(dae::GameObject* damagedObject) {
 		return;
 	}
 
-	TextRenderComponent* textRenderer = m_pOwner->GetComponent<TextRenderComponent>();
-	if (textRenderer) {
-		textRenderer->SetText("Lives: " + std::to_string(m_pHealthComponent->GetHealth()));
+	if (m_pTextRenderer) {
+		m_pTextRenderer->SetText("Lives: " + std::to_string(m_pHealthComponent->GetHealth()));
 	}
 }
 
@@ -38,8 +37,7 @@ void HealthHUD::OnGameOver(dae::GameObject* damagedObject) {
 		return;
 	}
 
-	TextRenderComponent* textRenderer = m_pOwner->GetComponent<TextRenderComponent>();
-	if (textRenderer) {
-		textRenderer->SetText("Game Over!");
+	if (m_pTextRenderer) {
+		m_pTextRenderer->SetText("Game Over!");
 	}
 }

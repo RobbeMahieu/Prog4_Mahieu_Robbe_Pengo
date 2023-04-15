@@ -3,4 +3,5 @@
 enum class EventType {
 	GameOver,
 	PlayerDied,
+	ScoreIncrease,
 };

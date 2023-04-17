@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include "EventList.h"
 
 namespace dae {
 	class GameObject;
@@ -8,18 +9,15 @@ namespace dae {
 class Observer
 {
 	public:
-		explicit Observer(const std::function<void(dae::GameObject*)>& function);
-
-		~Observer();
+		explicit Observer() = default;
+		virtual ~Observer();
 
 		Observer(const Observer& other) = delete;
 		Observer(Observer&& other) = delete;
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 
-		void Execute(dae::GameObject* invokingObject);
+		virtual void OnNotify(EventType event, dae::GameObject* invokingObject) = 0;
 
-	private:
-		std::function<void(dae::GameObject*)> m_Function;
 };
 

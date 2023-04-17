@@ -10,7 +10,7 @@ namespace dae {
 class PointComponent;
 class TextRenderComponent;
 
-class PointsHUD : public Component
+class PointsHUD : public Component, public Observer
 {
 public:
 	PointsHUD(dae::GameObject* pOwner, PointComponent* pHealthComponent);
@@ -24,10 +24,9 @@ public:
 	virtual void Update([[maybe_unused]] float elapsedSec) {}
 	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
 
-	void OnPointIncrease(dae::GameObject* damagedObject);
+	virtual void OnNotify(EventType event, dae::GameObject* damagedObject) override;
 
 private:
-	std::unique_ptr<Observer> m_ScoreIncreaseListener;
 	PointComponent* m_pPointComponent;
 	TextRenderComponent* m_pTextRenderer;
 };

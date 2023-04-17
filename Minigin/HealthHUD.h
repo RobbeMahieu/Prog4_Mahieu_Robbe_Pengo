@@ -10,7 +10,7 @@ namespace dae {
 class HealthComponent;
 class TextRenderComponent;
 
-class HealthHUD : public Component
+class HealthHUD : public Component, public Observer
 {
 	public:
 		HealthHUD(dae::GameObject* pOwner, HealthComponent* pHealthComponent);
@@ -24,12 +24,9 @@ class HealthHUD : public Component
 		virtual void Update([[maybe_unused]] float elapsedSec) {}
 		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
 
-		void OnGameOver(dae::GameObject* damagedObject);
-		void OnDeath(dae::GameObject* damagedObject);
+		virtual void OnNotify(EventType event, dae::GameObject* invokingObject) override;
 
 	private:
-		std::unique_ptr<Observer> m_pDeathListener;
-		std::unique_ptr<Observer> m_pGameOverListener;
 		HealthComponent* m_pHealthComponent;
 		TextRenderComponent* m_pTextRenderer;
 };

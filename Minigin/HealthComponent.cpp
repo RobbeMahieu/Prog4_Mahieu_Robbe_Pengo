@@ -17,7 +17,7 @@ HealthComponent::HealthComponent(dae::GameObject* pOwner, int startingHealth)
 void HealthComponent::TakeDamage(int amount) {
 	m_CurrentHealth -= amount;
 
-	EventManager::GetInstance().Broadcast(EventType::PlayerDied, m_pOwner);
+	EventManager::GetInstance().Broadcast(EventType::PlayerDamage, m_pOwner);
 
 	if (m_CurrentHealth <= 0) {
 		EventManager::GetInstance().Broadcast(EventType::GameOver, m_pOwner);

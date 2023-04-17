@@ -8,24 +8,25 @@ using namespace std::placeholders;
 
 PointsHUD::PointsHUD(dae::GameObject* pOwner, PointComponent* pPointComponent)
 	: Component(pOwner)
-	, m_ScoreIncreaseListener{ std::make_unique<Observer>(std::bind(&PointsHUD::OnPointIncrease, this, _1)) }
 	, m_pPointComponent{ pPointComponent }
 	, m_pTextRenderer{ pOwner->GetComponent<TextRenderComponent>() }
 {
-	EventManager::GetInstance().AddListener(EventType::ScoreIncrease, m_ScoreIncreaseListener.get());
+	EventManager::GetInstance().AddListener(EventType::ScoreIncrease, this);
 
 	if (m_pTextRenderer) {
 		m_pTextRenderer->SetText("Points: " + std::to_string(m_pPointComponent->GetScore()));
 	}
 }
 
-void PointsHUD::OnPointIncrease(dae::GameObject* damagedObject) {
+void PointsHUD::OnNotify(EventType event, dae::GameObject* damagedObject) {
 
 	if (damagedObject->GetComponent<PointComponent>() != m_pPointComponent) {
 		return;
 	}
 
-	if (m_pTextRenderer) {
-		m_pTextRenderer->SetText("Points: " + std::to_string(m_pPointComponent->GetScore()));
+	if (event == EventType::ScoreIncrease) {
+		if (m_pTextRenderer) {
+			m_pTextRenderer->SetText("Points: " + std::to_string(m_pPointComponent->GetScore()));
+		}
 	}
 }

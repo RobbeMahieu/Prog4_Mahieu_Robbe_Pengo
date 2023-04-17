@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "EventList.h"
 
 namespace dae {
 	class GameObject;
@@ -10,7 +11,7 @@ class Observer;
 class Event
 {
 	public:
-		Event() = default;
+		Event(EventType type);
 		~Event() = default;
 
 		Event(const Event& other) = delete;
@@ -24,6 +25,7 @@ class Event
 
 	private:
 		std::vector<Observer*> m_pObservers;
+		EventType m_EventType;
 
 };
 

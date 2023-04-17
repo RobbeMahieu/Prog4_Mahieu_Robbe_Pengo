@@ -2,6 +2,10 @@
 #include "Observer.h"
 #include "GameObject.h"
 
+Event::Event(EventType eventType)
+	: m_EventType{ eventType }
+{}
+
 void Event::AddObserver(Observer* pObserver) {
 	m_pObservers.push_back(pObserver);
 }
@@ -12,6 +16,6 @@ void Event::RemoveObserver(Observer* pObserver) {
 
 void Event::Broadcast(dae::GameObject* invokingObject) {
 	for (Observer* pObserver : m_pObservers) {
-		pObserver->Execute(invokingObject);
+		pObserver->OnNotify(m_EventType, invokingObject);
 	}
 }

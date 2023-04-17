@@ -120,6 +120,12 @@
     <ClInclude Include="PointsHUD.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AchievementList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AchievementManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -202,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="PointsHUD.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AchievementManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

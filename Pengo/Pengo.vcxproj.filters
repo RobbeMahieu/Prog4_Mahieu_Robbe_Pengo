@@ -17,9 +17,6 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{ec275b6d-782d-4af6-8e14-4f6c46960b48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Events">
-      <UniqueIdentifier>{46d7f1c7-249b-4bb5-a27e-7ca13c06284a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp">
@@ -68,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="PointsHUD.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="EventList.h">
-      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

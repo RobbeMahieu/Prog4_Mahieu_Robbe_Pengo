@@ -31,7 +31,6 @@
   <ItemGroup>
     <ClInclude Include="BasicMovement.h" />
     <ClInclude Include="CircleRotationComponent.h" />
-    <ClInclude Include="EventList.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthHUD.h" />

@@ -35,9 +35,9 @@ void load()
 	XBoxController* controller0 = dae::InputManager::GetInstance().AddInputDevice<XBoxController>(0);
 	Keyboard* keyboard = dae::InputManager::GetInstance().AddInputDevice<Keyboard>();
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Pengo");
 
-	// Remove testing
+	// Remove testing (delete this in the end!)
 	auto parent = new dae::GameObject();
 	scene.Add(parent);
 
@@ -156,8 +156,14 @@ dae::GameObject* CreatePlayerHUD(dae::GameObject* pPlayer, glm::vec3 position) {
 	return playerHUD;
 }
 
+// Todo:
+// Add commands with parameters
+// Time class?
+//
+
 // Questions:
 // - Namespaces: engine needs one, does the game need one too?
 // - Scalability of subjects/events
 // - Creation of game object => all in load now, is there a better way?
+// - Why does it not work to delete in range-based for / std::for_each?
 //

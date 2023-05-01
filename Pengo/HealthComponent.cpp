@@ -1,29 +1,22 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
-#include "EventManager.h"
-
-#include "InputDevice.h"
-#include "InputManager.h"
-
-#include "Keyboard.h"
 
 HealthComponent::HealthComponent(dae::GameObject* pOwner, int startingHealth)
 	: Component(pOwner)
-	, m_StartHealth{startingHealth}
-	, m_CurrentHealth{startingHealth}
+	, m_Health{startingHealth}
 {
 }
 
 void HealthComponent::TakeDamage(int amount) {
-	m_CurrentHealth -= amount;
+	m_Health -= amount;
+	HealthChanged.Broadcast(m_Health);
+}
 
-	EventManager::GetInstance().Broadcast(EventType::PlayerDamage, m_pOwner);
-
-	if (m_CurrentHealth <= 0) {
-		EventManager::GetInstance().Broadcast(EventType::GameOver, m_pOwner);
-	}
+void HealthComponent::SetHealth(int newHealth) {
+	m_Health = newHealth;
+	HealthChanged.Broadcast(m_Health);
 }
 
 int HealthComponent::GetHealth() {
-	return m_CurrentHealth;
+	return m_Health;
 }

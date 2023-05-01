@@ -1,23 +1,23 @@
 #pragma once
 #include <functional>
-#include "EventList.h"
 
 namespace dae {
 	class GameObject;
 }
 
+template<typename... Args>
 class Observer
 {
 	public:
 		explicit Observer() = default;
-		virtual ~Observer();
+		virtual ~Observer() = default;
 
 		Observer(const Observer& other) = delete;
 		Observer(Observer&& other) = delete;
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 
-		virtual void OnNotify(EventType event, dae::GameObject* invokingObject) = 0;
+		virtual void OnNotify(Args... args) = 0;
 
 };
 

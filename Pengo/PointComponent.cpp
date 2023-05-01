@@ -1,18 +1,21 @@
 #include "PointComponent.h"
-#include "EventManager.h"
 
 PointComponent::PointComponent(dae::GameObject* pOwner)
 	: Component(pOwner)
-	, m_CurrentScore{ 0 }
+	, m_Score{0}
 {
 }
 
 void PointComponent::AddScore(int amount) {
-	m_CurrentScore += amount;
+	m_Score += amount;
+	ScoreChanged.Broadcast(m_Score);
+}
 
-	EventManager::GetInstance().Broadcast(EventType::ScoreIncrease, m_pOwner);
+void PointComponent::SetScore(int newScore) {
+	m_Score = newScore;
+	ScoreChanged.Broadcast(m_Score);
 }
 
 int PointComponent::GetScore() {
-	return m_CurrentScore;
+	return m_Score;
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
+#include "Subject.h"
 
-class PointComponent : public Component
+class PointComponent final : public Component
 {
 public:
 	PointComponent(dae::GameObject* pOwner);
@@ -18,7 +19,12 @@ public:
 	void AddScore(int amount);
 	int GetScore();
 
-protected:
-	int m_CurrentScore;
+private:
+	int m_Score;
+
+	void SetScore(int newScore);
+
+public:
+	Subject<int> ScoreChanged;
 };
 

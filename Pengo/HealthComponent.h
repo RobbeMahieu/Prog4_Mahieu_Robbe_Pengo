@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
+#include "Subject.h"
 
-class HealthComponent : public Component
+class HealthComponent final : public Component
 {
 	public:
 		HealthComponent(dae::GameObject* pOwner, int startingHealth);
@@ -18,8 +19,13 @@ class HealthComponent : public Component
 		void TakeDamage(int amount);
 		int GetHealth();
 
-	protected:
-		int m_StartHealth;
-		int m_CurrentHealth;
+	private:
+		int m_Health;
+
+		void SetHealth(int newHealth);
+
+	public:
+		Subject<int> HealthChanged;
+
 };
 

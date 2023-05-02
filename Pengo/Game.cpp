@@ -18,6 +18,7 @@
 #include "PointComponent.h"
 #include "PointsHUD.h"
 #include "BasicMovement.h"
+#include "CollisionComponent.h"
 #include "FPSComponent.h"
 #include "XBoxController.h"
 #include "Keyboard.h"
@@ -75,6 +76,7 @@ void load()
 
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
+	player1->SetLocalPosition(200, 200);
 	scene.Add(player1);
 
 	// Player 2
@@ -102,6 +104,7 @@ dae::GameObject* CreatePlayer(std::string spritePath, Keyboard* pDevice, int hea
 	player->SetLocalPosition(position);
 	player->AddComponent<TextureRenderComponent>(spritePath);
 	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
+	player->AddComponent<CollisionComponent>(32, 32, true, false);
 	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
 	auto pPlayerPoints = player->AddComponent<PointComponent>();
 
@@ -119,6 +122,7 @@ dae::GameObject* CreatePlayer(std::string spritePath, XBoxController* pDevice, i
 	player->SetLocalPosition(position);
 	player->AddComponent<TextureRenderComponent>(spritePath);
 	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
+	player->AddComponent<CollisionComponent>(32, 32);
 	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
 	auto pPlayerPoints = player->AddComponent<PointComponent>();
 

@@ -13,21 +13,15 @@
 #include "GameObject.h"
 #include "TextRenderComponent.h"
 #include "TextureRenderComponent.h"
-#include "HealthComponent.h"
-#include "HealthHUD.h"
-#include "PointComponent.h"
-#include "PointsHUD.h"
-#include "BasicMovement.h"
-#include "CollisionComponent.h"
 #include "FPSComponent.h"
 #include "XBoxController.h"
 #include "Keyboard.h"
 #include <SDL.h>
+#include "Player.h"
+#include "Block.h"
 
 // Create GameObject functions
-dae::GameObject* CreatePlayer(std::string spritePath, Keyboard* keyboard, int health = 5, float movementSpeed = 100.0f, glm::vec3 position = glm::vec3{ 0,0,0 });
-dae::GameObject* CreatePlayer(std::string spritePath, XBoxController* keyboard, int health = 5, float movementSpeed = 100.0f, glm::vec3 position = glm::vec3{ 0,0,0 });
-dae::GameObject* CreatePlayerHUD(dae::GameObject* player, glm::vec3 position = glm::vec3{ 0,0,0 });
+
 
 void load()
 {
@@ -74,6 +68,37 @@ void load()
 	int health{ 5 };
 	float movementSpeed{ 100.0f };
 
+	// Walls
+	int wallSize = 16;
+	int gridSize = 512 / wallSize;
+
+	// Top Bottom
+	for (int i{ 0 }; i < gridSize; ++i) {
+
+		// Top
+		auto wallTop = CreateWallBlock(glm::vec3{ i * wallSize, 0, 0 });
+		scene.Add(wallTop);
+
+		// Bottom
+		auto wallBottom = CreateWallBlock( glm::vec3{ i * wallSize, (gridSize-1)*wallSize, 0 });
+		scene.Add(wallBottom);
+
+		// Two less for these due to corners and stuff
+		if (i < gridSize - 2) {
+			
+			// Left
+			auto wallLeft = CreateWallBlock(glm::vec3{ 0, (i + 1) * wallSize, 0 });
+			scene.Add(wallLeft);
+
+			// Right
+			auto wallRight = CreateWallBlock(glm::vec3{ (gridSize - 1) * wallSize, (i + 1) * wallSize, 0 });
+			scene.Add(wallRight);
+		}
+	}
+
+	// Test Ice Block
+	scene.Add(CreateIceBlock(glm::vec3{ 150,70,0 }));
+
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
 	player1->SetLocalPosition(200, 200);
@@ -81,6 +106,7 @@ void load()
 
 	// Player 2
 	auto player2 = CreatePlayer("snowbee.png", controller0, health, movementSpeed * 2);
+	player2->SetLocalPosition(100, 200);
 	scene.Add(player2);
 
 	// HUD
@@ -96,68 +122,6 @@ int main(int, char* []) {
 	dae::Minigin engine("../Data/");
 	engine.Run(load);
 	return 0;
-}
-
-dae::GameObject* CreatePlayer(std::string spritePath, Keyboard* pDevice, int health, float movementSpeed, glm::vec3 position) {
-
-	auto player = new dae::GameObject();
-	player->SetLocalPosition(position);
-	player->AddComponent<TextureRenderComponent>(spritePath);
-	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32, 32, true, false);
-	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
-	auto pPlayerPoints = player->AddComponent<PointComponent>();
-
-	// Test key bindings
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_SPACE, new Command(std::bind(&HealthComponent::TakeDamage, pPlayerHealth, 1)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_RETURN, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 50)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_RSHIFT, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 100)), pDevice->GetID(), KeyState::OnPress);
-
-	return player;
-}
-
-dae::GameObject* CreatePlayer(std::string spritePath, XBoxController* pDevice, int health, float movementSpeed, glm::vec3 position) {
-
-	auto player = new dae::GameObject();
-	player->SetLocalPosition(position);
-	player->AddComponent<TextureRenderComponent>(spritePath);
-	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32, 32);
-	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
-	auto pPlayerPoints = player->AddComponent<PointComponent>();
-
-	// Test key bindings
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_X, new Command(std::bind(&HealthComponent::TakeDamage, pPlayerHealth, 1)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_A, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 50)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_B, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 100)), pDevice->GetID(), KeyState::OnPress);
-
-	return player;
-}
-
-dae::GameObject* CreatePlayerHUD(dae::GameObject* pPlayer, glm::vec3 position) {
-	auto playerHUD = new dae::GameObject();
-	playerHUD->SetLocalPosition(position);
-
-	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	HealthComponent* pPlayerHealth = pPlayer->GetComponent<HealthComponent>();
-	PointComponent* pPlayerPoints = pPlayer->GetComponent<PointComponent>();
-
-	if (pPlayerHealth) {
-		auto playerHealthHUD = new dae::GameObject();
-		playerHealthHUD->AddComponent<TextRenderComponent>("lives", textFont);
-		playerHealthHUD->AddComponent<HealthHUD>(pPlayerHealth);
-		playerHealthHUD->AttachTo(playerHUD, false);
-	}
-
-	if (pPlayerPoints) {
-		auto playerPointsHUD = new dae::GameObject();
-		playerPointsHUD->AddComponent<TextRenderComponent>("points", textFont);
-		playerPointsHUD->AddComponent<PointsHUD>(pPlayerPoints);
-		playerPointsHUD->AttachTo(playerHUD, false);
-		playerPointsHUD->SetLocalPosition(0, 20);
-	}
-
-	return playerHUD;
 }
 
 // Todo:

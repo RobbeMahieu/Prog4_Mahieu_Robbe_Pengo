@@ -39,11 +39,24 @@ void CollisionComponent::FixedUpdate(float /*elapsedSec*/) {
 			|| differenceTop > 0
 			|| differenceLeft > 0
 			|| differenceRight < 0) {
+
+			// Remove from colliding list
+			if (m_pColliding.contains(other)) {
+				m_pColliding.erase(other);
+				EndCollision.Broadcast(other);
+			}
+
 			continue;
 		}
 
-		// Notify collision happened
-		Collides.Broadcast(other);
+		// Resolve Events
+		if (m_pColliding.contains(other)) {
+			Collides.Broadcast(other);
+		}
+		else {
+			m_pColliding.insert(other);
+			OnCollision.Broadcast(other);
+		}
 
 		// Resolve positions
 		if (m_IsSolid && other->m_IsSolid && (m_IsMovable || other->m_IsMovable) ) {
@@ -62,17 +75,19 @@ void CollisionComponent::FixedUpdate(float /*elapsedSec*/) {
 			if (other->m_IsMovable) {
 				other->m_pOwner->SetLocalPosition(otherPos + offset);
 			}
-
 		}
-		
 	}
 }
 
 void CollisionComponent::Render() const {
 	// For debug purposes
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	/*glm::vec3 pos{m_pOwner->GetWorldPosition()};
 	SDL_Rect rectangle{ int(pos.x), int(pos.y), int(m_Width), int(m_Height) };
 	SDL_Color drawColor{ 0,0,255,255 };
 	SDL_SetRenderDrawColor(dae::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-	SDL_RenderDrawRect(dae::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
+	SDL_RenderDrawRect(dae::Renderer::GetInstance().GetSDLRenderer(), &rectangle);*/
+}
+
+const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding() const {
+	return m_pColliding;
 }

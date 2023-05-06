@@ -20,24 +20,32 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="CircleRotationComponent.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthHUD.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointComponent.cpp" />
     <ClCompile Include="PointsHUD.cpp" />
+    <ClCompile Include="PushComponent.cpp" />
+    <ClCompile Include="SlidingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovement.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="CircleRotationComponent.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthHUD.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PointComponent.h" />
     <ClInclude Include="PointsHUD.h" />
+    <ClInclude Include="PushComponent.h" />
+    <ClInclude Include="SlidingComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

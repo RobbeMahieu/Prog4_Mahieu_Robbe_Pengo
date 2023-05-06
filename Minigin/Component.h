@@ -21,6 +21,7 @@ class Component
 
 		void Destroy();
 		bool IsMarkedForDestroy();
+		dae::GameObject* GetOwner();
 
 	protected:
 		dae::GameObject* m_pOwner;

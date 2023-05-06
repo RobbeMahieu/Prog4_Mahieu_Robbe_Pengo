@@ -13,3 +13,7 @@ void Component::Destroy() {
 bool Component::IsMarkedForDestroy() {
 	return m_IsMarkedForDestroy;
 }
+
+dae::GameObject* Component::GetOwner() {
+	return m_pOwner;
+}

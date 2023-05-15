@@ -9,6 +9,10 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "GameServiceLocator.h"
+#include "SDL_SoundSystem.h"
+#include "LoggingSoundSystem.h"
+#include <memory>
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -47,7 +51,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -75,6 +79,7 @@ dae::Minigin::~Minigin()
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
+
 	SDL_Quit();
 }
 
@@ -85,6 +90,12 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+
+#if _DEBUG
+	GameServiceLocator::RegisterSoundSystem(std::make_unique<LoggingSoundSystem>(std::make_unique<SDL_SoundSystem>()));
+#else
+	GameServiceLocator::RegisterSoundSystem(std::make_unique<SDL_SoundSystem>());
+#endif
 
 	bool doContinue = true;
 	const float fixedTimeStepSec{ 0.02f };

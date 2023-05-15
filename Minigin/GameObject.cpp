@@ -25,14 +25,14 @@ void dae::GameObject::Update(float elapsedSec){
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Update(elapsedSec); });
 
 	// Remove components marked for destroy
-	for (int i{ 0 }; i < m_pComponents.size(); ++i) {
+	for (unsigned int i{ 0 }; i < m_pComponents.size(); ++i) {
 		if (m_pComponents[i]->IsMarkedForDestroy()) {
 			m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), m_pComponents[i]), m_pComponents.end());
 		}
 	}
 
 	// Remove children marked for destroy
-	for (int i{ 0 }; i < m_pChildren.size(); ++i) {
+	for (unsigned int i{ 0 }; i < m_pChildren.size(); ++i) {
 		if (m_pChildren[i]->IsMarkedForDestroy()) {
 			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), m_pChildren[i]), m_pChildren.end());
 		}

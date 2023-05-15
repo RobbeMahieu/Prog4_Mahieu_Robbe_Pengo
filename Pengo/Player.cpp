@@ -20,15 +20,10 @@ dae::GameObject* CreatePlayer(std::string spritePath, Keyboard* pDevice, int hea
 	player->SetLocalPosition(position);
 	player->AddComponent<TextureRenderComponent>(spritePath);
 	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32, 32, true, false);
+	player->AddComponent<CollisionComponent>(32, 32, false, PhysicsType::DYNAMIC);
 	player->AddComponent<PushComponent>(pDevice);
-	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
-	auto pPlayerPoints = player->AddComponent<PointComponent>();
-
-	// Test key bindings
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_SPACE, new Command(std::bind(&HealthComponent::TakeDamage, pPlayerHealth, 1)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_RETURN, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 50)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_RSHIFT, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 100)), pDevice->GetID(), KeyState::OnPress);
+	player->AddComponent<HealthComponent>(health);
+	player->AddComponent<PointComponent>();
 
 	return player;
 }
@@ -39,15 +34,10 @@ dae::GameObject* CreatePlayer(std::string spritePath, XBoxController* pDevice, i
 	player->SetLocalPosition(position);
 	player->AddComponent<TextureRenderComponent>(spritePath);
 	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32, 32);
+	player->AddComponent<CollisionComponent>(32, 32, false, PhysicsType::DYNAMIC);
 	player->AddComponent<PushComponent>(pDevice);
-	auto pPlayerHealth = player->AddComponent<HealthComponent>(health);
-	auto pPlayerPoints = player->AddComponent<PointComponent>();
-
-	// Test key bindings
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_X, new Command(std::bind(&HealthComponent::TakeDamage, pPlayerHealth, 1)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_A, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 50)), pDevice->GetID(), KeyState::OnPress);
-	dae::InputManager::GetInstance().BindAction(XBoxController::BUTTON_B, new Command(std::bind(&PointComponent::AddScore, pPlayerPoints, 100)), pDevice->GetID(), KeyState::OnPress);
+	player->AddComponent<HealthComponent>(health);
+	player->AddComponent<PointComponent>();
 
 	return player;
 }

@@ -1,5 +1,6 @@
 #include "SlidingComponent.h"
 #include "GameObject.h"
+#include <GameServiceLocator.h>
 
 SlidingComponent::SlidingComponent(dae::GameObject* pOwner, float speed)
 	: Component(pOwner)
@@ -30,6 +31,11 @@ void SlidingComponent::StartSliding(glm::vec2 direction) {
 }
 
 void SlidingComponent::OnNotify(CollisionComponent* other) {
+	
+	if (other->GetType() != PhysicsType::STATIC || !m_IsSliding) {
+		return;
+	}
+
 	m_MovementDirection = glm::vec2{ 0,0 };
 	m_IsSliding = false;
 
@@ -37,4 +43,7 @@ void SlidingComponent::OnNotify(CollisionComponent* other) {
 	if (collider) {
 		collider->OnCollision.RemoveObserver(this);
 	}
+
+	// Collision sound
+	GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/Impact.mp3", 1.0f);
 }

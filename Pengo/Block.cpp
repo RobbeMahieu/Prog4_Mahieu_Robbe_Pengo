@@ -4,10 +4,10 @@
 #include "CollisionComponent.h"
 #include "SlidingComponent.h"
 
-dae::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, int size) {
+dae::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, int size, PhysicsType type) {
 	dae::GameObject* block = new dae::GameObject();
 	block->AddComponent<TextureRenderComponent>(texturePath);
-	block->AddComponent<CollisionComponent>(size, size, true, false);
+	block->AddComponent<CollisionComponent>(size, size, false, type);
 
 	block->SetLocalPosition(position);
 
@@ -15,11 +15,11 @@ dae::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, int si
 }
 
 dae::GameObject* CreateWallBlock(glm::vec3 position) {
-	return CreateBlock("wall.png", position, 16);
+	return CreateBlock("wall.png", position, 16, PhysicsType::STATIC);
 }
 
 dae::GameObject* CreateIceBlock(glm::vec3 position) {
-	dae::GameObject* block = CreateBlock("ice.png", position, 32);
-	block->AddComponent<SlidingComponent>(100.0f);
+	dae::GameObject* block = CreateBlock("ice.png", position, 32, PhysicsType::MOVABLE);
+	block->AddComponent<SlidingComponent>(20.0f);
 	return block;
 }

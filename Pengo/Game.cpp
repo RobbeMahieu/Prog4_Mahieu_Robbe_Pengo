@@ -20,9 +20,6 @@
 #include "Player.h"
 #include "Block.h"
 
-// Create GameObject functions
-
-
 void load()
 {
 	// Add input devices
@@ -56,15 +53,6 @@ void load()
 	background->AddComponent<TextureRenderComponent>("controls.png");
 	scene.Add(background);
 
-	// FPS counter
-	auto FPSCounter = new dae::GameObject();
-	auto TitleFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	FPSCounter->AddComponent<TextRenderComponent>("test", TitleFont);
-	FPSCounter->AddComponent<FPSComponent>();
-	FPSCounter->SetLocalPosition(0, 0);
-	scene.Add(FPSCounter);
-
 	int health{ 5 };
 	float movementSpeed{ 100.0f };
 
@@ -97,24 +85,33 @@ void load()
 	}
 
 	// Test Ice Block
-	scene.Add(CreateIceBlock(glm::vec3{ 150,70,0 }));
+	scene.Add(CreateIceBlock(glm::vec3{ 150,150,0 }));
 
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
-	player1->SetLocalPosition(200, 200);
+	player1->SetLocalPosition(200, 250);
 	scene.Add(player1);
 
 	// Player 2
 	auto player2 = CreatePlayer("snowbee.png", controller0, health, movementSpeed * 2);
-	player2->SetLocalPosition(100, 200);
+	player2->SetLocalPosition(100, 250);
 	scene.Add(player2);
 
 	// HUD
-	auto player1HUD = CreatePlayerHUD(player1, glm::vec3{ 0,200,0 });
+	/*auto player1HUD = CreatePlayerHUD(player1, glm::vec3{0,200,0});
 	scene.Add(player1HUD);
 
 	auto player2HUD = CreatePlayerHUD(player2, glm::vec3{ 0,300,0 });
-	scene.Add(player2HUD);
+	scene.Add(player2HUD);*/
+
+	// FPS counter
+	auto FPSCounter = new dae::GameObject();
+	auto TitleFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	FPSCounter->AddComponent<TextRenderComponent>("test", TitleFont);
+	FPSCounter->AddComponent<FPSComponent>();
+	FPSCounter->SetLocalPosition(0, 0);
+	scene.Add(FPSCounter);
 
 }
 
@@ -127,11 +124,11 @@ int main(int, char* []) {
 // Todo:
 // Add commands with parameters
 // Time class?
+// Remove maybe unuseds (fix it by removing the name)
 //
 
 // Questions:
 // - Namespaces: engine needs one, does the game need one too?
-// - Scalability of subjects/events
-// - Creation of game object => all in load now, is there a better way?
-// - Why does it not work to delete in range-based for / std::for_each?
+// - Creation of game object => Is there a better way?
+// - Threading lock around sound effect loading?
 //

@@ -90,10 +90,12 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::ProcessRequests() {
 
 		// Lock the queue
 		std::unique_lock<std::mutex> lk(m_QueueLock);
-		m_HasRequests.wait(lk, [&] {return m_Head != m_Tail || !m_IsRunning; });
+		if (m_Head == m_Tail && m_IsRunning) {
+			m_HasRequests.wait(lk, [&] { return m_Head != m_Tail || !m_IsRunning; });
+		}
 
 		if (!m_IsRunning) {
-			break;
+			return;
 		}
 
 		// Get the request from the queue

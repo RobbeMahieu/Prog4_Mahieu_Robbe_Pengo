@@ -125,10 +125,14 @@ int main(int, char* []) {
 // Add commands with parameters
 // Time class?
 // Remove maybe unuseds (fix it by removing the name)
-//
-
-// Questions:
-// - Namespaces: engine needs one, does the game need one too?
-// - Creation of game object => Is there a better way?
-// - Threading lock around sound effect loading?
+// Namespaces
+// (Look into prototype)
+// 
+// Gameplay related:
+// - Grid
+// - Enemies
+// - Level generation
+// - Multiplayer
+// - Diamond bonus
+// - Egg spawning
 //

@@ -4,6 +4,8 @@
 #include "Observer.h"
 #include "CollisionComponent.h"
 
+class IceBlockState;
+
 class SlidingComponent : public Component, public Observer<CollisionComponent*>
 {
 	public:
@@ -18,12 +20,9 @@ class SlidingComponent : public Component, public Observer<CollisionComponent*>
 		virtual void Update(float elapsedSec);
 		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
 
-		void StartSliding(glm::vec2 direction);
 		void OnNotify(CollisionComponent* other) override;
 
 	protected:
-		float m_MovementSpeed;
-		glm::vec2 m_MovementDirection;
-		bool m_IsSliding;
+		IceBlockState* m_pState;
 };
 

@@ -64,7 +64,8 @@ void CollisionComponent::FixedUpdate(float /*elapsedSec*/) {
 		}
 
 		// Resolve positions
-		if (m_IsTrigger || other->m_IsTrigger ||(m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
+		if (m_IsTrigger || other->m_IsTrigger 
+			||(m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
 			continue;
 		}
 

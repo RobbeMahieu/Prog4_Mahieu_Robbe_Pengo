@@ -20,6 +20,6 @@ dae::GameObject* CreateWallBlock(glm::vec3 position) {
 
 dae::GameObject* CreateIceBlock(glm::vec3 position) {
 	dae::GameObject* block = CreateBlock("ice.png", position, 32, PhysicsType::MOVABLE);
-	block->AddComponent<SlidingComponent>(20.0f);
+	block->AddComponent<SlidingComponent>(40.0f);
 	return block;
 }

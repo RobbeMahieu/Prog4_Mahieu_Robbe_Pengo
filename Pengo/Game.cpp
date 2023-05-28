@@ -86,6 +86,7 @@ void load()
 
 	// Test Ice Block
 	scene.Add(CreateIceBlock(glm::vec3{ 150,150,0 }));
+	scene.Add(CreateIceBlock(glm::vec3{ 450,150,0 }));
 
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);

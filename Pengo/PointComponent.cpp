@@ -1,6 +1,8 @@
 #include "PointComponent.h"
 
-PointComponent::PointComponent(dae::GameObject* pOwner)
+using namespace pengo;
+
+PointComponent::PointComponent(engine::GameObject* pOwner)
 	: Component(pOwner)
 	, m_Score{0}
 {

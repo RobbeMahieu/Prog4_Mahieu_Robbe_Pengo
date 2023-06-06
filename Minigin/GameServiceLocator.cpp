@@ -1,5 +1,7 @@
 #include "GameServiceLocator.h"
 
+using namespace engine;
+
 std::unique_ptr<SoundSystem> GameServiceLocator::m_pSoundSystemInstance{ std::make_unique<NullSoundSystem>() };	
 
 SoundSystem& GameServiceLocator::GetSoundSystem() {

@@ -2,20 +2,23 @@
 #include "SoundSystem.h"
 #include <memory>
 
-class LoggingSoundSystem : public SoundSystem
-{
-	public:
-		LoggingSoundSystem(std::unique_ptr<SoundSystem>&& realSS);
-		virtual ~LoggingSoundSystem() = default;
+namespace engine {
 
-		LoggingSoundSystem(const LoggingSoundSystem& other) = delete;
-		LoggingSoundSystem(LoggingSoundSystem&& other) = delete;
-		LoggingSoundSystem& operator=(const LoggingSoundSystem& other) = delete;
-		LoggingSoundSystem& operator=(LoggingSoundSystem&& other) = delete;
+	class LoggingSoundSystem : public SoundSystem
+	{
+		public:
+			LoggingSoundSystem(std::unique_ptr<SoundSystem>&& realSS);
+			virtual ~LoggingSoundSystem() = default;
 
-		void Play(const std::string& path, float volume);
+			LoggingSoundSystem(const LoggingSoundSystem& other) = delete;
+			LoggingSoundSystem(LoggingSoundSystem&& other) = delete;
+			LoggingSoundSystem& operator=(const LoggingSoundSystem& other) = delete;
+			LoggingSoundSystem& operator=(LoggingSoundSystem&& other) = delete;
 
-	private:
-		std::unique_ptr<SoundSystem> m_RealSS;
-};
+			void Play(const std::string& path, float volume);
+
+		private:
+			std::unique_ptr<SoundSystem> m_RealSS;
+	};
+}
 

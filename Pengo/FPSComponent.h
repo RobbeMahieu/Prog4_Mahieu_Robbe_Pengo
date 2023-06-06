@@ -2,10 +2,12 @@
 #include "Component.h"
 #include <string>
 
-class FPSComponent : public Component
-{
+namespace pengo {
+
+	class FPSComponent : public engine::Component
+	{
 	public:
-		FPSComponent(dae::GameObject* pOwner);
+		FPSComponent(engine::GameObject* pOwner);
 		virtual ~FPSComponent() = default;
 
 		FPSComponent(const FPSComponent& other) = delete;
@@ -19,5 +21,6 @@ class FPSComponent : public Component
 	protected:
 		float m_Fps;
 
-};
+	};
+}
 

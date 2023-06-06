@@ -2,7 +2,9 @@
 #include "GameObject.h"
 #include "IceBlockState.h"
 
-SlidingComponent::SlidingComponent(dae::GameObject* pOwner, float speed)
+using namespace pengo;
+
+SlidingComponent::SlidingComponent(engine::GameObject* pOwner, float speed)
 	: Component(pOwner)
 	, m_pState{ new Idle(pOwner, speed)}
 {

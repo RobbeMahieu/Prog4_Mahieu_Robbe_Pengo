@@ -5,10 +5,12 @@
 #include <memory>
 #include "Component.h"
 
-class TextRenderComponent : public Component
-{
+namespace engine {
+
+	class TextRenderComponent : public Component
+	{
 	public:
-		TextRenderComponent(dae::GameObject* pOwner, const std::string& text, std::shared_ptr<dae::Font> font);
+		TextRenderComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font);
 		virtual ~TextRenderComponent() = default;
 
 		TextRenderComponent(const TextRenderComponent& other) = delete;
@@ -23,9 +25,10 @@ class TextRenderComponent : public Component
 
 	private:
 		std::string m_Text;
-		std::shared_ptr<dae::Font> m_Font;
-		std::shared_ptr<dae::Texture2D> m_TextTexture;
+		std::shared_ptr<Font> m_Font;
+		std::shared_ptr<Texture2D> m_TextTexture;
 
 		void UpdateTexture();
-};
+	};
+}
 

@@ -1,13 +1,13 @@
 #pragma once
 
-namespace dae {
-	class GameObject;
-}
+namespace engine {
 
-class Component
-{
+	class GameObject;
+
+	class Component
+	{
 	public:
-		explicit Component(dae::GameObject* pOwner);
+		explicit Component(GameObject* pOwner);
 		virtual ~Component() = default;
 
 		Component(const Component& other) = delete;
@@ -21,12 +21,13 @@ class Component
 
 		void Destroy();
 		bool IsMarkedForDestroy();
-		dae::GameObject* GetOwner();
+		GameObject* GetOwner();
 
 	protected:
-		dae::GameObject* m_pOwner;
+		GameObject* m_pOwner;
 		bool m_IsMarkedForDestroy;
-};
+	};
+}
 
 
 

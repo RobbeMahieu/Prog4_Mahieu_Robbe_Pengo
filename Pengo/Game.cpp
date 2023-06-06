@@ -20,27 +20,29 @@
 #include "Player.h"
 #include "Block.h"
 
+using namespace pengo;
+
 void load()
 {
 	// Add input devices
 	// (I'd like to do this automatically in the future)
-	XBoxController* controller0 = dae::InputManager::GetInstance().AddInputDevice<XBoxController>(0);
-	Keyboard* keyboard = dae::InputManager::GetInstance().AddInputDevice<Keyboard>();
+	engine::XBoxController* controller0 = engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
+	engine::Keyboard* keyboard = engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Pengo");
+	auto& scene = engine::SceneManager::GetInstance().CreateScene("Pengo");
 
 	// Remove testing (delete this in the end!)
-	auto parent = new dae::GameObject();
+	auto parent = new engine::GameObject();
 	scene.Add(parent);
 
-	auto object = new dae::GameObject();
-	object->AddComponent<TextureRenderComponent>("background.tga");
+	auto object = new engine::GameObject();
+	object->AddComponent<engine::TextureRenderComponent>("background.tga");
 	object->AddComponent<FPSComponent>();
 	object->RemoveComponent<FPSComponent>();
 	object->AttachTo(parent, true);
 
-	auto object2 = new dae::GameObject();
-	object2->AddComponent<TextureRenderComponent>("background.tga");
+	auto object2 = new engine::GameObject();
+	object2->AddComponent<engine::TextureRenderComponent>("background.tga");
 	object2->AttachTo(parent, true);
 	scene.Add(object2);
 	object2->AttachTo(nullptr, false);
@@ -48,9 +50,9 @@ void load()
 	scene.Remove(parent);
 
 	// Background
-	auto background = new dae::GameObject();
+	auto background = new engine::GameObject();
 	background->SetLocalPosition(0, 0);
-	background->AddComponent<TextureRenderComponent>("controls.png");
+	background->AddComponent<engine::TextureRenderComponent>("controls.png");
 	scene.Add(background);
 
 	int health{ 5 };
@@ -106,10 +108,10 @@ void load()
 	scene.Add(player2HUD);*/
 
 	// FPS counter
-	auto FPSCounter = new dae::GameObject();
-	auto TitleFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	FPSCounter->AddComponent<TextRenderComponent>("test", TitleFont);
+	auto FPSCounter = new engine::GameObject();
+	auto TitleFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	FPSCounter->AddComponent<engine::TextRenderComponent>("test", TitleFont);
 	FPSCounter->AddComponent<FPSComponent>();
 	FPSCounter->SetLocalPosition(0, 0);
 	scene.Add(FPSCounter);
@@ -117,8 +119,8 @@ void load()
 }
 
 int main(int, char* []) {
-	dae::Minigin engine("../Data/");
-	engine.Run(load);
+	engine::Minigin gameEngine("../Data/");
+	gameEngine.Run(load);
 	return 0;
 }
 

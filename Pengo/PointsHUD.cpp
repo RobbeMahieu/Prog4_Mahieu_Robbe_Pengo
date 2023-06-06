@@ -3,11 +3,11 @@
 #include "TextRenderComponent.h"
 #include "PointComponent.h"
 
-using namespace std::placeholders;
+using namespace pengo;
 
-PointsHUD::PointsHUD(dae::GameObject* pOwner, PointComponent* pPointComponent)
+PointsHUD::PointsHUD(engine::GameObject* pOwner, PointComponent* pPointComponent)
 	: Component(pOwner)
-	, m_pTextRenderer{ pOwner->GetComponent<TextRenderComponent>() }
+	, m_pTextRenderer{ pOwner->GetComponent<engine::TextRenderComponent>() }
 {
 	pPointComponent->ScoreChanged.AddObserver(this);
 	OnNotify(pPointComponent->GetScore());

@@ -2,29 +2,33 @@
 #include "Component.h"
 #include "Subject.h"
 
-class PointComponent final : public Component
-{
-public:
-	PointComponent(dae::GameObject* pOwner);
-	virtual ~PointComponent() = default;
+namespace pengo {
 
-	PointComponent(const PointComponent& other) = delete;
-	PointComponent(PointComponent&& other) = delete;
-	PointComponent& operator=(const PointComponent& other) = delete;
-	PointComponent& operator=(PointComponent&& other) = delete;
+	class PointComponent final : public engine::Component
+	{
+	public:
+		PointComponent(engine::GameObject* pOwner);
+		virtual ~PointComponent() = default;
 
-	virtual void Update(float /*elapsedSec*/) {}
-	virtual void FixedUpdate(float /*elapsedSec*/) {}
+		PointComponent(const PointComponent& other) = delete;
+		PointComponent(PointComponent&& other) = delete;
+		PointComponent& operator=(const PointComponent& other) = delete;
+		PointComponent& operator=(PointComponent&& other) = delete;
 
-	void AddScore(int amount);
-	int GetScore();
+		virtual void Update(float /*elapsedSec*/) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
-private:
-	int m_Score;
+		void AddScore(int amount);
+		int GetScore();
 
-	void SetScore(int newScore);
+	private:
+		int m_Score;
 
-public:
-	Subject<int> ScoreChanged;
-};
+		void SetScore(int newScore);
+
+	public:
+		engine::Subject<int> ScoreChanged;
+	};
+
+}
 

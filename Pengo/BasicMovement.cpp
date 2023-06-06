@@ -3,27 +3,26 @@
 #include "InputDevice.h"
 #include "InputManager.h"
 
-#include "Keyboard.h"
-#include "XBoxController.h"
+using namespace pengo;
 
-BasicMovement::BasicMovement(dae::GameObject* pOwner, float speed, Keyboard* device)
+BasicMovement::BasicMovement(engine::GameObject* pOwner, float speed, engine::Keyboard* device)
 	: Component(pOwner)
 	, m_MovementSpeed{ speed }
 {
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_W, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,-1 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_S, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,1 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_A, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ -1,0 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(SDL_SCANCODE_D, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 1, 0})), device->GetID());
+	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_W, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,-1 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_S, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,1 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_A, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ -1,0 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_D, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 1, 0})), device->GetID());
 }
 
-BasicMovement::BasicMovement(dae::GameObject* pOwner, float speed, XBoxController* device)
+BasicMovement::BasicMovement(engine::GameObject* pOwner, float speed, engine::XBoxController* device)
 	: Component(pOwner)
 	, m_MovementSpeed{ speed }
 {
-	dae::InputManager::GetInstance().BindAction(XBoxController::DPAD_UP, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,-1 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(XBoxController::DPAD_DOWN, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,1 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(XBoxController::DPAD_LEFT, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ -1,0 })), device->GetID());
-	dae::InputManager::GetInstance().BindAction(XBoxController::DPAD_RIGHT, new Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 1, 0 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_UP, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,-1 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_DOWN, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 0,1 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_LEFT, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ -1,0 })), device->GetID());
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_RIGHT, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 1, 0 })), device->GetID());
 }
 
 void BasicMovement::Update(float elapsedSec) {

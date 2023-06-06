@@ -4,25 +4,29 @@
 #include "Observer.h"
 #include "CollisionComponent.h"
 
-class IceBlockState;
+namespace pengo {
 
-class SlidingComponent : public Component, public Observer<CollisionComponent*>
-{
-	public:
-		SlidingComponent(dae::GameObject* pOwner, float speed);
-		virtual ~SlidingComponent();
+	class IceBlockState;
 
-		SlidingComponent(const SlidingComponent& other) = delete;
-		SlidingComponent(SlidingComponent&& other) = delete;
-		SlidingComponent& operator=(const SlidingComponent& other) = delete;
-		SlidingComponent& operator=(SlidingComponent&& other) = delete;
+	class SlidingComponent : public engine::Component, public engine::Observer<CollisionComponent*>
+	{
+		public:
+			SlidingComponent(engine::GameObject* pOwner, float speed);
+			virtual ~SlidingComponent();
 
-		virtual void Update(float elapsedSec);
-		virtual void FixedUpdate(float /*elapsedSec*/) {}
+			SlidingComponent(const SlidingComponent& other) = delete;
+			SlidingComponent(SlidingComponent&& other) = delete;
+			SlidingComponent& operator=(const SlidingComponent& other) = delete;
+			SlidingComponent& operator=(SlidingComponent&& other) = delete;
 
-		void OnNotify(CollisionComponent* other) override;
+			virtual void Update(float elapsedSec);
+			virtual void FixedUpdate(float /*elapsedSec*/) {}
 
-	protected:
-		IceBlockState* m_pState;
-};
+			void OnNotify(CollisionComponent* other) override;
+
+		protected:
+			IceBlockState* m_pState;
+	};
+	
+}
 

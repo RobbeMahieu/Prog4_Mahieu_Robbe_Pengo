@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include <assert.h>
 
+using namespace engine;
+
 Keyboard::Keyboard(int deviceID)
 	: InputDevice(deviceID)
 {

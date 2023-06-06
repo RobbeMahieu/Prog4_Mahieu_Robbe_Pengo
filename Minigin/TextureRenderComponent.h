@@ -4,22 +4,25 @@
 #include <memory>
 #include <string>
 
-class TextureRenderComponent : public Component
-{
-public:
-	TextureRenderComponent(dae::GameObject* pOwner, const std::string& texturePath);
-	virtual ~TextureRenderComponent() = default;
+namespace engine {
 
-	TextureRenderComponent(const TextureRenderComponent& other) = delete;
-	TextureRenderComponent(TextureRenderComponent&& other) = delete;
-	TextureRenderComponent& operator=(const TextureRenderComponent& other) = delete;
-	TextureRenderComponent& operator=(TextureRenderComponent&& other) = delete;
+	class TextureRenderComponent : public Component
+	{
+	public:
+		TextureRenderComponent(GameObject* pOwner, const std::string& texturePath);
+		virtual ~TextureRenderComponent() = default;
 
-	virtual void Render() const override;
-	virtual void Update(float /*elapsedSec*/) {};
-	virtual void FixedUpdate(float /*elapsedSec*/) {};
+		TextureRenderComponent(const TextureRenderComponent& other) = delete;
+		TextureRenderComponent(TextureRenderComponent&& other) = delete;
+		TextureRenderComponent& operator=(const TextureRenderComponent& other) = delete;
+		TextureRenderComponent& operator=(TextureRenderComponent&& other) = delete;
 
-private:
-	std::shared_ptr<dae::Texture2D> m_Texture;
-};
+		virtual void Render() const override;
+		virtual void Update(float /*elapsedSec*/) {};
+		virtual void FixedUpdate(float /*elapsedSec*/) {};
+
+	private:
+		std::shared_ptr<Texture2D> m_Texture;
+	};
+}
 

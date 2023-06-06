@@ -4,47 +4,49 @@
 #include <vector>
 #include <unordered_set>
 
-enum class PhysicsType {
-	STATIC,
-	MOVABLE,
-	DYNAMIC
-};
+namespace pengo {
 
-// Origin is top left corner
+	enum class PhysicsType {
+		STATIC,
+		MOVABLE,
+		DYNAMIC
+	};
 
-class CollisionComponent : public Component
-{
-	public:
-		CollisionComponent(dae::GameObject* pOwner, int width, int height, bool trigger = false, PhysicsType type = PhysicsType::STATIC);
-		virtual ~CollisionComponent();
+	// Origin is top left corner
 
-		CollisionComponent(const CollisionComponent& other) = delete;
-		CollisionComponent(CollisionComponent&& other) = delete;
-		CollisionComponent& operator=(const CollisionComponent& other) = delete;
-		CollisionComponent& operator=(CollisionComponent&& other) = delete;
+	class CollisionComponent : public engine::Component
+	{
+		public:
+			CollisionComponent(engine::GameObject* pOwner, int width, int height, bool trigger = false, PhysicsType type = PhysicsType::STATIC);
+			virtual ~CollisionComponent();
 
-		virtual void Update(float /*elapsedSec*/) {}
-		virtual void FixedUpdate(float /*elapsedSec*/);
-		virtual void Render() const override;
+			CollisionComponent(const CollisionComponent& other) = delete;
+			CollisionComponent(CollisionComponent&& other) = delete;
+			CollisionComponent& operator=(const CollisionComponent& other) = delete;
+			CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-		const std::unordered_set<CollisionComponent*> GetColliding() const;
-		PhysicsType GetType() const;
+			virtual void Update(float /*elapsedSec*/) {}
+			virtual void FixedUpdate(float /*elapsedSec*/);
+			virtual void Render() const override;
 
-		Subject<CollisionComponent*> OnCollision;
-		Subject<CollisionComponent*> Collides;
-		Subject<CollisionComponent*> EndCollision;
+			const std::unordered_set<CollisionComponent*> GetColliding() const;
+			PhysicsType GetType() const;
 
-	private:
-		int m_Width;
-		int m_Height;
+			engine::Subject<CollisionComponent*> OnCollision;
+			engine::Subject<CollisionComponent*> Collides;
+			engine::Subject<CollisionComponent*> EndCollision;
 
-		bool m_IsTrigger;
-		PhysicsType m_Type;
+		private:
+			int m_Width;
+			int m_Height;
 
-		// Not the best option, but will do for now
-		static std::vector<CollisionComponent*> m_pColliders;
+			bool m_IsTrigger;
+			PhysicsType m_Type;
 
-		std::unordered_set<CollisionComponent*> m_pColliding;
-};
+			// Not the best option, but will do for now
+			static std::vector<CollisionComponent*> m_pColliders;
 
+			std::unordered_set<CollisionComponent*> m_pColliding;
+	};
 
+}

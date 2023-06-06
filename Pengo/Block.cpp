@@ -1,12 +1,13 @@
 #include "Block.h"
 #include "GameObject.h"
 #include "TextureRenderComponent.h"
-#include "CollisionComponent.h"
 #include "SlidingComponent.h"
 
-dae::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, int size, PhysicsType type) {
-	dae::GameObject* block = new dae::GameObject();
-	block->AddComponent<TextureRenderComponent>(texturePath);
+using namespace pengo;
+
+engine::GameObject* pengo::CreateBlock(std::string texturePath, glm::vec3 position, int size, PhysicsType type) {
+	engine::GameObject* block = new engine::GameObject();
+	block->AddComponent<engine::TextureRenderComponent>(texturePath);
 	block->AddComponent<CollisionComponent>(size, size, false, type);
 
 	block->SetLocalPosition(position);
@@ -14,12 +15,12 @@ dae::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, int si
 	return block;
 }
 
-dae::GameObject* CreateWallBlock(glm::vec3 position) {
+engine::GameObject* pengo::CreateWallBlock(glm::vec3 position) {
 	return CreateBlock("wall.png", position, 16, PhysicsType::STATIC);
 }
 
-dae::GameObject* CreateIceBlock(glm::vec3 position) {
-	dae::GameObject* block = CreateBlock("ice.png", position, 32, PhysicsType::MOVABLE);
+engine::GameObject* pengo::CreateIceBlock(glm::vec3 position) {
+	engine::GameObject* block = CreateBlock("ice.png", position, 32, PhysicsType::MOVABLE);
 	block->AddComponent<SlidingComponent>(40.0f);
 	return block;
 }

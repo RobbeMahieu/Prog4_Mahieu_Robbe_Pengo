@@ -1,6 +1,8 @@
 #include "LoggingSoundSystem.h"
 #include <iostream>
 
+using namespace engine;
+
 LoggingSoundSystem::LoggingSoundSystem(std::unique_ptr<SoundSystem>&& realSS)
 	: m_RealSS{ std::move(realSS) }
 {}

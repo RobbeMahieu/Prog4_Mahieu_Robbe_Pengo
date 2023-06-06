@@ -2,9 +2,11 @@
 #include "GameObject.h"
 #include "Renderer.h"
 
+using namespace pengo;
+
 std::vector<CollisionComponent*> CollisionComponent::m_pColliders{};
 
-CollisionComponent::CollisionComponent(dae::GameObject* pOwner, int width, int height, bool trigger, PhysicsType type)
+CollisionComponent::CollisionComponent(engine::GameObject* pOwner, int width, int height, bool trigger, PhysicsType type)
 	: Component(pOwner)
 	, m_Width{ width }
 	, m_Height{ height }
@@ -123,8 +125,8 @@ void CollisionComponent::Render() const {
 			break;
 	}
 
-	SDL_SetRenderDrawColor(dae::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-	SDL_RenderDrawRect(dae::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
+	SDL_SetRenderDrawColor(engine::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
+	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
 }
 
 const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding() const {

@@ -1,7 +1,9 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 
-HealthComponent::HealthComponent(dae::GameObject* pOwner, int startingHealth)
+using namespace pengo;
+
+HealthComponent::HealthComponent(engine::GameObject* pOwner, int startingHealth)
 	: Component(pOwner)
 	, m_Health{startingHealth}
 {

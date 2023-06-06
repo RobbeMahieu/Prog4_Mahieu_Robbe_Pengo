@@ -2,7 +2,9 @@
 #include "GameObject.h"
 #include "TextRenderComponent.h"
 
-FPSComponent::FPSComponent(dae::GameObject* pOwner) 
+using namespace pengo;
+
+FPSComponent::FPSComponent(engine::GameObject* pOwner) 
 	: Component(pOwner)
 	, m_Fps{ 0.0f }
 {
@@ -11,7 +13,7 @@ FPSComponent::FPSComponent(dae::GameObject* pOwner)
 void FPSComponent::Update(float elapsedSec) {
 	m_Fps = 1.0f / elapsedSec;
 
-	TextRenderComponent* textRenderer = m_pOwner->GetComponent<TextRenderComponent>();
+	engine::TextRenderComponent* textRenderer = m_pOwner->GetComponent<engine::TextRenderComponent>();
 	if (textRenderer) {
 		textRenderer->SetText(std::to_string(int(m_Fps)) + " FPS");
 	}

@@ -5,7 +5,9 @@
 #include <algorithm>
 #include <iterator>
 
-void dae::GameObject::Destroy() {
+using namespace engine;
+
+void GameObject::Destroy() {
 	m_IsMarkedForDestroy = true;
 
 	// Destroy children
@@ -14,11 +16,11 @@ void dae::GameObject::Destroy() {
 	});
 }
 
-bool dae::GameObject::IsMarkedForDestroy() {
+bool GameObject::IsMarkedForDestroy() {
 	return m_IsMarkedForDestroy;
 }
 
-void dae::GameObject::Update(float elapsedSec){
+void GameObject::Update(float elapsedSec){
 	
 	// Update 
 	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
@@ -30,35 +32,35 @@ void dae::GameObject::Update(float elapsedSec){
 	m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(), [](auto& child) {return child->IsMarkedForDestroy(); }), m_pChildren.end());
 }
 
-void dae::GameObject::FixedUpdate(float elapsedSec){
+void GameObject::FixedUpdate(float elapsedSec){
 	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->FixedUpdate(elapsedSec); });
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->FixedUpdate(elapsedSec); });
 }
 
-void dae::GameObject::Render() const
+void GameObject::Render() const
 {
 	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const auto& component) { component->Render();	});
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Render(); });
 }
 
-void dae::GameObject::SetLocalPosition(float x, float y)
+void GameObject::SetLocalPosition(float x, float y)
 {
 	m_LocalPosition = glm::vec3{ x,y, 0.0f };
 	m_PositionChanged = true;
 }
 
-void dae::GameObject::SetLocalPosition(glm::vec3 position)
+void GameObject::SetLocalPosition(glm::vec3 position)
 {
 	SetLocalPosition(position.x, position.y);
 }
 
-glm::vec3 dae::GameObject::GetLocalPosition()
+glm::vec3 GameObject::GetLocalPosition()
 {
 	return m_LocalPosition;
 }
 
-glm::vec3 dae::GameObject::GetWorldPosition() {
+glm::vec3 GameObject::GetWorldPosition() {
 
 	if (HasPositionChanged()) {
 		UpdateWorldPosition();
@@ -66,7 +68,7 @@ glm::vec3 dae::GameObject::GetWorldPosition() {
 	return m_WorldPosition;
 }
 
-void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
+void GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
 	// Update hierarchy
 	std::unique_ptr<GameObject> child;
@@ -106,7 +108,7 @@ void dae::GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 	m_PositionChanged = true;
 }
 
-void dae::GameObject::UpdateWorldPosition() {
+void GameObject::UpdateWorldPosition() {
 	if (HasPositionChanged()) {
 		if (m_pParent) {
 			m_WorldPosition = m_pParent->GetWorldPosition() + m_LocalPosition;
@@ -118,7 +120,7 @@ void dae::GameObject::UpdateWorldPosition() {
 	m_PositionChanged = false;
 }
 
-bool dae::GameObject::HasPositionChanged() {
+bool GameObject::HasPositionChanged() {
 
 	if (m_pParent) {
 		m_PositionChanged = m_PositionChanged || m_pParent->HasPositionChanged();

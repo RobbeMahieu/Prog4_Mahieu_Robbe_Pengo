@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <Xinput.h>
 
+using namespace engine;
+
 class XBoxController::XBoxControllerImpl {
 
 	int m_ControllerIndex;

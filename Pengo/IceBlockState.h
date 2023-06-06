@@ -1,28 +1,27 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "GameObject.h"
 
-namespace dae {
-	class GameObject;
-}
+namespace pengo {
 
-class CollisionComponent;
+	class CollisionComponent;
 
-class IceBlockState
-{
+	class IceBlockState
+	{
 	public:
-		IceBlockState(dae::GameObject* m_pOwner);
+		IceBlockState(engine::GameObject* m_pOwner);
 		virtual ~IceBlockState() = default;
 		virtual IceBlockState* Update(float elapsedSec) = 0;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) = 0;
 
 	protected:
-		dae::GameObject* m_pOwner;
-};
+		engine::GameObject* m_pOwner;
+	};
 
-class Sliding final : public IceBlockState {
-	
+	class Sliding final : public IceBlockState {
+
 	public:
-		Sliding(dae::GameObject* owner, float speed, const glm::vec2& direction);
+		Sliding(engine::GameObject* owner, float speed, const glm::vec2& direction);
 		virtual ~Sliding() = default;
 		virtual IceBlockState* Update(float elapsedSec) override;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
@@ -30,26 +29,28 @@ class Sliding final : public IceBlockState {
 	private:
 		float m_SlidingSpeed;
 		glm::vec2 m_Direction;
-};
+	};
 
-class Idle final : public IceBlockState {
+	class Idle final : public IceBlockState {
 
 	public:
-		Idle(dae::GameObject* owner, float speed);
+		Idle(engine::GameObject* owner, float speed);
 		virtual ~Idle() = default;
 		IceBlockState* Update(float /*elapsedSec*/) override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
 
 	private:
 		float m_Speed;
-};
+	};
 
-class Break final : public IceBlockState {
+	class Break final : public IceBlockState {
 
 	public:
-		Break(dae::GameObject* owner);
+		Break(engine::GameObject* owner);
 		virtual ~Break() = default;
 		IceBlockState* Update(float /*elapsedSec*/) override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
-};
+	};
+
+}
 

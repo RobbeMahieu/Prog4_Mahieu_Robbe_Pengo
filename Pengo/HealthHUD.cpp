@@ -3,9 +3,11 @@
 #include "TextRenderComponent.h"
 #include "HealthComponent.h"
 
-HealthHUD::HealthHUD(dae::GameObject* pOwner, HealthComponent* pHealthComponent)
+using namespace pengo;
+
+HealthHUD::HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthComponent)
 	: Component(pOwner)
-	, m_pTextRenderer{ pOwner->GetComponent<TextRenderComponent>() }
+	, m_pTextRenderer{ pOwner->GetComponent<engine::TextRenderComponent>() }
 {
 	pHealthComponent->HealthChanged.AddObserver(this);
 	OnNotify(pHealthComponent->GetHealth());

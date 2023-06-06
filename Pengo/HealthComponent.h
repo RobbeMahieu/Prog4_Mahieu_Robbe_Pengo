@@ -2,30 +2,32 @@
 #include "Component.h"
 #include "Subject.h"
 
-class HealthComponent final : public Component
-{
-	public:
-		HealthComponent(dae::GameObject* pOwner, int startingHealth);
-		virtual ~HealthComponent() = default;
+namespace pengo {
 
-		HealthComponent(const HealthComponent& other) = delete;
-		HealthComponent(HealthComponent&& other) = delete;
-		HealthComponent& operator=(const HealthComponent& other) = delete;
-		HealthComponent& operator=(HealthComponent&& other) = delete;
+	class HealthComponent final : public engine::Component
+	{
+		public:
+			HealthComponent(engine::GameObject* pOwner, int startingHealth);
+			virtual ~HealthComponent() = default;
 
-		virtual void Update(float /*elapsedSec*/) {}
-		virtual void FixedUpdate(float /*elapsedSec*/) {}
+			HealthComponent(const HealthComponent& other) = delete;
+			HealthComponent(HealthComponent&& other) = delete;
+			HealthComponent& operator=(const HealthComponent& other) = delete;
+			HealthComponent& operator=(HealthComponent&& other) = delete;
 
-		void TakeDamage(int amount);
-		int GetHealth();
+			virtual void Update(float /*elapsedSec*/) {}
+			virtual void FixedUpdate(float /*elapsedSec*/) {}
 
-	private:
-		int m_Health;
+			void TakeDamage(int amount);
+			int GetHealth();
 
-		void SetHealth(int newHealth);
+		private:
+			int m_Health;
 
-	public:
-		Subject<int> HealthChanged;
+			void SetHealth(int newHealth);
 
-};
+		public:
+			engine::Subject<int> HealthChanged;
 
+	};
+}

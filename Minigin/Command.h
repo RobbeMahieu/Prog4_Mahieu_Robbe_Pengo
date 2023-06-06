@@ -1,10 +1,10 @@
 #pragma once
 #include <functional>
 
-class Component;
+namespace engine {
 
-class Command final
-{
+	class Command final
+	{
 	public:
 		explicit Command(const std::function<void()>& function);
 
@@ -19,5 +19,5 @@ class Command final
 
 	private:
 		std::function<void(void)> m_Function;
-};
-
+	};
+}

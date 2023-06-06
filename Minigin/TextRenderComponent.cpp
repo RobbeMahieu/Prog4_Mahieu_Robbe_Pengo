@@ -4,7 +4,9 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-TextRenderComponent::TextRenderComponent(dae::GameObject* pOwner, const std::string& text, std::shared_ptr<dae::Font> font)
+using namespace engine;
+
+TextRenderComponent::TextRenderComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font)
 	: Component(pOwner)
 	, m_Text{ "" }
 	, m_Font{ std::move(font) }
@@ -18,7 +20,7 @@ void TextRenderComponent::Render() const{
 	if (m_TextTexture)
 	{
 		const glm::vec3 position{ m_pOwner->GetWorldPosition() };
-		dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, position.x, position.y);
+		Renderer::GetInstance().RenderTexture(*m_TextTexture, position.x, position.y);
 	}
 }
 
@@ -35,11 +37,11 @@ void TextRenderComponent::UpdateTexture() {
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-	m_TextTexture = std::make_shared<dae::Texture2D>(texture);
+	m_TextTexture = std::make_shared<Texture2D>(texture);
 }

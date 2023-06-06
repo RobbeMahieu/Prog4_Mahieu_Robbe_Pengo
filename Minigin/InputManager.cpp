@@ -1,7 +1,9 @@
 #include "InputManager.h"
 #include "SDL.h"
 
-bool dae::InputManager::ProcessInput()
+using namespace engine;
+
+bool InputManager::ProcessInput()
 {
 	// Update key presses for each input device
 	for (auto& inputDevice : m_InputDevices) {
@@ -50,7 +52,7 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex, KeyState state) {
+void InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex, KeyState state) {
 	
 	std::unique_ptr<Command> command{ pCommand };
 	m_ActionMapping.push_back(ActionMap{ std::move(command), key, deviceIndex, state });

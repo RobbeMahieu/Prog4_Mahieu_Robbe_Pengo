@@ -7,7 +7,7 @@
 #include <algorithm>
 #include "Component.h"
 
-namespace dae
+namespace engine
 {
 	class GameObject final
 	{

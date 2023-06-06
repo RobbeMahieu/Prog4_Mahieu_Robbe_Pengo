@@ -6,6 +6,8 @@
 #include <SDL_mixer.h>
 #include <unordered_map>
 
+using namespace engine;
+
 class SDL_SoundSystem::SDL_SoundSystemImpl {
 	public:
 		SDL_SoundSystemImpl();

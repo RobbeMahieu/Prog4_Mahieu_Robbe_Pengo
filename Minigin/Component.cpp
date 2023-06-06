@@ -1,7 +1,9 @@
 #include "Component.h"
 #include "GameObject.h"
 
-Component::Component(dae::GameObject* pOwner)
+using namespace engine;
+
+Component::Component(GameObject* pOwner)
 	: m_pOwner{ pOwner}
 	, m_IsMarkedForDestroy{ false }
 {}
@@ -14,6 +16,6 @@ bool Component::IsMarkedForDestroy() {
 	return m_IsMarkedForDestroy;
 }
 
-dae::GameObject* Component::GetOwner() {
+GameObject* Component::GetOwner() {
 	return m_pOwner;
 }

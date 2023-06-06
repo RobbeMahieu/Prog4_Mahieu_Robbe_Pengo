@@ -2,24 +2,27 @@
 #include "SoundSystem.h"
 #include <memory>
 
-class SDL_SoundSystem final: public SoundSystem
-{
-	public:
+namespace engine {
 
-		SDL_SoundSystem();
-		virtual ~SDL_SoundSystem();
+	class SDL_SoundSystem final : public SoundSystem
+	{
+		public:
 
-		SDL_SoundSystem(const SDL_SoundSystem& other) = delete;
-		SDL_SoundSystem(SDL_SoundSystem&& other) = delete;
-		SDL_SoundSystem& operator=(const SDL_SoundSystem& other) = delete;
-		SDL_SoundSystem& operator=(SDL_SoundSystem&& other) = delete;
+			SDL_SoundSystem();
+			virtual ~SDL_SoundSystem();
 
-		void Play(const std::string& path, float volume);
+			SDL_SoundSystem(const SDL_SoundSystem& other) = delete;
+			SDL_SoundSystem(SDL_SoundSystem&& other) = delete;
+			SDL_SoundSystem& operator=(const SDL_SoundSystem& other) = delete;
+			SDL_SoundSystem& operator=(SDL_SoundSystem&& other) = delete;
 
-	private:
+			void Play(const std::string& path, float volume);
 
-		// Pimple
-		class SDL_SoundSystemImpl;
-		std::unique_ptr<SDL_SoundSystemImpl> pImpl;
-};
+		private:
 
+			// Pimple
+			class SDL_SoundSystemImpl;
+			std::unique_ptr<SDL_SoundSystemImpl> pImpl;
+	};
+
+}

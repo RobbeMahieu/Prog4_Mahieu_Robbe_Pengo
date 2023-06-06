@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-using namespace dae;
+using namespace engine;
 
 unsigned int Scene::m_idCounter = 0;
 

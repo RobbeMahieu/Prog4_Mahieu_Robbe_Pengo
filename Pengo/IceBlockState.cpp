@@ -3,15 +3,17 @@
 #include "CollisionComponent.h"
 #include "PushComponent.h"
 
+using namespace pengo;
+
 // -- Base State
-IceBlockState::IceBlockState(dae::GameObject* pOwner) 
+IceBlockState::IceBlockState(engine::GameObject* pOwner) 
 	: m_pOwner{ pOwner }
 {
 }
 
 // -- Sliding State --
 
-Sliding::Sliding(dae::GameObject* pOwner, float speed, const glm::vec2& direction)
+Sliding::Sliding(engine::GameObject* pOwner, float speed, const glm::vec2& direction)
 	: IceBlockState(pOwner)
 	, m_SlidingSpeed{speed}
 	, m_Direction{direction}
@@ -32,7 +34,7 @@ IceBlockState* Sliding::HandleCollision(CollisionComponent* collider) {
 
 // Idle State --
 
-Idle::Idle(dae::GameObject* pOwner, float speed) 
+Idle::Idle(engine::GameObject* pOwner, float speed)
 	: IceBlockState(pOwner)
 	, m_Speed{ speed }
 {
@@ -56,7 +58,7 @@ IceBlockState* Idle::HandleCollision(CollisionComponent* collider) {
 }
 
 // -- Break State --
-Break::Break(dae::GameObject* pOwner)
+Break::Break(engine::GameObject* pOwner)
 	: IceBlockState(pOwner)
 {
 	m_pOwner->Destroy();

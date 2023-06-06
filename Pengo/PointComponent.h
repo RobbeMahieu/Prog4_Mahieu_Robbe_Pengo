@@ -13,8 +13,8 @@ public:
 	PointComponent& operator=(const PointComponent& other) = delete;
 	PointComponent& operator=(PointComponent&& other) = delete;
 
-	virtual void Update([[maybe_unused]] float elapsedSec) {}
-	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+	virtual void Update(float /*elapsedSec*/) {}
+	virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 	void AddScore(int amount);
 	int GetScore();

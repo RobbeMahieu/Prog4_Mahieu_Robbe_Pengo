@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="CircleRotationComponent.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -37,7 +36,6 @@
   <ItemGroup>
     <ClInclude Include="BasicMovement.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="CircleRotationComponent.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />

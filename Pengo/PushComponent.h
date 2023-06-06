@@ -18,7 +18,7 @@ class PushComponent : public Component
 		PushComponent& operator=(PushComponent&& other) = delete;
 
 		virtual void Update(float /*elapsedSec*/) {};
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 		bool CanPush() const;
 		void EnablePush(bool enable);

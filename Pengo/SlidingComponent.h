@@ -18,7 +18,7 @@ class SlidingComponent : public Component, public Observer<CollisionComponent*>
 		SlidingComponent& operator=(SlidingComponent&& other) = delete;
 
 		virtual void Update(float elapsedSec);
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 		void OnNotify(CollisionComponent* other) override;
 

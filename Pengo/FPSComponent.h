@@ -14,7 +14,7 @@ class FPSComponent : public Component
 		FPSComponent& operator=(FPSComponent&& other) = delete;
 
 		virtual void Update(float elapsedSec);
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 	protected:
 		float m_Fps;

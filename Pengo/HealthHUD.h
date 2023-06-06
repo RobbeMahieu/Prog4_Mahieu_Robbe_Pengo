@@ -21,8 +21,8 @@ class HealthHUD : public Component, public Observer<int>
 		HealthHUD& operator=(const HealthHUD& other) = delete;
 		HealthHUD& operator=(HealthHUD&& other) = delete;
 
-		virtual void Update([[maybe_unused]] float elapsedSec) {}
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+		virtual void Update(float /*elapsedSec*/) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 		virtual void OnNotify(int health) override;
 

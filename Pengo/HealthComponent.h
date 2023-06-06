@@ -13,8 +13,8 @@ class HealthComponent final : public Component
 		HealthComponent& operator=(const HealthComponent& other) = delete;
 		HealthComponent& operator=(HealthComponent&& other) = delete;
 
-		virtual void Update([[maybe_unused]] float elapsedSec) {}
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+		virtual void Update(float /*elapsedSec*/) {}
+		virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 		void TakeDamage(int amount);
 		int GetHealth();

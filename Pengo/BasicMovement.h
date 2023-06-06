@@ -18,7 +18,7 @@ public:
 	BasicMovement& operator=(BasicMovement&& other) = delete;
 
 	virtual void Update(float elapsedSec);
-	virtual void FixedUpdate(float) {}
+	virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 	void Move(glm::vec2 direction);
 

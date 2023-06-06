@@ -21,8 +21,8 @@ public:
 	PointsHUD& operator=(const PointsHUD& other) = delete;
 	PointsHUD& operator=(PointsHUD&& other) = delete;
 
-	virtual void Update([[maybe_unused]] float elapsedSec) {}
-	virtual void FixedUpdate([[maybe_unused]] float elapsedSec) {}
+	virtual void Update(float /*elapsedSec*/) {}
+	virtual void FixedUpdate(float /*elapsedSec*/) {}
 
 	virtual void OnNotify(int score) override;
 

@@ -23,8 +23,8 @@ class CollisionComponent : public Component
 		CollisionComponent& operator=(const CollisionComponent& other) = delete;
 		CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-		virtual void Update([[maybe_unused]] float elapsedSec) {}
-		virtual void FixedUpdate([[maybe_unused]] float elapsedSec);
+		virtual void Update(float /*elapsedSec*/) {}
+		virtual void FixedUpdate(float /*elapsedSec*/);
 		virtual void Render() const override;
 
 		const std::unordered_set<CollisionComponent*> GetColliding() const;

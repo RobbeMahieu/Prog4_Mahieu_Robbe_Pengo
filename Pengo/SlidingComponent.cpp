@@ -11,6 +11,10 @@ SlidingComponent::SlidingComponent(dae::GameObject* pOwner, float speed)
 	m_pOwner->GetComponent<CollisionComponent>()->Collides.AddObserver(this);
 }
 
+SlidingComponent::~SlidingComponent() {
+	delete m_pState;
+}
+
 void SlidingComponent::Update(float elapsedSec) {
 	
 	IceBlockState* state = m_pState->Update(elapsedSec);

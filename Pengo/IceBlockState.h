@@ -50,6 +50,6 @@ class Break final : public IceBlockState {
 		Break(dae::GameObject* owner);
 		virtual ~Break() = default;
 		IceBlockState* Update(float /*elapsedSec*/) override { return nullptr; }
-		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override { return nullptr; }
+		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
 };
 

@@ -10,7 +10,7 @@ class SlidingComponent : public Component, public Observer<CollisionComponent*>
 {
 	public:
 		SlidingComponent(dae::GameObject* pOwner, float speed);
-		virtual ~SlidingComponent() = default;
+		virtual ~SlidingComponent();
 
 		SlidingComponent(const SlidingComponent& other) = delete;
 		SlidingComponent(SlidingComponent&& other) = delete;

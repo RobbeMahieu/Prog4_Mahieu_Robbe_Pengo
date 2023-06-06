@@ -225,7 +225,6 @@
     <ClInclude Include="TextRenderComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureRenderComponent.h" />
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="XBoxController.h" />
   </ItemGroup>
   <ItemGroup>
@@ -247,7 +246,6 @@
     <ClCompile Include="TextRenderComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureRenderComponent.cpp" />
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="XBoxController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

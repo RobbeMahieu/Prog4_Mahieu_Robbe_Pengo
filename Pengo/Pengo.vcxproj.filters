@@ -1,112 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{80512cf5-1fef-40de-b21e-56a0143d3f70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{f0aa1c02-2773-4bc2-8ab7-86bf9dfa66c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{2d5624cc-4d93-4eb8-99c3-4b17ccd26e3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Components">
+    <Filter Include="Components">
       <UniqueIdentifier>{ec275b6d-782d-4af6-8e14-4f6c46960b48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObjects">
+    <Filter Include="GameObjects">
       <UniqueIdentifier>{17b72799-6f14-4012-b260-7c75fc0f1880}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GameObjects">
-      <UniqueIdentifier>{b161d16f-6464-4b59-9665-07a5a44c78a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CircleRotationComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthHUD.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PointComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PointsHUD.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files\GameObjects</Filter>
+      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Source Files\GameObjects</Filter>
+      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="SlidingComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PushComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="IceBlockState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="IceBlockState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovement.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CircleRotationComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthHUD.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PointComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PointsHUD.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\GameObjects</Filter>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Header Files\GameObjects</Filter>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SlidingComponent.h">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="HealthHUD.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsHUD.h">
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PushComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="IceBlockState.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SlidingComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBlockState.h" />
   </ItemGroup>
 </Project>

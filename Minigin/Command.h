@@ -3,21 +3,17 @@
 
 namespace engine {
 
-	class Command final
+	class Command 
 	{
-	public:
-		explicit Command(const std::function<void()>& function);
+		public:
+			explicit Command() = default;
+			virtual ~Command() = default;
 
-		~Command() = default;
+			Command(const Command& other) = delete;
+			Command(Command&& other) = delete;
+			Command& operator=(const Command& other) = delete;
+			Command& operator=(Command&& other) = delete;
 
-		Command(const Command& other) = delete;
-		Command(Command&& other) = delete;
-		Command& operator=(const Command& other) = delete;
-		Command& operator=(Command&& other) = delete;
-
-		void Execute();
-
-	private:
-		std::function<void(void)> m_Function;
+			virtual void Execute() = 0;
 	};
 }

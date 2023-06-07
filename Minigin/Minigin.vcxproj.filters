@@ -94,9 +94,6 @@
     <ClCompile Include="TextureRenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>

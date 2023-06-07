@@ -7,6 +7,9 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{17b72799-6f14-4012-b260-7c75fc0f1880}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{88612c95-edfa-4730-aa1c-8dd0f7f3eefd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IceBlockState.cpp" />
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovement.h">
@@ -80,5 +86,8 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="IceBlockState.h" />
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

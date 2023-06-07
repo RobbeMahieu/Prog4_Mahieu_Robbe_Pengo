@@ -126,7 +126,7 @@ int main(int, char* []) {
 
 // Todo:
 // Refactor commands
-// Time class?
+// Think about command ownership
 // (Look into prototype)
 // 
 // Gameplay related:

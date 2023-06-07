@@ -8,6 +8,8 @@
 
 namespace pengo {
 
+	class MoveCommand;
+
 	class BasicMovement : public engine::Component
 	{
 		public:
@@ -20,14 +22,17 @@ namespace pengo {
 			BasicMovement& operator=(const BasicMovement& other) = delete;
 			BasicMovement& operator=(BasicMovement&& other) = delete;
 
-			virtual void Update() override;
+			virtual void Update() override {};
 			virtual void FixedUpdate() override {}
 
-			void Move(glm::vec2 direction);
+		private:
+			BasicMovement(engine::GameObject* pOwner, float speed);
 
-		protected:
-			float m_MovementSpeed;
-			glm::vec2 m_MovementDirection{ 0,0 };
+			// Move Commands (will be used to unbind in the future)
+			MoveCommand* m_MoveUp;
+			MoveCommand* m_MoveDown;
+			MoveCommand* m_MoveLeft;
+			MoveCommand* m_MoveRight;
 	};
 }
 

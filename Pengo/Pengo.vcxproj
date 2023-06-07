@@ -31,6 +31,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointComponent.cpp" />
     <ClCompile Include="PointsHUD.cpp" />
+    <ClCompile Include="TriggerCommand.cpp" />
     <ClCompile Include="PushComponent.cpp" />
     <ClCompile Include="SlidingComponent.cpp" />
   </ItemGroup>
@@ -46,6 +47,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PointComponent.h" />
     <ClInclude Include="PointsHUD.h" />
+    <ClInclude Include="TriggerCommand.h" />
     <ClInclude Include="PushComponent.h" />
     <ClInclude Include="SlidingComponent.h" />
   </ItemGroup>

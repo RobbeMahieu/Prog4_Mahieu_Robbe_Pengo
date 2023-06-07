@@ -7,7 +7,7 @@ MoveCommand::MoveCommand(engine::GameObject* object, glm::vec2 direction, float 
 	: Command()
 	, m_pObject{ object }
 	, m_Direction{ direction }
-,	, m_Speed{ speed }
+	, m_Speed{ speed }
 {
 
 }

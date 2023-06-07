@@ -26,8 +26,8 @@ BasicMovement::BasicMovement(engine::GameObject* pOwner, float speed, engine::XB
 }
 BasicMovement::BasicMovement(engine::GameObject* pOwner, float speed)
 	: Component(pOwner)
-	, m_MoveUp{ new MoveCommand(pOwner, glm::vec2{0,1}, speed)}
-	, m_MoveDown{ new MoveCommand(pOwner, glm::vec2{0,-1}, speed)}
+	, m_MoveUp{ new MoveCommand(pOwner, glm::vec2{0,-1}, speed)}
+	, m_MoveDown{ new MoveCommand(pOwner, glm::vec2{0,1}, speed)}
 	, m_MoveLeft{ new MoveCommand(pOwner, glm::vec2{-1,0}, speed)}
 	, m_MoveRight{ new MoveCommand(pOwner, glm::vec2{1,0}, speed)}
 {

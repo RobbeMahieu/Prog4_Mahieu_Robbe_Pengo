@@ -6,6 +6,8 @@
 
 namespace pengo {
 
+	class TriggerCommand;
+
 	class PushComponent : public engine::Component
 	{
 		public:
@@ -25,7 +27,11 @@ namespace pengo {
 			void EnablePush(bool enable);
 
 		private:
+			PushComponent(engine::GameObject* pOwner);
+
 			bool m_CanPush{ false };
+			TriggerCommand* m_ButtonPress;
+			TriggerCommand* m_ButtonRelease;
 
 	};
 

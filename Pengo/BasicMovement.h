@@ -20,8 +20,8 @@ namespace pengo {
 			BasicMovement& operator=(const BasicMovement& other) = delete;
 			BasicMovement& operator=(BasicMovement&& other) = delete;
 
-			virtual void Update(float elapsedSec);
-			virtual void FixedUpdate(float /*elapsedSec*/) {}
+			virtual void Update() override;
+			virtual void FixedUpdate() override {}
 
 			void Move(glm::vec2 direction);
 

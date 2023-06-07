@@ -125,10 +125,8 @@ int main(int, char* []) {
 }
 
 // Todo:
-// Add commands with parameters
+// Refactor commands
 // Time class?
-// Remove maybe unuseds (fix it by removing the name)
-// Namespaces
 // (Look into prototype)
 // 
 // Gameplay related:
@@ -138,4 +136,5 @@ int main(int, char* []) {
 // - Multiplayer
 // - Diamond bonus
 // - Egg spawning
+// - Sprites
 //

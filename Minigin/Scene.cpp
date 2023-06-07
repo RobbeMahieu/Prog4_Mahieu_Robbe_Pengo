@@ -29,14 +29,14 @@ void Scene::RemoveAll()
 	m_SceneRoot = new GameObject();
 }
 
-void Scene::Update(float elapsedSec)
+void Scene::Update()
 {
-	m_SceneRoot->Update(elapsedSec);
+	m_SceneRoot->Update();
 }
 
-void Scene::FixedUpdate(float elapsedSec)
+void Scene::FixedUpdate()
 {
-	m_SceneRoot->FixedUpdate(elapsedSec);
+	m_SceneRoot->FixedUpdate();
 }
 
 void Scene::Render() const

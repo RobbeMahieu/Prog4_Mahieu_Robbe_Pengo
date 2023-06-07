@@ -25,8 +25,8 @@ namespace pengo {
 			CollisionComponent& operator=(const CollisionComponent& other) = delete;
 			CollisionComponent& operator=(CollisionComponent&& other) = delete;
 
-			virtual void Update(float /*elapsedSec*/) {}
-			virtual void FixedUpdate(float /*elapsedSec*/);
+			virtual void Update() override{}
+			virtual void FixedUpdate() override;
 			virtual void Render() const override;
 
 			const std::unordered_set<CollisionComponent*> GetColliding() const;

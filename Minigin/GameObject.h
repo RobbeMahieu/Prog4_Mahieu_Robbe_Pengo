@@ -21,8 +21,8 @@ namespace engine
 			GameObject& operator=(const GameObject& other) = delete;
 			GameObject& operator=(GameObject&& other) = delete;
 
-			void Update(float elapsedSec);
-			void FixedUpdate(float elapsedSec);
+			void Update();
+			void FixedUpdate();
 			void Render() const;
 
 			void SetLocalPosition(float x, float y);

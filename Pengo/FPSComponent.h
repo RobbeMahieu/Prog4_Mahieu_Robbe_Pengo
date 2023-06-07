@@ -15,8 +15,8 @@ namespace pengo {
 		FPSComponent& operator=(const FPSComponent& other) = delete;
 		FPSComponent& operator=(FPSComponent&& other) = delete;
 
-		virtual void Update(float elapsedSec);
-		virtual void FixedUpdate(float /*elapsedSec*/) {}
+		virtual void Update() override;
+		virtual void FixedUpdate() override{}
 
 	protected:
 		float m_Fps;

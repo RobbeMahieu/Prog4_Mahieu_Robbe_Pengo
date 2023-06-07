@@ -12,8 +12,8 @@ namespace engine
 		void Remove(GameObject* object);
 		void RemoveAll();
 
-		void Update(float elapsedSec);
-		void FixedUpdate(float elapsedSec);
+		void Update();
+		void FixedUpdate();
 		void Render() const;
 
 		~Scene();

@@ -20,22 +20,22 @@ bool GameObject::IsMarkedForDestroy() {
 	return m_IsMarkedForDestroy;
 }
 
-void GameObject::Update(float elapsedSec){
+void GameObject::Update(){
 	
 	// Update 
 	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->Update(elapsedSec); });
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Update(elapsedSec); });
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->Update(); });
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Update(); });
 
 	// Remove components children marked for destroy
 	m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(), [](auto& component) {return component->IsMarkedForDestroy(); }), m_pComponents.end());
 	m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(), [](auto& child) {return child->IsMarkedForDestroy(); }), m_pChildren.end());
 }
 
-void GameObject::FixedUpdate(float elapsedSec){
+void GameObject::FixedUpdate(){
 	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->FixedUpdate(elapsedSec); });
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->FixedUpdate(elapsedSec); });
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->FixedUpdate(); });
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->FixedUpdate(); });
 }
 
 void GameObject::Render() const

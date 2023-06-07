@@ -18,8 +18,8 @@ namespace pengo {
 			PushComponent& operator=(const PushComponent& other) = delete;
 			PushComponent& operator=(PushComponent&& other) = delete;
 
-			virtual void Update(float /*elapsedSec*/) {};
-			virtual void FixedUpdate(float /*elapsedSec*/) {}
+			virtual void Update() override {};
+			virtual void FixedUpdate() override {}
 
 			bool CanPush() const;
 			void EnablePush(bool enable);

@@ -15,8 +15,8 @@ namespace pengo {
 		PointComponent& operator=(const PointComponent& other) = delete;
 		PointComponent& operator=(PointComponent&& other) = delete;
 
-		virtual void Update(float /*elapsedSec*/) {}
-		virtual void FixedUpdate(float /*elapsedSec*/) {}
+		virtual void Update() override {}
+		virtual void FixedUpdate() override{}
 
 		void AddScore(int amount);
 		int GetScore();

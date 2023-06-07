@@ -82,6 +82,7 @@
     <ClInclude Include="GameServiceLocator.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="GameTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -135,5 +136,6 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="GameServiceLocator.cpp" />
     <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="GameTime.cpp" />
   </ItemGroup>
 </Project>

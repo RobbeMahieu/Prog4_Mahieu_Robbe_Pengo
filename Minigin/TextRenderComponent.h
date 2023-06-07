@@ -18,8 +18,8 @@ namespace engine {
 		TextRenderComponent& operator=(const TextRenderComponent& other) = delete;
 		TextRenderComponent& operator=(TextRenderComponent&& other) = delete;
 
-		virtual void Update(float /*elapsedSec*/) {};
-		virtual void FixedUpdate(float /*elapsedSec*/) {};
+		virtual void Update() override {};
+		virtual void FixedUpdate() override {};
 		virtual void Render() const override;
 		void SetText(const std::string& text);
 

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "InputDevice.h"
 #include "InputManager.h"
+#include "GameTime.h"
 
 using namespace pengo;
 
@@ -25,7 +26,9 @@ BasicMovement::BasicMovement(engine::GameObject* pOwner, float speed, engine::XB
 	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_RIGHT, new engine::Command(std::bind(&BasicMovement::Move, this, glm::vec2{ 1, 0 })), device->GetID());
 }
 
-void BasicMovement::Update(float elapsedSec) {
+void BasicMovement::Update() {
+
+	float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
 
 	glm::vec3 pos = m_pOwner->GetLocalPosition();
 	pos.x += m_MovementSpeed * elapsedSec * m_MovementDirection.x;

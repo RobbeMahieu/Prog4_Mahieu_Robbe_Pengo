@@ -19,8 +19,8 @@ namespace pengo {
 			SlidingComponent& operator=(const SlidingComponent& other) = delete;
 			SlidingComponent& operator=(SlidingComponent&& other) = delete;
 
-			virtual void Update(float elapsedSec);
-			virtual void FixedUpdate(float /*elapsedSec*/) {}
+			virtual void Update() override;
+			virtual void FixedUpdate() override {}
 
 			void OnNotify(CollisionComponent* other) override;
 

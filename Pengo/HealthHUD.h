@@ -19,8 +19,8 @@ namespace pengo {
 			HealthHUD& operator=(const HealthHUD& other) = delete;
 			HealthHUD& operator=(HealthHUD&& other) = delete;
 
-			virtual void Update(float /*elapsedSec*/) {}
-			virtual void FixedUpdate(float /*elapsedSec*/) {}
+			virtual void Update() override {}
+			virtual void FixedUpdate() override {}
 
 			virtual void OnNotify(int health) override;
 

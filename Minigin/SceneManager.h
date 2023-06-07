@@ -12,8 +12,8 @@ namespace engine
 	public:
 		Scene& CreateScene(const std::string& name);
 
-		void Update(float elapsedSec);
-		void FixedUpdate(float elapsedSec);
+		void Update();
+		void FixedUpdate();
 		void Render();
 	private:
 		friend class Singleton<SceneManager>;

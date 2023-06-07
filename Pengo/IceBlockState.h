@@ -11,7 +11,7 @@ namespace pengo {
 	public:
 		IceBlockState(engine::GameObject* m_pOwner);
 		virtual ~IceBlockState() = default;
-		virtual IceBlockState* Update(float elapsedSec) = 0;
+		virtual IceBlockState* Update() = 0;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) = 0;
 
 	protected:
@@ -23,7 +23,7 @@ namespace pengo {
 	public:
 		Sliding(engine::GameObject* owner, float speed, const glm::vec2& direction);
 		virtual ~Sliding() = default;
-		virtual IceBlockState* Update(float elapsedSec) override;
+		virtual IceBlockState* Update() override;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
 
 	private:
@@ -36,7 +36,7 @@ namespace pengo {
 	public:
 		Idle(engine::GameObject* owner, float speed);
 		virtual ~Idle() = default;
-		IceBlockState* Update(float /*elapsedSec*/) override { return nullptr; }
+		IceBlockState* Update() override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
 
 	private:
@@ -48,7 +48,7 @@ namespace pengo {
 	public:
 		Break(engine::GameObject* owner);
 		virtual ~Break() = default;
-		IceBlockState* Update(float /*elapsedSec*/) override { return nullptr; }
+		IceBlockState* Update() override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
 	};
 

@@ -3,19 +3,19 @@
 
 using namespace engine;
 
-void SceneManager::Update(float elapsedSec)
+void SceneManager::Update()
 {
 	for(auto& scene : m_scenes)
 	{
-		scene->Update(elapsedSec);
+		scene->Update();
 	}
 }
 
-void SceneManager::FixedUpdate(float elapsedSec)
+void SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_scenes)
 	{
-		scene->FixedUpdate(elapsedSec);
+		scene->FixedUpdate();
 	}
 }
 

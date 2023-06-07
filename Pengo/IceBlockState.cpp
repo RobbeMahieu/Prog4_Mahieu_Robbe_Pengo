@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "CollisionComponent.h"
 #include "PushComponent.h"
+#include "GameTime.h"
 
 using namespace pengo;
 
@@ -20,7 +21,9 @@ Sliding::Sliding(engine::GameObject* pOwner, float speed, const glm::vec2& direc
 {
 }
 
-IceBlockState* Sliding::Update(float elapsedSec) {
+IceBlockState* Sliding::Update() {
+	const float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
+
 	glm::vec3 pos = m_pOwner->GetLocalPosition();
 	pos.x += m_SlidingSpeed * elapsedSec * m_Direction.x;
 	pos.y += m_SlidingSpeed * elapsedSec * m_Direction.y;

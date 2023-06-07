@@ -12,6 +12,7 @@
 #include "GameServiceLocator.h"
 #include "SDL_SoundSystem.h"
 #include "LoggingSoundSystem.h"
+#include "GameTime.h"
 #include <memory>
 #include <chrono>
 #include <thread>
@@ -74,6 +75,8 @@ Minigin::Minigin(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	GameTime::GetInstance().Init();
 }
 
 Minigin::~Minigin()
@@ -92,6 +95,7 @@ void Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& gameTime = GameTime::GetInstance();
 
 #if _DEBUG
 	GameServiceLocator::RegisterSoundSystem(std::make_unique<LoggingSoundSystem>(std::make_unique<SDL_SoundSystem>()));
@@ -100,36 +104,32 @@ void Minigin::Run(const std::function<void()>& load)
 #endif
 
 	bool doContinue = true;
-	const float fixedTimeStepSec{ 0.02f };
-	const float desiredFPS{ 144.0f };
+	const float fixedTimeStepSec{ gameTime.GetFixedUpdateStep() };
+	const float desiredFPS{ 60.0f };
 	const int frameTimeMs{ int(1000 / desiredFPS) };
-	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 	while (doContinue)
 	{
-		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTimeSec = std::chrono::duration<float>(currentTime - lastTime).count();	
-		
-		lastTime = currentTime;
-		lag += deltaTimeSec;
+		gameTime.Update();
+		lag += gameTime.GetElapsedSec();
 
 		// Process input
 		doContinue = input.ProcessInput();
 
 		// Fixed Update
 		while (lag >= fixedTimeStepSec) {
-			sceneManager.FixedUpdate(fixedTimeStepSec);
+			sceneManager.FixedUpdate();
 			lag -= fixedTimeStepSec;
 		}
 
 		// Normal Update
-		sceneManager.Update(deltaTimeSec);
+		sceneManager.Update();
 
 		// Renders
 		renderer.Render();
 
 		// Sleep for rest of frame
-		const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) - std::chrono::high_resolution_clock::now();
+		const auto sleepTime = gameTime.GetFrameStartTime() + std::chrono::milliseconds(frameTimeMs) - std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
 	}
 }

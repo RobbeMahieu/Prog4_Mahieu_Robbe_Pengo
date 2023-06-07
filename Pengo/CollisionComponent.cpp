@@ -1,6 +1,7 @@
 #include "CollisionComponent.h"
 #include "GameObject.h"
 #include "Renderer.h"
+#include "GameTime.h"
 
 using namespace pengo;
 
@@ -20,7 +21,7 @@ CollisionComponent::~CollisionComponent() {
 	m_pColliders.erase(std::remove(m_pColliders.begin(), m_pColliders.end(), this), m_pColliders.end());
 }
 
-void CollisionComponent::FixedUpdate(float /*elapsedSec*/) {
+void CollisionComponent::FixedUpdate() {
 
 	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 

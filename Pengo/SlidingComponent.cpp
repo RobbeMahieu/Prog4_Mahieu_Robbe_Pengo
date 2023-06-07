@@ -17,9 +17,9 @@ SlidingComponent::~SlidingComponent() {
 	delete m_pState;
 }
 
-void SlidingComponent::Update(float elapsedSec) {
+void SlidingComponent::Update() {
 	
-	IceBlockState* state = m_pState->Update(elapsedSec);
+	IceBlockState* state = m_pState->Update();
 	if (state) {
 		delete m_pState;
 		m_pState = state;

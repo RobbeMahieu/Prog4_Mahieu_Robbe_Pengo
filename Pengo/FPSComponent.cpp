@@ -1,6 +1,7 @@
 #include "FPSComponent.h"
 #include "GameObject.h"
 #include "TextRenderComponent.h"
+#include "GameTime.h"
 
 using namespace pengo;
 
@@ -10,8 +11,8 @@ FPSComponent::FPSComponent(engine::GameObject* pOwner)
 {
 }
 
-void FPSComponent::Update(float elapsedSec) {
-	m_Fps = 1.0f / elapsedSec;
+void FPSComponent::Update() {
+	m_Fps = 1.0f / engine::GameTime::GetInstance().GetElapsedSec();
 
 	engine::TextRenderComponent* textRenderer = m_pOwner->GetComponent<engine::TextRenderComponent>();
 	if (textRenderer) {

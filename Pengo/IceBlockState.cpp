@@ -53,19 +53,34 @@ void Idle::OnEnter() {
 	collider->SetType(PhysicsType::STATIC);
 }
 
-IceBlockState* Idle::HandleCollision(CollisionComponent* collider) {
+IceBlockState* Idle::HandleCollision(CollisionComponent* other) {
 	
-	PushComponent* pushComponent = collider->GetOwner()->GetComponent<PushComponent>();
+	PushComponent* pushComponent = other->GetOwner()->GetComponent<PushComponent>();
 	if (!pushComponent || !pushComponent->CanPush()) {
 		return nullptr;
 	}
 
-	glm::vec3 distanceBetween{ m_pOwner->GetWorldPosition() - collider->GetOwner()->GetWorldPosition() };
+	// Calculate direction
+	glm::vec3 distanceBetween{ m_pOwner->GetWorldPosition() - other->GetOwner()->GetWorldPosition() };
 
 	glm::vec2 direction{ (abs(distanceBetween.x) > abs(distanceBetween.y)) ? glm::vec2{1,0} : glm::vec2{0,1} };
 	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x),distanceBetween.y / abs(distanceBetween.y) };
 	direction *= sign;
 
+	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	glm::vec4 bounds{ collider->GetBounds() };
+	bounds.x += direction.x;
+	bounds.y += direction.y;
+
+	// Check for collision in moving direction
+	bool isBlocked{ collider->CheckCollision(bounds, {collider}) };
+
+	// Start break
+	if (isBlocked) {
+		return new Break(m_pOwner);
+	}
+
+	// Start push
 	return new Sliding(m_pOwner, m_Speed, direction);
 
 }

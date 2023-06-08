@@ -5,7 +5,7 @@
 
 using namespace pengo;
 
-engine::GameObject* pengo::CreateBlock(std::string texturePath, glm::vec3 position, int size, PhysicsType type) {
+engine::GameObject* pengo::CreateBlock(std::string texturePath, glm::vec3 position, float size, PhysicsType type) {
 	engine::GameObject* block = new engine::GameObject();
 	block->AddComponent<engine::TextureRenderComponent>(texturePath);
 	block->AddComponent<CollisionComponent>(size, size, false, type);

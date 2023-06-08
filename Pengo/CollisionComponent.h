@@ -3,6 +3,7 @@
 #include "Subject.h"
 #include <vector>
 #include <unordered_set>
+#include <glm/glm.hpp>
 
 namespace pengo {
 
@@ -17,7 +18,7 @@ namespace pengo {
 	class CollisionComponent : public engine::Component
 	{
 		public:
-			CollisionComponent(engine::GameObject* pOwner, int width, int height, bool trigger = false, PhysicsType type = PhysicsType::STATIC);
+			CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger = false, PhysicsType type = PhysicsType::STATIC);
 			virtual ~CollisionComponent();
 
 			CollisionComponent(const CollisionComponent& other) = delete;
@@ -33,13 +34,20 @@ namespace pengo {
 			PhysicsType GetType() const;
 			void SetType(PhysicsType type);
 
+			// Returns x, y, width, height
+			glm::vec4 GetBounds() const;
+
 			engine::Subject<CollisionComponent*> OnCollision;
 			engine::Subject<CollisionComponent*> Collides;
 			engine::Subject<CollisionComponent*> EndCollision;
 
+			static bool CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore = {});
+			static bool CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore = {});
+			static bool CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore = {});
+
 		private:
-			int m_Width;
-			int m_Height;
+			float m_Width;
+			float m_Height;
 
 			bool m_IsTrigger;
 			PhysicsType m_Type;

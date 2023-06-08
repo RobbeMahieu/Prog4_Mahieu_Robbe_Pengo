@@ -10,24 +10,18 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{88612c95-edfa-4730-aa1c-8dd0f7f3eefd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\UI">
+      <UniqueIdentifier>{a7b8df10-7b6d-480d-801a-a012183fd3cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="HealthHUD.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="PointComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PointsHUD.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
@@ -53,6 +47,15 @@
     <ClCompile Include="TriggerCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthHUD.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsHUD.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovement.h">
@@ -61,19 +64,10 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="HealthComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="HealthHUD.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="PointComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PointsHUD.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PushComponent.h">
@@ -94,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="TriggerCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthHUD.h">
+      <Filter>Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsHUD.h">
+      <Filter>Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

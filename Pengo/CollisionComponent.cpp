@@ -7,7 +7,7 @@ using namespace pengo;
 
 std::vector<CollisionComponent*> CollisionComponent::m_pColliders{};
 
-CollisionComponent::CollisionComponent(engine::GameObject* pOwner, int width, int height, bool trigger, PhysicsType type)
+CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger, PhysicsType type)
 	: Component(pOwner)
 	, m_Width{ width }
 	, m_Height{ height }
@@ -146,4 +146,55 @@ PhysicsType CollisionComponent::GetType() const {
 
 void CollisionComponent::SetType(PhysicsType type) {
 	m_Type = type;
+}
+
+bool CollisionComponent::CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore) {
+	
+	glm::vec3 pos{ collider->m_pOwner->GetWorldPosition() };
+	toIgnore.emplace_back(collider);
+
+	return CheckCollision(pos.x, pos.y, collider->m_Width, collider->m_Height, toIgnore);
+}
+
+bool CollisionComponent::CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore) {
+
+	return CheckCollision(bounds.x, bounds.y, bounds.z, bounds.w, toIgnore);
+}
+
+bool CollisionComponent::CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore) {
+	for (CollisionComponent* collider : m_pColliders) {
+
+		// Ignore this collider
+		if (std::find(toIgnore.begin(), toIgnore.end(), collider) != toIgnore.end()) {
+			continue;
+		}
+
+		glm::vec3 pos{ collider->m_pOwner->GetWorldPosition() };
+
+		float differenceLeft{ x - pos.x - collider->m_Width };
+		float differenceRight{ x + width - pos.x };
+		float differenceTop{ y - pos.y - collider->m_Height };
+		float differenceBottom{ y + height - pos.y };
+
+		// No collision, continue search
+		if (differenceBottom < 0
+			|| differenceTop > 0
+			|| differenceLeft > 0
+			|| differenceRight < 0) {
+
+			continue;
+		}
+
+		// Collision has happened!
+		return true;
+	}
+
+	// Couldn't find any collision
+	return false;
+}
+
+glm::vec4 CollisionComponent::GetBounds() const {
+
+	glm::vec2 pos{ m_pOwner->GetWorldPosition() };
+	return glm::vec4{ pos.x, pos.y, m_Width, m_Height };
 }

@@ -128,6 +128,8 @@ int main(int, char* []) {
 // Commands with parameters (low priority)
 // Think about command ownership (high priority)
 // Look into prototype (low priority)
+// Refactor collision componeten to use the check collision function (return struct with info about collision)
+// Add own struct for rect
 // 
 // Gameplay related:
 // - Grid

@@ -31,6 +31,7 @@ namespace pengo {
 
 			const std::unordered_set<CollisionComponent*> GetColliding() const;
 			PhysicsType GetType() const;
+			void SetType(PhysicsType type);
 
 			engine::Subject<CollisionComponent*> OnCollision;
 			engine::Subject<CollisionComponent*> Collides;

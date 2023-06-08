@@ -20,17 +20,19 @@ SlidingComponent::~SlidingComponent() {
 void SlidingComponent::Update() {
 	
 	IceBlockState* state = m_pState->Update();
-	if (state) {
-		delete m_pState;
-		m_pState = state;
-	}
+	TransitionTo(state);
 }
 
 void SlidingComponent::OnNotify(CollisionComponent* other) {
 	
 	IceBlockState* state = m_pState->HandleCollision(other);
-	if (state) {
+	TransitionTo(state);
+}
+
+void SlidingComponent::TransitionTo(IceBlockState* state) {
+	if (state && state != m_pState) {
 		delete m_pState;
 		m_pState = state;
+		m_pState->OnEnter();
 	}
 }

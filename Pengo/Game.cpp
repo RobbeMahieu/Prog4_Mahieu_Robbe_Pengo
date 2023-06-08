@@ -125,9 +125,9 @@ int main(int, char* []) {
 }
 
 // Todo:
-// Refactor commands
-// Think about command ownership
-// (Look into prototype)
+// Commands with parameters (low priority)
+// Think about command ownership (high priority)
+// Look into prototype (low priority)
 // 
 // Gameplay related:
 // - Grid

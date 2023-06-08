@@ -23,6 +23,12 @@ CollisionComponent::~CollisionComponent() {
 
 void CollisionComponent::FixedUpdate() {
 
+	// Statics don't move, so don't need to check collisions
+	// Their events will still be call thanks to the other object on collision
+	if (m_Type == PhysicsType::STATIC) {
+		return;
+	}
+
 	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 
 	for (CollisionComponent* other : m_pColliders) {
@@ -52,18 +58,6 @@ void CollisionComponent::FixedUpdate() {
 			}
 
 			continue;
-		}
-
-		// Resolve Events
-		if (m_pColliding.contains(other)) {
-			Collides.Broadcast(other);
-			other->Collides.Broadcast(this);
-		}
-		else {
-			m_pColliding.insert(other);
-			OnCollision.Broadcast(other);
-			other->m_pColliding.insert(this);
-			other->OnCollision.Broadcast(this);
 		}
 
 		// Resolve positions
@@ -104,6 +98,18 @@ void CollisionComponent::FixedUpdate() {
 		if (otherGetsMoved) {
 			other->m_pOwner->SetLocalPosition(otherPos + offset);
 		}
+
+		// Resolve Events
+		if (m_pColliding.contains(other)) {
+			Collides.Broadcast(other);
+			other->Collides.Broadcast(this);
+		}
+		else {
+			m_pColliding.insert(other);
+			OnCollision.Broadcast(other);
+			other->m_pColliding.insert(this);
+			other->OnCollision.Broadcast(this);
+		}
 		
 	}
 }
@@ -136,4 +142,8 @@ const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding()
 
 PhysicsType CollisionComponent::GetType() const {
 	return m_Type;
+}
+
+void CollisionComponent::SetType(PhysicsType type) {
+	m_Type = type;
 }

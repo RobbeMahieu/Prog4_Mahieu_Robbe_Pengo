@@ -21,6 +21,11 @@ Sliding::Sliding(engine::GameObject* pOwner, float speed, const glm::vec2& direc
 {
 }
 
+void Sliding::OnEnter() {
+	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	collider->SetType(PhysicsType::MOVABLE);
+}
+
 IceBlockState* Sliding::Update() {
 	const float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
 
@@ -41,6 +46,11 @@ Idle::Idle(engine::GameObject* pOwner, float speed)
 	: IceBlockState(pOwner)
 	, m_Speed{ speed }
 {
+}
+
+void Idle::OnEnter() {
+	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	collider->SetType(PhysicsType::STATIC);
 }
 
 IceBlockState* Idle::HandleCollision(CollisionComponent* collider) {

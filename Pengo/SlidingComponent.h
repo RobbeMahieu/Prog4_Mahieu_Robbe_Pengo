@@ -24,7 +24,9 @@ namespace pengo {
 
 			void OnNotify(CollisionComponent* other) override;
 
-		protected:
+		private:
+			void TransitionTo(IceBlockState* state);
+
 			IceBlockState* m_pState;
 	};
 	

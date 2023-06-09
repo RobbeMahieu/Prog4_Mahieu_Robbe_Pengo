@@ -55,6 +55,20 @@ void GameObject::SetLocalPosition(glm::vec3 position)
 	SetLocalPosition(position.x, position.y);
 }
 
+void GameObject::SetWorldPosition(float x, float y)
+{
+	m_LocalPosition = glm::vec3{ x,y, 0.0f };
+	if (m_pParent) {
+		m_LocalPosition -=	m_pParent->GetWorldPosition();
+	}
+	m_PositionChanged = true;
+}
+
+void GameObject::SetWorldPosition(glm::vec3 position)
+{
+	SetWorldPosition(position.x, position.y);
+}
+
 glm::vec3 GameObject::GetLocalPosition()
 {
 	return m_LocalPosition;

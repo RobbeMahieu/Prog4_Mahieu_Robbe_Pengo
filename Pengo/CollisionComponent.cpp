@@ -92,11 +92,11 @@ void CollisionComponent::FixedUpdate() {
 		offset.y = offset.y > 0 ? ceil(offset.y) : floor(offset.y);
 
 		if (getsMoved) {
-			m_pOwner->SetLocalPosition(pos - offset);
+			m_pOwner->SetWorldPosition(pos - offset);
 		}
 
 		if (otherGetsMoved) {
-			other->m_pOwner->SetLocalPosition(otherPos + offset);
+			other->m_pOwner->SetWorldPosition(otherPos + offset);
 		}
 
 		// Resolve Events

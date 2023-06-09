@@ -13,6 +13,9 @@
     <Filter Include="Components\UI">
       <UniqueIdentifier>{a7b8df10-7b6d-480d-801a-a012183fd3cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\GameData">
+      <UniqueIdentifier>{57cae898-4444-4b4f-94f1-b940eae96f2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovement.cpp">
@@ -56,6 +59,9 @@
     <ClCompile Include="PointsHUD.cpp">
       <Filter>Components\UI</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Components\GameData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovement.h">
@@ -97,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="PointsHUD.h">
       <Filter>Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Components\GameData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

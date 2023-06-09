@@ -19,6 +19,7 @@
 #include <SDL.h>
 #include "Player.h"
 #include "Block.h"
+#include "LevelLoader.h"
 
 using namespace pengo;
 
@@ -60,35 +61,39 @@ void load()
 
 	// Walls
 	int wallSize = 16;
-	int gridSize = 512 / wallSize;
+	int widthSize = 448 / wallSize;
+	int heightSize = 512 / wallSize;
 
 	// Top Bottom
-	for (int i{ 0 }; i < gridSize; ++i) {
+	for (int i{ 0 }; i < widthSize; ++i) {
 
 		// Top
 		auto wallTop = CreateWallBlock(glm::vec3{ i * wallSize, 0, 0 });
 		scene.Add(wallTop);
 
 		// Bottom
-		auto wallBottom = CreateWallBlock( glm::vec3{ i * wallSize, (gridSize-1)*wallSize, 0 });
+		auto wallBottom = CreateWallBlock(glm::vec3{ i * wallSize, (heightSize - 1) * wallSize, 0 });
 		scene.Add(wallBottom);
 
-		// Two less for these due to corners and stuff
-		if (i < gridSize - 2) {
-			
-			// Left
-			auto wallLeft = CreateWallBlock(glm::vec3{ 0, (i + 1) * wallSize, 0 });
-			scene.Add(wallLeft);
-
-			// Right
-			auto wallRight = CreateWallBlock(glm::vec3{ (gridSize - 1) * wallSize, (i + 1) * wallSize, 0 });
-			scene.Add(wallRight);
-		}
 	}
 
-	// Test Ice Block
-	scene.Add(CreateIceBlock(glm::vec3{ 150,150,0 }));
-	scene.Add(CreateIceBlock(glm::vec3{ 450,150,0 }));
+	for (int i{ 0 }; i < heightSize; ++i) {
+		// Left
+		auto wallLeft = CreateWallBlock(glm::vec3{ 0, i * wallSize, 0 });
+		scene.Add(wallLeft);
+
+		// Right
+		auto wallRight = CreateWallBlock(glm::vec3{ (widthSize - 1) * wallSize, i * wallSize, 0 });
+		scene.Add(wallRight);
+	}
+
+	// Level
+	engine::GameObject* gameManager{ new engine::GameObject() };
+	LevelLoader* levelLoader = gameManager->AddComponent<LevelLoader>(32.0f);
+	levelLoader->AddLevelPath("../Data/Levels/level1.dat");
+
+	scene.Add(gameManager);
+	scene.Add(levelLoader->LoadLevel(0));
 
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
@@ -132,7 +137,7 @@ int main(int, char* []) {
 // Add own struct for rect
 // 
 // Gameplay related:
-// - Grid
+// - Grid (No need right now?)
 // - Enemies
 // - Level generation
 // - Multiplayer

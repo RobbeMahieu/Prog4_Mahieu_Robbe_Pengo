@@ -27,6 +27,7 @@
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthHUD.cpp" />
     <ClCompile Include="IceBlockState.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointComponent.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthHUD.h" />
     <ClInclude Include="IceBlockState.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PointComponent.h" />

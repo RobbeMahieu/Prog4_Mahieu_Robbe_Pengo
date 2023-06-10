@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "Keyboard.h"
 #include "XBoxController.h"
+#include <memory>
 
 namespace pengo {
 
@@ -27,7 +28,7 @@ namespace pengo {
 		private:
 			PushComponent(engine::GameObject* pOwner);
 
-			PushCommand* m_Push;
+			std::unique_ptr<PushCommand> m_Push;
 	};
 
 }

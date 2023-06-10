@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Keyboard.h"
 #include "XBoxController.h"
+#include <memory>
 
 namespace pengo {
 
@@ -27,10 +28,10 @@ namespace pengo {
 			PlayerMovement(engine::GameObject* pOwner, float speed);
 
 			// Move Commands (will be used to unbind in the future)
-			MoveCommand* m_MoveUp;
-			MoveCommand* m_MoveDown;
-			MoveCommand* m_MoveLeft;
-			MoveCommand* m_MoveRight;
+			std::unique_ptr<MoveCommand> m_MoveUp;
+			std::unique_ptr<MoveCommand> m_MoveDown;
+			std::unique_ptr<MoveCommand> m_MoveLeft;
+			std::unique_ptr<MoveCommand> m_MoveRight;
 	};
 }
 

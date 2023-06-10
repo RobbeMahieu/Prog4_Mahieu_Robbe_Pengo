@@ -54,6 +54,13 @@ bool InputManager::ProcessInput()
 
 void InputManager::BindAction(unsigned int key, Command* pCommand, int deviceIndex, KeyState state) {
 	
-	std::unique_ptr<Command> command{ pCommand };
-	m_ActionMapping.push_back(ActionMap{ std::move(command), key, deviceIndex, state });
+	m_ActionMapping.push_back(ActionMap{ pCommand, key, deviceIndex, state });
+}
+
+void InputManager::UnbindAction(Command* pCommand) {
+	m_ActionMapping.erase(std::remove_if(m_ActionMapping.begin(), m_ActionMapping.end(), [&](const ActionMap& action) {
+
+		return action.command == pCommand;
+
+	}), m_ActionMapping.end());
 }

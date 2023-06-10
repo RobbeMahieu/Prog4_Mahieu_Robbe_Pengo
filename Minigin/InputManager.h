@@ -15,7 +15,7 @@ namespace engine {
 	};
 
 	struct ActionMap {
-		std::unique_ptr<Command> command;
+		Command* command;
 		unsigned int key;
 		int deviceIndex;
 		KeyState keystate;
@@ -35,6 +35,7 @@ namespace engine {
 			}
 
 			void BindAction(unsigned int key, Command* pCommand, int deviceIndex = 0, KeyState state = KeyState::Pressed);
+			void UnbindAction(Command* pCommand);
 
 		private:
 			std::vector<std::unique_ptr<InputDevice>> m_InputDevices;

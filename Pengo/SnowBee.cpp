@@ -2,6 +2,7 @@
 #include <TextureRenderComponent.h>
 #include "CollisionComponent.h"
 #include "AIMovement.h"
+#include "KillPlayerComponent.h"
 
 using namespace pengo;
 
@@ -12,6 +13,7 @@ engine::GameObject* pengo::CreateSnowBee(glm::vec3 position) {
 	bee->AddComponent<engine::TextureRenderComponent>("snowbee.png");
 	bee->AddComponent<CollisionComponent>(32.0f, 32.0f, false, PhysicsType::DYNAMIC);
 	bee->AddComponent<AIMovement>(50.0f);
+	bee->AddComponent<KillPlayerComponent>();
 
 	return bee;
 }

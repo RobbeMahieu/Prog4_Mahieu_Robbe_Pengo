@@ -16,6 +16,12 @@
     <Filter Include="Components\GameData">
       <UniqueIdentifier>{57cae898-4444-4b4f-94f1-b940eae96f2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Player">
+      <UniqueIdentifier>{f9209d19-c4e8-47c5-b7e2-a2238081f55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Enemy">
+      <UniqueIdentifier>{7641b20a-5616-42c8-af84-881e00247cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HealthComponent.cpp">
@@ -56,20 +62,23 @@
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Components\GameData</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Components\GameData</Filter>
-    </ClCompile>
     <ClCompile Include="SnowBee.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMovement.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PushComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Player</Filter>
     </ClCompile>
     <ClCompile Include="AIMovement.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Components\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PushComponent.cpp">
+      <Filter>Components\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="KillPlayerComponent.cpp">
+      <Filter>Components\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,20 +119,23 @@
     <ClInclude Include="LevelLoader.h">
       <Filter>Components\GameData</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawner.h">
-      <Filter>Components\GameData</Filter>
-    </ClInclude>
     <ClInclude Include="SnowBee.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMovement.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PushComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Player</Filter>
     </ClInclude>
     <ClInclude Include="AIMovement.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Components\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PushComponent.h">
+      <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="KillPlayerComponent.h">
+      <Filter>Components\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

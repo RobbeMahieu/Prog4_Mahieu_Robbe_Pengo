@@ -1,5 +1,6 @@
 #include "AIMovement.h"
 #include "MoveCommand.h"
+#include <GameTime.h>
 
 using namespace pengo;
 
@@ -25,14 +26,14 @@ void AIMovement::Update() {
 
 	UpdateOptions();
 	ChooseDirection();
+
+
 	if (m_CurrentOption) {
 		m_CurrentOption->Execute();
 	}
 }
 
 void AIMovement::ChooseDirection() {
-
-	std::shuffle(m_MovementOptions.begin(), m_MovementOptions.end(), m_RandomEngine);
 
 	// Get all valid commands
 	std::vector<MoveCommand*> validOptions{};
@@ -57,6 +58,15 @@ void AIMovement::ChooseDirection() {
 		}), validOptions.end());
 	}
 
+	// Also, if the current direction is in there, add it a couple times more to increase the chance of going in the same direction
+	if (std::find(validOptions.begin(), validOptions.end(), m_CurrentOption) != validOptions.end()) {
+		int chanceIncrease{ 15 };
+		for (int i{ 0 }; i < chanceIncrease; ++i) {
+			validOptions.emplace_back(m_CurrentOption);
+		}
+	}
+
+	std::shuffle(validOptions.begin(), validOptions.end(), m_RandomEngine);
 	m_CurrentOption = validOptions[0];
 
 }
@@ -73,6 +83,10 @@ void AIMovement::UpdateOptions(){
 		bounds.x += direction.x * 2;
 		bounds.y += direction.y * 2;
 
-		option.first = CollisionComponent::CheckCollision(bounds, { m_pCollider }).hit;
+		CollisionHit hitResult{ CollisionComponent::CheckCollision(bounds, { m_pCollider }) };
+
+		// Only account for static/movable collision
+		option.first = (hitResult.hit && hitResult.collider->GetType() != PhysicsType::DYNAMIC);
+
 	}
 }

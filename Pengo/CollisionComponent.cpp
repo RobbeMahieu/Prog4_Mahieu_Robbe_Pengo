@@ -61,7 +61,7 @@ void CollisionComponent::FixedUpdate() {
 		// Resolve positions
 		if (m_IsTrigger || other->m_IsTrigger
 			|| (m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
-			return;
+			continue;
 		}
 
 		// Maybe use some kind of collision matrix for this?
@@ -81,7 +81,12 @@ void CollisionComponent::FixedUpdate() {
 
 		if (getsMoved && otherGetsMoved) {
 			hitResult.offset /= 2;
+
 		}
+
+		// Rounding
+		hitResult.offset.x = hitResult.offset.x > 0 ? ceil(hitResult.offset.x) : floor(hitResult.offset.x);
+		hitResult.offset.y = hitResult.offset.y > 0 ? ceil(hitResult.offset.y) : floor(hitResult.offset.y);
 
 		if (getsMoved) {
 			m_pOwner->SetWorldPosition(pos - hitResult.offset);

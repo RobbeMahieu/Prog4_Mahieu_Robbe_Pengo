@@ -5,7 +5,7 @@ using namespace engine;
 void GameTime::Init() {
 	m_StartTime = std::chrono::high_resolution_clock::now();
 	m_LastFrameTime = m_StartTime;
-	m_FixedUpdateStep = 0.02f;
+	m_FixedUpdateStep = 0.005f;
 }
 
 void GameTime::Update() {

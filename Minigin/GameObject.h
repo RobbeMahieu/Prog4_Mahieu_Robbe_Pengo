@@ -93,6 +93,8 @@ namespace engine
 			bool IsMarkedForDestroy();			
 			void Destroy();
 
+			std::vector<GameObject*> GetChildren() const;
+
 		private:
 			void UpdateWorldPosition();
 

@@ -142,3 +142,11 @@ bool GameObject::HasPositionChanged() {
 
 	return m_PositionChanged;
 }
+
+std::vector<GameObject*> GameObject::GetChildren() const{
+	std::vector<GameObject*> children{};
+
+	std::transform(m_pChildren.begin(), m_pChildren.end(), std::inserter(children, children.begin()), [](auto& element) { return element.get(); });
+
+	return children;
+}

@@ -21,6 +21,7 @@
 #include "Block.h"
 #include "SnowBee.h"
 #include "LevelLoader.h"
+#include "EnemySpawner.h"
 
 using namespace pengo;
 
@@ -88,17 +89,19 @@ void load()
 		scene.Add(wallRight);
 	}
 
-	// Level
+	// Game data
 	engine::GameObject* gameManager{ new engine::GameObject() };
+
 	LevelLoader* levelLoader = gameManager->AddComponent<LevelLoader>(32.0f);
 	levelLoader->AddLevelPath("../Data/Levels/level1.dat");
 
-	scene.Add(gameManager);
-	scene.Add(levelLoader->LoadLevel(0));
+	EnemySpawner* enemySpawner = gameManager->AddComponent<EnemySpawner>();
 
-	// Enemies
-	auto bee = CreateSnowBee(glm::vec3{16,16,0});
-	scene.Add(bee);
+	engine::GameObject* level = levelLoader->LoadLevel(0);
+	enemySpawner->PickEnemyLocations(level->GetChildren(), 6);
+
+	scene.Add(gameManager);
+	scene.Add(level);
 
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
@@ -138,15 +141,14 @@ int main(int, char* []) {
 // Commands with parameters (low priority)
 // Think about command ownership (high priority)
 // Look into prototype (low priority)
-// Refactor collision componeten to use the check collision function (return struct with info about collision)
 // Add own struct for rect
 // 
 // Gameplay related:
-// - Grid (No need right now?)
-// - Enemies
-// - Level generation
 // - Multiplayer
 // - Diamond bonus
-// - Egg spawning
+// - Enemy killing
+// - Player killing
 // - Sprites
+// - Sound
+// - Menu
 //

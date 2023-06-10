@@ -3,10 +3,11 @@
 #include <vector>
 #include <GameObject.h>
 #include <random>
+#include <Observer.h>
 
 namespace pengo {
 
-	class EnemySpawner : public engine::Component
+	class EnemySpawner : public engine::Component, engine::Observer<>
 	{
 		public:
 			EnemySpawner(engine::GameObject* pOwner);
@@ -22,6 +23,8 @@ namespace pengo {
 			
 			void PickEnemyLocations(std::vector<engine::GameObject*> locations, int amount);
 			void SpawnEnemy();
+
+			virtual void OnNotify() override;
 
 		private:
 			std::vector<engine::GameObject*> m_SpawnLocations;

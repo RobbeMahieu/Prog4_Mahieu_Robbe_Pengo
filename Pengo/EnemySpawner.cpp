@@ -1,5 +1,6 @@
 #include "EnemySpawner.h"
 #include "SnowBee.h"
+#include "AIMovement.h"
 
 using namespace pengo;
 
@@ -35,7 +36,12 @@ void EnemySpawner::SpawnEnemy() {
 		m_SpawnLocations[0]->Destroy();
 		m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), m_SpawnLocations[0]), m_SpawnLocations.end());
 
+		enemy->GetComponent<AIMovement>()->m_pKilled.AddObserver(this);
 
 		++m_EnemyCounter;
 	}
+}
+
+void EnemySpawner::OnNotify() {
+	--m_EnemyCounter;
 }

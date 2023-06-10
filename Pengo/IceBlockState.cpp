@@ -61,10 +61,11 @@ IceBlockState* Idle::Push(glm::vec2 direction) {
 	bounds.y += direction.y*1;
 
 	// Check for collision in moving direction
-	bool isBlocked{ CollisionComponent::CheckCollision(bounds, {collider}).hit };
+
+	CollisionHit hitResult{ CollisionComponent::CheckCollision(bounds, {collider}) };
 
 	// Start break
-	if (isBlocked) {
+	if (hitResult.hit && hitResult.collider->GetLayer() == CollisionLayer::STATIC) {
 		return new Break(m_pOwner);
 	}
 

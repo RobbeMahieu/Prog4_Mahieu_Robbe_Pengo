@@ -6,6 +6,7 @@
 #include <random>
 #include "EnemyState.h"
 #include <Observer.h>
+#include <Subject.h>
 
 namespace pengo {
 
@@ -32,6 +33,9 @@ namespace pengo {
 			friend class EnemyState;
 			friend class Moving;
 			friend class Turning;
+
+			// Events
+			engine::Subject<> m_pKilled;
 
 		private:
 			std::vector<DirectionOption> m_MovementOptions;

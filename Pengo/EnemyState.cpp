@@ -119,5 +119,8 @@ EnemyState* Stuck::HandleCollision(CollisionComponent* other) {
 Die::Die(AIMovement* pMovement)
 	: EnemyState(pMovement)
 {
+
+	m_pMovement->m_pKilled.Broadcast();
+
 	m_pMovement->GetOwner()->Destroy();
 }

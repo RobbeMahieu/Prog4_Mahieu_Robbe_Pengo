@@ -23,9 +23,14 @@ bool GameObject::IsMarkedForDestroy() {
 void GameObject::Update(){
 	
 	// Update 
-	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->Update(); });
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Update(); });
+	// Needs to be an indexed loop cause components/children can be added and will mess up the iterators
+	for (int i{ 0 }; i < m_pComponents.size(); ++i) {
+		m_pComponents[i]->Update();
+	}
+
+	for (int i{ 0 }; i < m_pChildren.size(); ++i) {
+		m_pChildren[i]->Update();
+	}
 
 	// Remove components children marked for destroy
 	m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(), [](auto& component) {return component->IsMarkedForDestroy(); }), m_pComponents.end());
@@ -33,9 +38,14 @@ void GameObject::Update(){
 }
 
 void GameObject::FixedUpdate(){
-	// Might run into trouble when spawning new gameobject/components => consider switching to indexed for loop
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->FixedUpdate(); });
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->FixedUpdate(); });
+	// Needs to be an indexed loop cause components/children can be added and will mess up the iterators
+	for (int i{ 0 }; i < m_pComponents.size(); ++i) {
+		m_pComponents[i]->FixedUpdate();
+	}
+
+	for (int i{ 0 }; i < m_pChildren.size(); ++i) {
+		m_pChildren[i]->FixedUpdate();
+	}
 }
 
 void GameObject::Render() const

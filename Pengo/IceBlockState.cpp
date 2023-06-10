@@ -57,8 +57,8 @@ IceBlockState* Idle::Push(glm::vec2 direction) {
 	
 	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
 	glm::vec4 bounds{ collider->GetBounds() };
-	bounds.x += direction.x*3;
-	bounds.y += direction.y*3;
+	bounds.x += direction.x*1;
+	bounds.y += direction.y*1;
 
 	// Check for collision in moving direction
 	bool isBlocked{ CollisionComponent::CheckCollision(bounds, {collider}).hit };

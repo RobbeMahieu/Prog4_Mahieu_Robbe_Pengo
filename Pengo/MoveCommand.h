@@ -16,6 +16,7 @@ namespace pengo {
 			MoveCommand& operator=(MoveCommand&& other) = delete;
 
 			virtual void Execute() override;
+			glm::vec2 GetDirection() const;
 
 		private:
 			engine::GameObject* m_pObject;

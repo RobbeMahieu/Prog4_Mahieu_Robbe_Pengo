@@ -20,3 +20,7 @@ void MoveCommand::Execute() {
 	pos.y += m_Speed * elapsedSec * m_Direction.y;
 	m_pObject->SetLocalPosition(pos);
 }
+
+glm::vec2 MoveCommand::GetDirection() const {
+	return m_Direction;
+}

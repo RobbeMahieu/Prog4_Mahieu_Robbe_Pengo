@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIMovement.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -35,8 +37,11 @@
     <ClCompile Include="PushCommand.cpp" />
     <ClCompile Include="PushComponent.cpp" />
     <ClCompile Include="SlidingComponent.cpp" />
+    <ClCompile Include="SnowBee.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIMovement.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="CollisionComponent.h" />
@@ -52,6 +57,7 @@
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="PushComponent.h" />
     <ClInclude Include="SlidingComponent.h" />
+    <ClInclude Include="SnowBee.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

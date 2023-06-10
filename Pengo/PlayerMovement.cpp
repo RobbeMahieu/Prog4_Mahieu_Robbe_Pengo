@@ -5,6 +5,7 @@
 #include "GameTime.h"
 #include "MoveCommand.h"
 #include "PushCommand.h"
+#include "glm/glm.hpp"
 
 using namespace pengo;
 

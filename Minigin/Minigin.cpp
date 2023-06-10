@@ -75,8 +75,6 @@ Minigin::Minigin(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
-
-	GameTime::GetInstance().Init();
 }
 
 Minigin::~Minigin()
@@ -103,11 +101,14 @@ void Minigin::Run(const std::function<void()>& load)
 	GameServiceLocator::RegisterSoundSystem(std::make_unique<SDL_SoundSystem>());
 #endif
 
+	gameTime.Init();
+
 	bool doContinue = true;
 	const float fixedTimeStepSec{ gameTime.GetFixedUpdateStep() };
 	const float desiredFPS{ 60.0f };
 	const int frameTimeMs{ int(1000 / desiredFPS) };
 	float lag = 0.0f;
+
 	while (doContinue)
 	{
 		gameTime.Update();

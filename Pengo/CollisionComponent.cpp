@@ -120,7 +120,7 @@ void CollisionComponent::FixedUpdate() {
 
 void CollisionComponent::Render() const {
 	// For debug purposes
-	glm::vec3 pos{m_pOwner->GetWorldPosition()};
+	/*glm::vec3 pos{m_pOwner->GetWorldPosition()};
 	SDL_Rect rectangle{ int(pos.x), int(pos.y), int(m_Width), int(m_Height) };
 	SDL_Color drawColor{ 0,0,255,255 };
 
@@ -137,7 +137,7 @@ void CollisionComponent::Render() const {
 	}
 
 	SDL_SetRenderDrawColor(engine::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
+	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);*/
 }
 
 const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding() const {
@@ -215,10 +215,10 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 	float differenceBottom{ pos.y + m_Height - otherPos.y };
 
 	// No collision
-	if (differenceBottom < 0
-		|| differenceTop > 0
-		|| differenceLeft > 0
-		|| differenceRight < 0) {
+	if (differenceBottom <= 0
+		|| differenceTop >= 0
+		|| differenceLeft >= 0
+		|| differenceRight <= 0) {
 
 		return hitResult;
 	}

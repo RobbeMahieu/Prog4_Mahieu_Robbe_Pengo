@@ -19,6 +19,7 @@
 #include <SDL.h>
 #include "Player.h"
 #include "Block.h"
+#include "SnowBee.h"
 #include "LevelLoader.h"
 
 using namespace pengo;
@@ -27,7 +28,7 @@ void load()
 {
 	// Add input devices
 	// (I'd like to do this automatically in the future)
-	engine::XBoxController* controller0 = engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
+	//engine::XBoxController* controller0 = engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
 	engine::Keyboard* keyboard = engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
 
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("Pengo");
@@ -95,15 +96,19 @@ void load()
 	scene.Add(gameManager);
 	scene.Add(levelLoader->LoadLevel(0));
 
+	// Enemies
+	auto bee = CreateSnowBee(glm::vec3{16,16,0});
+	scene.Add(bee);
+
 	// Player 1
 	auto player1 = CreatePlayer("pengo.png", keyboard, health, movementSpeed);
 	player1->SetLocalPosition(200, 250);
 	scene.Add(player1);
 
 	// Player 2
-	auto player2 = CreatePlayer("snowbee.png", controller0, health, movementSpeed * 2);
-	player2->SetLocalPosition(100, 250);
-	scene.Add(player2);
+	//auto player2 = CreatePlayer("pengo.png", controller0, health, movementSpeed * 2);
+	//player2->SetLocalPosition(100, 250);
+	//scene.Add(player2);
 
 	// HUD
 	/*auto player1HUD = CreatePlayerHUD(player1, glm::vec3{0,200,0});

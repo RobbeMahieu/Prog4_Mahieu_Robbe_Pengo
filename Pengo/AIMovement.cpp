@@ -1,6 +1,7 @@
 #include "AIMovement.h"
 #include "MoveCommand.h"
 #include <GameTime.h>
+#include "EnemyState.h"
 
 using namespace pengo;
 
@@ -12,6 +13,7 @@ AIMovement::AIMovement(engine::GameObject* pOwner, float speed)
 	, m_RandomEngine{ std::random_device{}() }
 	, m_RandomNumber{0,10}
 	, m_FallbackOption{ std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,0 }, speed) }
+	, m_pState{ new Turning(this) }
 {
 	m_MovementOptions.emplace_back(std::make_pair(true, std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,-1 }, speed)));
 	m_MovementOptions.emplace_back(std::make_pair(true, std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,1 }, speed)));
@@ -20,55 +22,22 @@ AIMovement::AIMovement(engine::GameObject* pOwner, float speed)
 
 	m_CurrentOption = m_MovementOptions[0].second.get();
 
+	m_pCollider->OnCollision.AddObserver(this);
+}
+
+AIMovement::~AIMovement() {
+	delete m_pState;
 }
 
 void AIMovement::Update() {
 
-	UpdateOptions();
-	ChooseDirection();
-
-
-	if (m_CurrentOption) {
-		m_CurrentOption->Execute();
-	}
+	auto state = m_pState->Update();
+	TransitionTo(state);
 }
 
-void AIMovement::ChooseDirection() {
-
-	// Get all valid commands
-	std::vector<MoveCommand*> validOptions{};
-	std::transform(m_MovementOptions.begin(), m_MovementOptions.end(), std::inserter(validOptions, validOptions.begin()), [](DirectionOption& option) {
-		return (option.first) ? nullptr : option.second.get();
-	});
-	validOptions.erase(std::remove_if(validOptions.begin(), validOptions.end(), [](MoveCommand* option) { return !option; }), validOptions.end());
-
-	// No valid moves, should stop
-	if (validOptions.size() == 0) {
-		m_CurrentOption = m_FallbackOption.get();
-		return;
-	}
-
-	// Remove backtracking option
-	if (validOptions.size() > 1){
-
-		validOptions.erase(std::remove_if(validOptions.begin(), validOptions.end(), [&](MoveCommand* option) { 
-			
-			return  m_CurrentOption->GetDirection() == (option->GetDirection() * glm::vec2{ -1,-1 });
-			
-		}), validOptions.end());
-	}
-
-	// Also, if the current direction is in there, add it a couple times more to increase the chance of going in the same direction
-	if (std::find(validOptions.begin(), validOptions.end(), m_CurrentOption) != validOptions.end()) {
-		int chanceIncrease{ 15 };
-		for (int i{ 0 }; i < chanceIncrease; ++i) {
-			validOptions.emplace_back(m_CurrentOption);
-		}
-	}
-
-	std::shuffle(validOptions.begin(), validOptions.end(), m_RandomEngine);
-	m_CurrentOption = validOptions[0];
-
+void AIMovement::OnNotify(CollisionComponent* other) {
+	auto state = m_pState->HandleCollision(other);
+	TransitionTo(state);
 }
 
 void AIMovement::UpdateOptions(){
@@ -88,5 +57,13 @@ void AIMovement::UpdateOptions(){
 		// Only account for static/movable collision
 		option.first = (hitResult.hit && hitResult.collider->GetType() != PhysicsType::DYNAMIC);
 
+	}
+}
+
+void AIMovement::TransitionTo(EnemyState* state) {
+	if (state && state != m_pState) {
+		delete m_pState;
+		m_pState = state;
+		m_pState->OnEnter();
 	}
 }

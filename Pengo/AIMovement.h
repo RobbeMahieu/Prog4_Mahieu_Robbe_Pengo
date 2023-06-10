@@ -4,17 +4,19 @@
 #include "CollisionComponent.h"
 #include <memory>
 #include <random>
+#include "EnemyState.h"
+#include <Observer.h>
 
 namespace pengo {
 
 	class MoveCommand;
 	typedef std::pair<bool, std::unique_ptr<MoveCommand>> DirectionOption;
 
-	class AIMovement : public engine::Component
+	class AIMovement : public engine::Component, engine::Observer<CollisionComponent*>
 	{
 		public:
 			AIMovement(engine::GameObject* pOwner, float speed);
-			virtual ~AIMovement() = default;
+			virtual ~AIMovement();
 
 			AIMovement(const AIMovement& other) = delete;
 			AIMovement(AIMovement&& other) = delete;
@@ -23,6 +25,13 @@ namespace pengo {
 
 			virtual void Update() override;
 			virtual void FixedUpdate() override {}
+
+			virtual void OnNotify(CollisionComponent* other);
+
+			// Give state access to variables instead of constantly passing them around
+			friend class EnemyState;
+			friend class Moving;
+			friend class Turning;
 
 		private:
 			std::vector<DirectionOption> m_MovementOptions;
@@ -34,7 +43,9 @@ namespace pengo {
 			std::default_random_engine m_RandomEngine;
 			std::uniform_real_distribution<float> m_RandomNumber;
 
-			void ChooseDirection();
+			EnemyState* m_pState;
+			void TransitionTo(EnemyState* state);
+
 			void UpdateOptions();
 	};
 }

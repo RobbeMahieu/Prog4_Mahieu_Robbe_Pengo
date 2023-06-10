@@ -6,7 +6,7 @@
 
 using namespace pengo;
 
-// -- Base State
+// -- Base State --
 IceBlockState::IceBlockState(engine::GameObject* pOwner) 
 	: m_pOwner{ pOwner }
 {

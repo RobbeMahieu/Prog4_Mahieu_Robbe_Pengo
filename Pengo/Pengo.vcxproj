@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="AIMovement.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
+    <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="KillPlayerComponent.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Block.cpp" />
@@ -43,6 +44,7 @@
   <ItemGroup>
     <ClInclude Include="AIMovement.h" />
     <ClInclude Include="EnemySpawner.h" />
+    <ClInclude Include="EnemyState.h" />
     <ClInclude Include="KillPlayerComponent.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Block.h" />

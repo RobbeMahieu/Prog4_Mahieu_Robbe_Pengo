@@ -53,27 +53,15 @@ void Idle::OnEnter() {
 	collider->SetType(PhysicsType::STATIC);
 }
 
-IceBlockState* Idle::HandleCollision(CollisionComponent* other) {
+IceBlockState* Idle::Push(glm::vec2 direction) {
 	
-	PushComponent* pushComponent = other->GetOwner()->GetComponent<PushComponent>();
-	if (!pushComponent || !pushComponent->CanPush()) {
-		return nullptr;
-	}
-
-	// Calculate direction
-	glm::vec3 distanceBetween{ m_pOwner->GetWorldPosition() - other->GetOwner()->GetWorldPosition() };
-
-	glm::vec2 direction{ (abs(distanceBetween.x) > abs(distanceBetween.y)) ? glm::vec2{1,0} : glm::vec2{0,1} };
-	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x),distanceBetween.y / abs(distanceBetween.y) };
-	direction *= sign;
-
 	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
 	glm::vec4 bounds{ collider->GetBounds() };
-	bounds.x += direction.x;
-	bounds.y += direction.y;
+	bounds.x += direction.x*3;
+	bounds.y += direction.y*3;
 
 	// Check for collision in moving direction
-	bool isBlocked{ collider->CheckCollision(bounds, {collider}) };
+	bool isBlocked{ CollisionComponent::CheckCollision(bounds, {collider}).hit };
 
 	// Start break
 	if (isBlocked) {

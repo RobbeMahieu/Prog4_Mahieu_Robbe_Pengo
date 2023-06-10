@@ -36,3 +36,8 @@ void SlidingComponent::TransitionTo(IceBlockState* state) {
 		m_pState->OnEnter();
 	}
 }
+
+void SlidingComponent::Push(glm::vec2 direction) {
+	IceBlockState* state = m_pState->Push(direction);
+	TransitionTo(state);
+}

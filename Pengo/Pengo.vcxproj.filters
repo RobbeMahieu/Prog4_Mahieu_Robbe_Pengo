@@ -18,7 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicMovement.cpp">
+    <ClCompile Include="PlayerMovement.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
@@ -39,15 +39,12 @@
     <ClCompile Include="SlidingComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PushComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IceBlockState.cpp" />
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="TriggerCommand.cpp">
+    <ClCompile Include="PushCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
@@ -62,9 +59,12 @@
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Components\GameData</Filter>
     </ClCompile>
+    <ClCompile Include="PushComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicMovement.h">
+    <ClInclude Include="PlayerMovement.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.h">
@@ -74,9 +74,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PointComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PushComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="SlidingComponent.h">
@@ -92,7 +89,7 @@
     <ClInclude Include="MoveCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="TriggerCommand.h">
+    <ClInclude Include="PushCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="FPSComponent.h">
@@ -106,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Components\GameData</Filter>
+    </ClInclude>
+    <ClInclude Include="PushComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

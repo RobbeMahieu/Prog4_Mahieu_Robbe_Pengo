@@ -6,7 +6,8 @@
 
 namespace pengo {
 
-	class TriggerCommand;
+	class PushCommand;
+	class SlidingComponent;
 
 	class PushComponent : public engine::Component
 	{
@@ -21,18 +22,12 @@ namespace pengo {
 			PushComponent& operator=(PushComponent&& other) = delete;
 
 			virtual void Update() override {};
-			virtual void FixedUpdate() override {}
-
-			bool CanPush() const;
-			void EnablePush(bool enable);
+			virtual void FixedUpdate() override {};
 
 		private:
 			PushComponent(engine::GameObject* pOwner);
 
-			bool m_CanPush{ false };
-			TriggerCommand* m_ButtonPress;
-			TriggerCommand* m_ButtonRelease;
-
+			PushCommand* m_Push;
 	};
 
 }

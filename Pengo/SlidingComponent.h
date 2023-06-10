@@ -22,6 +22,8 @@ namespace pengo {
 			virtual void Update() override;
 			virtual void FixedUpdate() override {}
 
+			void Push(glm::vec2 direction);
+
 			void OnNotify(CollisionComponent* other) override;
 
 		private:

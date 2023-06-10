@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_set>
 #include <glm/glm.hpp>
+#include <chrono>
 
 namespace pengo {
 
@@ -42,6 +43,7 @@ namespace pengo {
 			virtual void Render() const override;
 
 			const std::unordered_set<CollisionComponent*> GetColliding() const;
+			const std::unordered_set<CollisionComponent*> GetCollided() const;
 			PhysicsType GetType() const;
 			void SetType(PhysicsType type);
 
@@ -63,10 +65,13 @@ namespace pengo {
 			bool m_IsTrigger;
 			PhysicsType m_Type;
 
+			std::chrono::steady_clock::time_point m_FrameStart{};
+
 			// Not the best option, but will do for now
 			static std::vector<CollisionComponent*> m_pColliders;
 
-			std::unordered_set<CollisionComponent*> m_pColliding;
+			std::unordered_set<CollisionComponent*> m_pColliding{};
+			std::unordered_set<CollisionComponent*> m_pCollided{};
 
 			CollisionHit CollidesWith(CollisionComponent* collider);
 	};

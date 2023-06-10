@@ -11,7 +11,6 @@ void GameTime::Init() {
 void GameTime::Update() {
 	const auto currentTime = std::chrono::high_resolution_clock::now();
 	m_DeltaTime = std::chrono::duration<float>(currentTime - m_LastFrameTime).count();
-
 	m_LastFrameTime = currentTime;
 }
 

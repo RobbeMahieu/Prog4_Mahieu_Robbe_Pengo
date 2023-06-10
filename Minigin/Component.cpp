@@ -16,6 +16,6 @@ bool Component::IsMarkedForDestroy() {
 	return m_IsMarkedForDestroy;
 }
 
-GameObject* Component::GetOwner() {
+GameObject* Component::GetOwner() const{
 	return m_pOwner;
 }

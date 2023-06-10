@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "TextureRenderComponent.h"
-#include "BasicMovement.h"
+#include "PlayerMovement.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
 #include "PointComponent.h"
@@ -18,11 +18,11 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard
 	auto player = new engine::GameObject();
 	player->SetLocalPosition(position);
 	player->AddComponent<engine::TextureRenderComponent>(spritePath);
-	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
+	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
 	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, PhysicsType::DYNAMIC);
-	player->AddComponent<PushComponent>(pDevice);
 	player->AddComponent<HealthComponent>(health);
 	player->AddComponent<PointComponent>();
+	player->AddComponent<PushComponent>(pDevice);
 
 	return player;
 }
@@ -32,11 +32,11 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::XBoxCont
 	auto player = new engine::GameObject();
 	player->SetLocalPosition(position);
 	player->AddComponent<engine::TextureRenderComponent>(spritePath);
-	player->AddComponent<BasicMovement>(movementSpeed, pDevice);
+	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
 	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, PhysicsType::DYNAMIC);
-	player->AddComponent<PushComponent>(pDevice);
 	player->AddComponent<HealthComponent>(health);
 	player->AddComponent<PointComponent>();
+	player->AddComponent<PushComponent>(pDevice);
 
 	return player;
 }

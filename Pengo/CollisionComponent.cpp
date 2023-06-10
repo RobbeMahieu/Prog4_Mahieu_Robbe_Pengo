@@ -13,6 +13,7 @@ CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, 
 	, m_Height{ height-1 }
 	, m_IsTrigger{ trigger }
 	, m_Type{ type }
+	, m_FrameStart{ std::chrono::high_resolution_clock::now() }
 {
 	m_pColliders.push_back(this);
 }
@@ -22,6 +23,12 @@ CollisionComponent::~CollisionComponent() {
 }
 
 void CollisionComponent::FixedUpdate() {
+
+	// Reset the collided set at beginning of frame
+	if (m_FrameStart != engine::GameTime::GetInstance().GetFrameStartTime()) {
+		m_FrameStart = engine::GameTime::GetInstance().GetFrameStartTime();
+		m_pCollided.clear();
+	}
 
 	// Statics don't move, so don't need to check collisions
 	// Their events will still be call thanks to the other object on collision
@@ -57,6 +64,7 @@ void CollisionComponent::FixedUpdate() {
 		}
 
 		// Did hit!
+		m_pCollided.insert(other);
 
 		// Resolve positions
 		if (m_IsTrigger || other->m_IsTrigger
@@ -136,6 +144,10 @@ const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding()
 	return m_pColliding;
 }
 
+const std::unordered_set<CollisionComponent*> CollisionComponent::GetCollided() const {
+	return m_pCollided;
+}
+
 PhysicsType CollisionComponent::GetType() const {
 	return m_Type;
 }
@@ -178,11 +190,11 @@ CollisionHit CollisionComponent::CheckCollision(glm::vec4 bounds, std::vector<Co
 CollisionHit CollisionComponent::CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore) {
 	
 	// Create temporary collision component
-	engine::GameObject* object{};
+	engine::GameObject* object{ new engine::GameObject()};
 	object->SetLocalPosition(x, y);
 	CollisionComponent* collider = object->AddComponent<CollisionComponent>(width, height);
 
-	CollisionHit hitResult{ CheckCollision(collider) };
+	CollisionHit hitResult{ CheckCollision(collider, toIgnore) };
 
 	// Delete temp component
 	delete object;
@@ -203,10 +215,10 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 	float differenceBottom{ pos.y + m_Height - otherPos.y };
 
 	// No collision
-	if (differenceBottom <= 0
-		|| differenceTop >= 0
-		|| differenceLeft >= 0
-		|| differenceRight <= 0) {
+	if (differenceBottom < 0
+		|| differenceTop > 0
+		|| differenceLeft > 0
+		|| differenceRight < 0) {
 
 		return hitResult;
 	}

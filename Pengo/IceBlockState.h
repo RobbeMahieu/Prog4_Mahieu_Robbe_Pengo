@@ -14,6 +14,7 @@ namespace pengo {
 		virtual void OnEnter() = 0;
 		virtual IceBlockState* Update() = 0;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) = 0;
+		virtual IceBlockState* Push(glm::vec2 direction) = 0;
 
 	protected:
 		engine::GameObject* m_pOwner;
@@ -27,6 +28,7 @@ namespace pengo {
 		virtual void OnEnter() override;
 		virtual IceBlockState* Update() override;
 		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
+		virtual IceBlockState* Push(glm::vec2 /*direction*/) override{ return nullptr; }
 
 	private:
 		float m_SlidingSpeed;
@@ -40,7 +42,8 @@ namespace pengo {
 		virtual ~Idle() = default;
 		virtual void OnEnter() override;
 		IceBlockState* Update() override { return nullptr; }
-		virtual IceBlockState* HandleCollision(CollisionComponent* collider) override;
+		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
+		virtual IceBlockState* Push(glm::vec2 direction) override;
 
 	private:
 		float m_Speed;
@@ -54,6 +57,7 @@ namespace pengo {
 		virtual void OnEnter() override {};
 		IceBlockState* Update() override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
+		virtual IceBlockState* Push(glm::vec2 /*direction*/) override { return nullptr; }
 	};
 
 }

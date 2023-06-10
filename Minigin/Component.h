@@ -21,7 +21,7 @@ namespace engine {
 
 		void Destroy();
 		bool IsMarkedForDestroy();
-		GameObject* GetOwner();
+		GameObject* GetOwner() const;
 
 	protected:
 		GameObject* m_pOwner;

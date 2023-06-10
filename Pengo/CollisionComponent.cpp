@@ -9,8 +9,8 @@ std::vector<CollisionComponent*> CollisionComponent::m_pColliders{};
 
 CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger, PhysicsType type)
 	: Component(pOwner)
-	, m_Width{ width }
-	, m_Height{ height }
+	, m_Width{ width-1 }
+	, m_Height{ height-1 }
 	, m_IsTrigger{ trigger }
 	, m_Type{ type }
 {
@@ -30,26 +30,22 @@ void CollisionComponent::FixedUpdate() {
 	}
 
 	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	CollisionHit hitResult{};
 
 	for (CollisionComponent* other : m_pColliders) {
 
+		// Don't check yourself
 		if (other == this) {
 			continue;
 		}
 
-		glm::vec3 otherPos{ other->m_pOwner->GetWorldPosition() };
+		// Get collision information
+		hitResult = CollidesWith(other);
 
-		float differenceLeft{ pos.x - otherPos.x - other->m_Width };
-		float differenceRight{ pos.x + m_Width - otherPos.x };
-		float differenceTop{ pos.y - otherPos.y - other->m_Height };
-		float differenceBottom{ pos.y + m_Height - otherPos.y };
-
-		if (differenceBottom < 0
-			|| differenceTop > 0
-			|| differenceLeft > 0
-			|| differenceRight < 0) {
-
-			// Remove from colliding list
+		// No hit => remove for your collider list (if needed)
+		// And resolve events
+		if (!hitResult.hit) {
+			
 			if (m_pColliding.contains(other)) {
 				m_pColliding.erase(other);
 				EndCollision.Broadcast(other);
@@ -60,16 +56,18 @@ void CollisionComponent::FixedUpdate() {
 			continue;
 		}
 
+		// Did hit!
+
 		// Resolve positions
-		if (m_IsTrigger || other->m_IsTrigger 
-			||(m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
-			continue;
+		if (m_IsTrigger || other->m_IsTrigger
+			|| (m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
+			return;
 		}
 
 		// Maybe use some kind of collision matrix for this?
-		bool getsMoved{ 
+		bool getsMoved{
 			!(
-				m_Type == PhysicsType::STATIC ||  
+				m_Type == PhysicsType::STATIC ||
 				m_Type == PhysicsType::MOVABLE && other->m_Type == PhysicsType::DYNAMIC
 			)
 		};
@@ -81,22 +79,16 @@ void CollisionComponent::FixedUpdate() {
 			)
 		};
 
-		glm::vec3 diff{};
-		diff.x = (abs(differenceLeft) < abs(differenceRight)) ? differenceLeft : differenceRight;
-		diff.y = (abs(differenceTop) < abs(differenceBottom)) ? differenceTop : differenceBottom;
-		glm::vec3 offset{ abs(diff.x) < abs(diff.y) ? glm::vec3{ diff.x, 0, 0 } : glm::vec3{ 0, diff.y, 0 } };
-		offset = (getsMoved && otherGetsMoved) ? offset * 0.5f : offset;
-
-		// Rounding
-		offset.x = offset.x > 0 ? ceil(offset.x) : floor(offset.x);
-		offset.y = offset.y > 0 ? ceil(offset.y) : floor(offset.y);
+		if (getsMoved && otherGetsMoved) {
+			hitResult.offset /= 2;
+		}
 
 		if (getsMoved) {
-			m_pOwner->SetWorldPosition(pos - offset);
+			m_pOwner->SetWorldPosition(pos - hitResult.offset);
 		}
 
 		if (otherGetsMoved) {
-			other->m_pOwner->SetWorldPosition(otherPos + offset);
+			other->m_pOwner->SetWorldPosition(other->m_pOwner->GetWorldPosition() + hitResult.offset);
 		}
 
 		// Resolve Events
@@ -110,7 +102,6 @@ void CollisionComponent::FixedUpdate() {
 			other->m_pColliding.insert(this);
 			other->OnCollision.Broadcast(this);
 		}
-		
 	}
 }
 
@@ -148,49 +139,86 @@ void CollisionComponent::SetType(PhysicsType type) {
 	m_Type = type;
 }
 
-bool CollisionComponent::CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore) {
+CollisionHit CollisionComponent::CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore) {
 	
 	glm::vec3 pos{ collider->m_pOwner->GetWorldPosition() };
 	toIgnore.emplace_back(collider);
 
-	return CheckCollision(pos.x, pos.y, collider->m_Width, collider->m_Height, toIgnore);
+	CollisionHit closestHitResult{};
+	float closestDistance{FLT_MAX};
+
+	for (CollisionComponent* other : m_pColliders) {
+		
+		// Ignore this collider
+		if (std::find(toIgnore.begin(), toIgnore.end(), other) != toIgnore.end()) {
+			continue;
+		}
+
+		// Only return the closest hit
+		CollisionHit hitResult = collider->CollidesWith(other);
+		if (hitResult.hit && hitResult.distance < closestDistance) { 
+			closestHitResult = hitResult;
+			closestDistance = hitResult.distance;
+		}
+	}
+
+	return closestHitResult;
 }
 
-bool CollisionComponent::CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore) {
+CollisionHit CollisionComponent::CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore) {
 
 	return CheckCollision(bounds.x, bounds.y, bounds.z, bounds.w, toIgnore);
 }
 
-bool CollisionComponent::CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore) {
-	for (CollisionComponent* collider : m_pColliders) {
+CollisionHit CollisionComponent::CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore) {
+	
+	// Create temporary collision component
+	engine::GameObject* object{};
+	object->SetLocalPosition(x, y);
+	CollisionComponent* collider = object->AddComponent<CollisionComponent>(width, height);
 
-		// Ignore this collider
-		if (std::find(toIgnore.begin(), toIgnore.end(), collider) != toIgnore.end()) {
-			continue;
-		}
+	CollisionHit hitResult{ CheckCollision(collider) };
 
-		glm::vec3 pos{ collider->m_pOwner->GetWorldPosition() };
+	// Delete temp component
+	delete object;
+	
+	return hitResult;
+}
 
-		float differenceLeft{ x - pos.x - collider->m_Width };
-		float differenceRight{ x + width - pos.x };
-		float differenceTop{ y - pos.y - collider->m_Height };
-		float differenceBottom{ y + height - pos.y };
+CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 
-		// No collision, continue search
-		if (differenceBottom < 0
-			|| differenceTop > 0
-			|| differenceLeft > 0
-			|| differenceRight < 0) {
+	CollisionHit hitResult{};
 
-			continue;
-		}
+	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	glm::vec3 otherPos{ other->m_pOwner->GetWorldPosition() };
 
-		// Collision has happened!
-		return true;
+	float differenceLeft{ pos.x - otherPos.x - other->m_Width };
+	float differenceRight{ pos.x + m_Width - otherPos.x };
+	float differenceTop{ pos.y - otherPos.y - other->m_Height };
+	float differenceBottom{ pos.y + m_Height - otherPos.y };
+
+	// No collision
+	if (differenceBottom <= 0
+		|| differenceTop >= 0
+		|| differenceLeft >= 0
+		|| differenceRight <= 0) {
+
+		return hitResult;
 	}
 
-	// Couldn't find any collision
-	return false;
+	// Collision has happened!
+	glm::vec3 diff{};
+	diff.x = (abs(differenceLeft) < abs(differenceRight)) ? differenceLeft : differenceRight;
+	diff.y = (abs(differenceTop) < abs(differenceBottom)) ? differenceTop : differenceBottom;
+	glm::vec3 offset{ abs(diff.x) < abs(diff.y) ? glm::vec3{ diff.x, 0, 0 } : glm::vec3{ 0, diff.y, 0 } };
+
+	hitResult.hit = true;
+	hitResult.object = other->m_pOwner;
+	hitResult.collider = other;
+	hitResult.offset = offset;
+	hitResult.distance = glm::distance(pos, otherPos);
+
+	return hitResult;
 }
 
 glm::vec4 CollisionComponent::GetBounds() const {

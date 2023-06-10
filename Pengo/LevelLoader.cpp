@@ -72,3 +72,7 @@ engine::GameObject* LevelLoader::LoadLevel(int index) const{
 
 	return pLevelObject;
 }
+
+int LevelLoader::GetLevelAmount() const {
+	return int(m_LevelPaths.size());
+}

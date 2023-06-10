@@ -19,11 +19,18 @@ namespace pengo {
 
 		private:
 			engine::GameObject* m_pGame;
+			engine::GameObject* m_pLevel;
 
 			bool m_IsPlaying;
+			bool m_WonLevel;
+
 			LevelLoader* m_pLevelLoader;
 			EnemySpawner* m_pEnemySpawner;
 			std::vector<engine::GameObject*> m_pPlayers;
+
+			int m_LevelIndex;
+
+			void NextLevel();
 	};
 
 }

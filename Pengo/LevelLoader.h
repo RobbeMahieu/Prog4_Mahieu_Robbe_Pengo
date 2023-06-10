@@ -22,6 +22,7 @@ namespace pengo {
 
 			void AddLevelPath(const std::string& path);
 			engine::GameObject* LoadLevel(int index) const;
+			int GetLevelAmount() const;
 
 		private:
 			std::vector<std::string> m_LevelPaths;

@@ -8,6 +8,7 @@ EnemySpawner::EnemySpawner(engine::GameObject* pOwner)
 	: Component(pOwner)
 	, m_RandomEngine{ std::random_device{}() }
 	, m_EnemyCounter{ 0 }
+	, m_EnemiesKilled{}
 
 {
 }
@@ -15,6 +16,10 @@ EnemySpawner::EnemySpawner(engine::GameObject* pOwner)
 void EnemySpawner::Update() {
 	if (m_EnemyCounter < 3) {
 		SpawnEnemy();
+	}
+
+	if (m_EnemyCounter == 0) {
+		m_EnemiesKilled.Broadcast();
 	}
 }
 

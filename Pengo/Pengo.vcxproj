@@ -22,6 +22,8 @@
     <ClCompile Include="AIMovement.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="EnemyState.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="KillPlayerComponent.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Block.cpp" />
@@ -34,6 +36,7 @@
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Playing.cpp" />
     <ClCompile Include="PointComponent.cpp" />
     <ClCompile Include="PointsHUD.cpp" />
     <ClCompile Include="PushCommand.cpp" />
@@ -45,6 +48,8 @@
     <ClInclude Include="AIMovement.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="KillPlayerComponent.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Block.h" />
@@ -56,6 +61,7 @@
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Playing.h" />
     <ClInclude Include="PointComponent.h" />
     <ClInclude Include="PointsHUD.h" />
     <ClInclude Include="PushCommand.h" />

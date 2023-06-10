@@ -4,6 +4,7 @@
 #include <GameObject.h>
 #include <random>
 #include <Observer.h>
+#include <Subject.h>
 
 namespace pengo {
 
@@ -25,6 +26,8 @@ namespace pengo {
 			void SpawnEnemy();
 
 			virtual void OnNotify() override;
+
+			engine::Subject<> m_EnemiesKilled;
 
 		private:
 			std::vector<engine::GameObject*> m_SpawnLocations;

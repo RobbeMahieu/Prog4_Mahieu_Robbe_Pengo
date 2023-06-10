@@ -25,6 +25,9 @@
     <Filter Include="Components\IceBlocks">
       <UniqueIdentifier>{4e2dc687-43f7-44ce-b336-78a351faa833}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\GameData\GameStates">
+      <UniqueIdentifier>{a229a1f0-1c61-4c05-8d59-483ddc537bc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PointComponent.cpp">
@@ -88,6 +91,15 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>Components\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Components\GameData</Filter>
+    </ClCompile>
+    <ClCompile Include="Playing.cpp">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -149,6 +161,15 @@
     </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Components\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Components\GameData</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Playing.h">
+      <Filter>Components\GameData\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,8 +29,7 @@ namespace pengo {
 
 			virtual void OnNotify(CollisionComponent* other);
 
-			// Give state access to variables instead of constantly passing them around
-			friend class EnemyState;
+			// Give states access to variables instead of constantly passing them around
 			friend class Moving;
 			friend class Turning;
 

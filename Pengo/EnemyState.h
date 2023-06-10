@@ -37,7 +37,26 @@ namespace pengo {
 			virtual ~Turning() = default;
 			virtual void OnEnter() override {};
 			virtual EnemyState* Update() override;
-			virtual EnemyState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; };
+			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+	};
+
+	class Stuck final : public EnemyState {
+		public:
+			Stuck(AIMovement* pMovement);
+			virtual ~Stuck() = default;
+			virtual void OnEnter() override {};
+			virtual EnemyState* Update() override { return nullptr; };
+			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+	};
+
+	class Die final : public EnemyState {
+
+	public:
+		Die(AIMovement* pMovement);
+		virtual ~Die() = default;
+		virtual void OnEnter() override {};
+		virtual EnemyState* Update() override { return nullptr; }
+		virtual EnemyState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
 	};
 }
 

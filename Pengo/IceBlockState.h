@@ -41,7 +41,7 @@ namespace pengo {
 		Idle(engine::GameObject* owner, float speed);
 		virtual ~Idle() = default;
 		virtual void OnEnter() override;
-		IceBlockState* Update() override { return nullptr; }
+		virtual IceBlockState* Update() override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
 		virtual IceBlockState* Push(glm::vec2 direction) override;
 
@@ -55,7 +55,7 @@ namespace pengo {
 		Break(engine::GameObject* owner);
 		virtual ~Break() = default;
 		virtual void OnEnter() override {};
-		IceBlockState* Update() override { return nullptr; }
+		virtual IceBlockState* Update() override { return nullptr; }
 		virtual IceBlockState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
 		virtual IceBlockState* Push(glm::vec2 /*direction*/) override { return nullptr; }
 	};

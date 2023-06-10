@@ -43,6 +43,11 @@ EnemyState* Moving::Update() {
 }
 
 EnemyState* Moving::HandleCollision(CollisionComponent* other) {
+	
+	if (other->GetLayer() == CollisionLayer::DYNAMIC) {
+		return new Stuck(m_pMovement);
+	}
+	
 	if (other->GetLayer() == CollisionLayer::PLAYER || other->GetLayer() == CollisionLayer::ENEMY) { return nullptr; }
 
 	return new Turning(m_pMovement);
@@ -86,4 +91,33 @@ EnemyState* Turning::Update() {
 	m_pMovement->m_CurrentOption = validOptions[0];
 
 	return new Moving(m_pMovement);
+}
+
+EnemyState* Turning::HandleCollision(CollisionComponent* other) {
+	if (other->GetLayer() == CollisionLayer::DYNAMIC) { 
+		return new Stuck(m_pMovement); 
+	}
+
+	return nullptr;
+}
+
+// -- Stuck State --
+Stuck::Stuck(AIMovement* pMovement)
+	: EnemyState(pMovement)
+{
+}
+
+EnemyState* Stuck::HandleCollision(CollisionComponent* other) {
+	if (other->GetLayer() == CollisionLayer::STATIC) { 
+		return new Die(m_pMovement); 
+	}
+
+	return nullptr;
+}
+
+// -- Die State -- 
+Die::Die(AIMovement* pMovement)
+	: EnemyState(pMovement)
+{
+	m_pMovement->GetOwner()->Destroy();
 }

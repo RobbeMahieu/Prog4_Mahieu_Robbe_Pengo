@@ -85,19 +85,15 @@ void CollisionComponent::FixedUpdate() {
 
 		// Maybe use some kind of collision matrix for this?
 		bool getsMoved{
-			!(
-				m_Layer == CollisionLayer::STATIC ||
-				(m_Layer == CollisionLayer::DYNAMIC && other->m_Layer == CollisionLayer::PLAYER) ||
-				(m_Layer == CollisionLayer::ENEMY && other->m_Layer == CollisionLayer::ENEMY)
-			)
+			m_Layer == CollisionLayer::PLAYER ||
+			(m_Layer == CollisionLayer::ENEMY && (other->m_Layer == CollisionLayer::STATIC || other->m_Layer == CollisionLayer::DYNAMIC)) ||
+			(m_Layer == CollisionLayer::DYNAMIC && other->m_Layer == CollisionLayer::STATIC)
 		};
 
 		bool otherGetsMoved{
-			!(
-				other->m_Layer == CollisionLayer::STATIC ||
-				(other->m_Layer == CollisionLayer::DYNAMIC && m_Layer == CollisionLayer::PLAYER) ||
-				(other->m_Layer == CollisionLayer::ENEMY && m_Layer == CollisionLayer::ENEMY)
-			)
+			other->m_Layer == CollisionLayer::PLAYER ||
+			(other->m_Layer == CollisionLayer::ENEMY && (m_Layer == CollisionLayer::STATIC || m_Layer == CollisionLayer::DYNAMIC)) ||
+			(other->m_Layer == CollisionLayer::DYNAMIC && m_Layer == CollisionLayer::STATIC)
 		};
 
 		if (getsMoved && otherGetsMoved) {

@@ -23,7 +23,7 @@ Sliding::Sliding(engine::GameObject* pOwner, float speed, const glm::vec2& direc
 
 void Sliding::OnEnter() {
 	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
-	collider->SetType(PhysicsType::MOVABLE);
+	collider->SetLayer(CollisionLayer::DYNAMIC);
 }
 
 IceBlockState* Sliding::Update() {
@@ -37,7 +37,7 @@ IceBlockState* Sliding::Update() {
 }
 
 IceBlockState* Sliding::HandleCollision(CollisionComponent* collider) {
-	return (collider->GetType() != PhysicsType::DYNAMIC) ? new Idle(m_pOwner, m_SlidingSpeed) : nullptr;
+	return (collider->GetLayer() == CollisionLayer::STATIC) ? new Idle(m_pOwner, m_SlidingSpeed) : nullptr;
 }
 
 // Idle State --
@@ -50,7 +50,7 @@ Idle::Idle(engine::GameObject* pOwner, float speed)
 
 void Idle::OnEnter() {
 	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
-	collider->SetType(PhysicsType::STATIC);
+	collider->SetLayer(CollisionLayer::STATIC);
 }
 
 IceBlockState* Idle::Push(glm::vec2 direction) {

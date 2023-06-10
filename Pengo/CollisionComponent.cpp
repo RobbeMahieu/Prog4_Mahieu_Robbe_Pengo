@@ -7,12 +7,12 @@ using namespace pengo;
 
 std::vector<CollisionComponent*> CollisionComponent::m_pColliders{};
 
-CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger, PhysicsType type)
+CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger, CollisionLayer layer)
 	: Component(pOwner)
 	, m_Width{ width-1 }
 	, m_Height{ height-1 }
 	, m_IsTrigger{ trigger }
-	, m_Type{ type }
+	, m_Layer{ layer }
 	, m_FrameStart{ std::chrono::high_resolution_clock::now() }
 {
 	m_pColliders.push_back(this);
@@ -32,7 +32,7 @@ void CollisionComponent::FixedUpdate() {
 
 	// Statics don't move, so don't need to check collisions
 	// Their events will still be call thanks to the other object on collision
-	if (m_Type == PhysicsType::STATIC) {
+	if (m_Layer == CollisionLayer::STATIC) {
 		return;
 	}
 
@@ -66,24 +66,37 @@ void CollisionComponent::FixedUpdate() {
 		// Did hit!
 		m_pCollided.insert(other);
 
+		// Resolve Events
+		if (m_pColliding.contains(other)) {
+			Collides.Broadcast(other);
+			other->Collides.Broadcast(this);
+		}
+		else {
+			m_pColliding.insert(other);
+			OnCollision.Broadcast(other);
+			other->m_pColliding.insert(this);
+			other->OnCollision.Broadcast(this);
+		}
+
 		// Resolve positions
-		if (m_IsTrigger || other->m_IsTrigger
-			|| (m_Type == PhysicsType::STATIC && other->m_Type == PhysicsType::STATIC)) {
+		if (m_IsTrigger || other->m_IsTrigger) {
 			continue;
 		}
 
 		// Maybe use some kind of collision matrix for this?
 		bool getsMoved{
 			!(
-				m_Type == PhysicsType::STATIC ||
-				m_Type == PhysicsType::MOVABLE && other->m_Type == PhysicsType::DYNAMIC
+				m_Layer == CollisionLayer::STATIC ||
+				(m_Layer == CollisionLayer::DYNAMIC && other->m_Layer == CollisionLayer::PLAYER) ||
+				(m_Layer == CollisionLayer::ENEMY && other->m_Layer == CollisionLayer::ENEMY)
 			)
 		};
 
 		bool otherGetsMoved{
 			!(
-				other->m_Type == PhysicsType::STATIC ||
-				other->m_Type == PhysicsType::MOVABLE && m_Type == PhysicsType::DYNAMIC
+				other->m_Layer == CollisionLayer::STATIC ||
+				(other->m_Layer == CollisionLayer::DYNAMIC && m_Layer == CollisionLayer::PLAYER) ||
+				(other->m_Layer == CollisionLayer::ENEMY && m_Layer == CollisionLayer::ENEMY)
 			)
 		};
 
@@ -104,17 +117,7 @@ void CollisionComponent::FixedUpdate() {
 			other->m_pOwner->SetWorldPosition(other->m_pOwner->GetWorldPosition() + hitResult.offset);
 		}
 
-		// Resolve Events
-		if (m_pColliding.contains(other)) {
-			Collides.Broadcast(other);
-			other->Collides.Broadcast(this);
-		}
-		else {
-			m_pColliding.insert(other);
-			OnCollision.Broadcast(other);
-			other->m_pColliding.insert(this);
-			other->OnCollision.Broadcast(this);
-		}
+
 	}
 }
 
@@ -148,12 +151,12 @@ const std::unordered_set<CollisionComponent*> CollisionComponent::GetCollided() 
 	return m_pCollided;
 }
 
-PhysicsType CollisionComponent::GetType() const {
-	return m_Type;
+CollisionLayer CollisionComponent::GetLayer() const {
+	return m_Layer;
 }
 
-void CollisionComponent::SetType(PhysicsType type) {
-	m_Type = type;
+void CollisionComponent::SetLayer(CollisionLayer layer) {
+	m_Layer = layer;
 }
 
 CollisionHit CollisionComponent::CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore) {

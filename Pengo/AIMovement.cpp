@@ -55,7 +55,7 @@ void AIMovement::UpdateOptions(){
 		CollisionHit hitResult{ CollisionComponent::CheckCollision(bounds, { m_pCollider }) };
 
 		// Only account for static/movable collision
-		option.first = (hitResult.hit && hitResult.collider->GetType() != PhysicsType::DYNAMIC);
+		option.first = (hitResult.hit && (hitResult.collider->GetLayer() == CollisionLayer::STATIC || hitResult.collider->GetLayer() == CollisionLayer::DYNAMIC));
 
 	}
 }

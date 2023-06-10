@@ -43,7 +43,7 @@ EnemyState* Moving::Update() {
 }
 
 EnemyState* Moving::HandleCollision(CollisionComponent* other) {
-	if (other->GetType() == PhysicsType::DYNAMIC) { return nullptr; }
+	if (other->GetLayer() == CollisionLayer::PLAYER || other->GetLayer() == CollisionLayer::ENEMY) { return nullptr; }
 
 	return new Turning(m_pMovement);
 }

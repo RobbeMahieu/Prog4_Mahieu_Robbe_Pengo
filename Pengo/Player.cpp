@@ -19,7 +19,7 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard
 	player->SetLocalPosition(position);
 	player->AddComponent<engine::TextureRenderComponent>(spritePath);
 	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, PhysicsType::DYNAMIC);
+	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::PLAYER);
 	player->AddComponent<HealthComponent>(health);
 	player->AddComponent<PointComponent>();
 	player->AddComponent<PushComponent>(pDevice);
@@ -33,7 +33,7 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::XBoxCont
 	player->SetLocalPosition(position);
 	player->AddComponent<engine::TextureRenderComponent>(spritePath);
 	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, PhysicsType::DYNAMIC);
+	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::PLAYER);
 	player->AddComponent<HealthComponent>(health);
 	player->AddComponent<PointComponent>();
 	player->AddComponent<PushComponent>(pDevice);

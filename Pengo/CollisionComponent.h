@@ -9,10 +9,11 @@
 
 namespace pengo {
 
-	enum class PhysicsType {
+	enum class CollisionLayer {
 		STATIC,
-		MOVABLE,
-		DYNAMIC
+		DYNAMIC,
+		PLAYER,
+		ENEMY,
 	};
 
 	class CollisionComponent;
@@ -30,7 +31,7 @@ namespace pengo {
 	class CollisionComponent : public engine::Component
 	{
 		public:
-			CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger = false, PhysicsType type = PhysicsType::STATIC);
+			CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger = false, CollisionLayer layer = CollisionLayer::STATIC);
 			virtual ~CollisionComponent();
 
 			CollisionComponent(const CollisionComponent& other) = delete;
@@ -44,8 +45,8 @@ namespace pengo {
 
 			const std::unordered_set<CollisionComponent*> GetColliding() const;
 			const std::unordered_set<CollisionComponent*> GetCollided() const;
-			PhysicsType GetType() const;
-			void SetType(PhysicsType type);
+			CollisionLayer GetLayer() const;
+			void SetLayer(CollisionLayer type);
 
 			// Returns x, y, width, height
 			glm::vec4 GetBounds() const;
@@ -63,7 +64,7 @@ namespace pengo {
 			float m_Height;
 
 			bool m_IsTrigger;
-			PhysicsType m_Type;
+			CollisionLayer m_Layer;
 
 			std::chrono::steady_clock::time_point m_FrameStart{};
 

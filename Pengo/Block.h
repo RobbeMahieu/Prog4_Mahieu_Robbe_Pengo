@@ -5,7 +5,7 @@
 #include "CollisionComponent.h"
 
 namespace pengo {
-	engine::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, float size, PhysicsType type);
+	engine::GameObject* CreateBlock(std::string texturePath, glm::vec3 position, float size, CollisionLayer layer);
 	engine::GameObject* CreateIceBlock(glm::vec3 position);
 	engine::GameObject* CreateWallBlock(glm::vec3 position);
 

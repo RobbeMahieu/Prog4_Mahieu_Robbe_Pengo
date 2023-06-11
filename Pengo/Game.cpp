@@ -52,7 +52,6 @@ int main(int, char* []) {
 // - Versus
 // - Sprites + animations if time
 // - Sound
-// - HUD
 // - End screen
 // - Clean up + asserts
 // - Refactor enemy, ice, points

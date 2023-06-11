@@ -24,6 +24,7 @@ void GameManager::Update() {
 
 void GameManager::TransitionTo(GameState* state) {
 	if (state && state != m_pState) {
+		m_pState->OnLeave();
 		delete m_pState;
 		m_pState = state;
 		m_pState->OnEnter();

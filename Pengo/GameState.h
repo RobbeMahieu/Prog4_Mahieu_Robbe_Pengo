@@ -15,6 +15,7 @@ namespace pengo {
 			GameState(engine::GameObject* pOwner);
 			virtual ~GameState() = default;
 			virtual void OnEnter() = 0;
+			virtual void OnLeave() = 0;
 			virtual GameState* Update() = 0;
 
 		protected:

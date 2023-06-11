@@ -34,6 +34,10 @@ Playing::Playing(engine::GameObject* pOwner, GameMode mode)
 {
 }
 
+void Playing::OnLeave() {
+	m_pRoot->Destroy();
+}
+
 void Playing::OnEnter() {
 	
 	m_pRoot = new engine::GameObject();
@@ -84,8 +88,7 @@ GameState* Playing::Update() {
 
 	// Game end
 	if (!m_IsPlaying || m_pPlayers.size() == 0) {
-		m_pRoot->Destroy();
-		return new EndScreen(m_pOwner, m_WonLevel); 
+		return new EndScreen(m_pOwner, m_WonLevel, m_GameMode); 
 	}
 
 	return nullptr;
@@ -159,7 +162,6 @@ void Playing::AddPlayers() {
 			m_pPlayers.push_back(player);
 			break;
 		}
-
 
 		case GameMode::Coop:
 		{

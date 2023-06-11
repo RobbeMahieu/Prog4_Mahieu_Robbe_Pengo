@@ -30,6 +30,8 @@ MenuInteractor::MenuInteractor(engine::GameObject* pOwner, int maxIndex)
 	, m_pSelect{ std::make_unique<FunctionCommand>(std::bind(&MenuInteractor::Select, this)) }
 {
 	m_MaxIndex = maxIndex;
+	m_OptionChosen = false;
+	m_SelectedIndex = 0;
 }
 
 MenuInteractor::~MenuInteractor() {

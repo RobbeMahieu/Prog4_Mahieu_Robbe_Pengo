@@ -16,6 +16,7 @@ namespace pengo {
 			Playing(engine::GameObject* pOwner, GameMode mode);
 			virtual ~Playing() = default;
 			virtual void OnEnter() override;
+			virtual void OnLeave();
 			virtual GameState* Update() override;
 
 			virtual void OnNotify() override;

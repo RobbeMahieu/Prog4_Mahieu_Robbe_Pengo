@@ -11,8 +11,9 @@ namespace pengo{
 	{
 		public:
 			Menu(engine::GameObject* pOwner);
-			virtual ~Menu();
+			virtual ~Menu() = default;
 			virtual void OnEnter() override;
+			virtual void OnLeave() override;
 			virtual GameState* Update() override;
 
 		private:

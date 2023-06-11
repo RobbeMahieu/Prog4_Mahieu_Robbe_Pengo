@@ -15,7 +15,7 @@ Menu::Menu(engine::GameObject* pOwner)
 {
 }
 
-Menu::~Menu() {
+void Menu::OnLeave() {
 	m_pMenu->Destroy();
 }
 
@@ -51,7 +51,7 @@ void Menu::OnEnter() {
 	// Cursor
 	m_pCursor = new engine::GameObject();
 	m_pCursor->SetLocalPosition(-45, -5);
-	m_pCursor->AddComponent<engine::TextureRenderComponent>("Sprites/pengo.png");
+	m_pCursor->AddComponent<engine::TextureRenderComponent>("Sprites/cursor.png");
 	m_pCursor->AttachTo(m_pButtons[0], false);
 
 	// Input

@@ -77,6 +77,9 @@ void Playing::OnEnter() {
 	{
 		player->GetComponent<HealthComponent>()->HealthChanged.AddObserver(this);
 	}
+
+	// Reset Score
+	PointManager::GetInstance().ResetScore();
 }
 
 GameState* Playing::Update() {

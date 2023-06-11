@@ -2,7 +2,7 @@
 #include <Singleton.h>
 #include <SubjectObserver.h>
 #include <vector>
-
+#include <string>
 
 namespace pengo {
 
@@ -12,6 +12,8 @@ namespace pengo {
 		public:
 			void AddScore(int amount);
 			int GetScore();
+			std::string GetScoreText();
+			void ResetScore();
 
 			engine::Subject<int> ScoreChanged;
 

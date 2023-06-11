@@ -1,5 +1,6 @@
 #pragma once
 #include "GameState.h"
+#include <string>
 
 namespace pengo {
 
@@ -19,5 +20,10 @@ namespace pengo {
 			engine::GameObject* m_pScreen;
 			engine::GameObject* m_pCursor;
 			std::vector<engine::GameObject*> m_pButtons;
+
+			std::vector<std::string> m_HighScores;
+
+			void LoadHighscores();
+			void SaveHighscores();
 	};
 }

@@ -10,97 +10,92 @@
 using namespace pengo;
 
 // -- Base State --
-IceBlockState::IceBlockState(engine::GameObject* pOwner) 
-	: m_pOwner{ pOwner }
+IceBlockState::IceBlockState(SlidingComponent* component)
+	: m_pIce{ component }
 {
 }
 
 // -- Sliding State --
 
-Sliding::Sliding(engine::GameObject* pOwner, float speed, const glm::vec2& direction)
-	: IceBlockState(pOwner)
-	, m_SlidingSpeed{speed}
+Sliding::Sliding(SlidingComponent* component, const glm::vec2& direction)
+	: IceBlockState(component)
 	, m_Direction{direction}
 {
 }
 
 void Sliding::OnEnter() {
-	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	CollisionComponent* collider = m_pIce->m_pOwner->GetComponent<CollisionComponent>();
 	collider->SetLayer(CollisionLayer::DYNAMIC);
 }
 
 IceBlockState* Sliding::Update() {
 	const float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
 
-	glm::vec3 pos = m_pOwner->GetLocalPosition();
-	pos.x += m_SlidingSpeed * elapsedSec * m_Direction.x;
-	pos.y += m_SlidingSpeed * elapsedSec * m_Direction.y;
-	m_pOwner->SetLocalPosition(pos);
+	glm::vec3 pos = m_pIce->m_pOwner->GetLocalPosition();
+	pos.x += m_pIce->m_Speed * elapsedSec * m_Direction.x;
+	pos.y += m_pIce->m_Speed * elapsedSec * m_Direction.y;
+	m_pIce->m_pOwner->SetLocalPosition(pos);
+
 	return nullptr;
 }
 
 IceBlockState* Sliding::HandleCollision(CollisionComponent* collider) {
-	return (collider->GetLayer() == CollisionLayer::STATIC) ? new Idle(m_pOwner, m_SlidingSpeed) : nullptr;
+	return (collider->GetLayer() == CollisionLayer::STATIC) ? new Idle(m_pIce) : nullptr;
 }
 
 // Idle State --
 
-Idle::Idle(engine::GameObject* pOwner, float speed)
-	: IceBlockState(pOwner)
-	, m_Speed{ speed }
+Idle::Idle(SlidingComponent* component)
+	: IceBlockState(component)
 {
 }
 
 void Idle::OnEnter() {
-	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	CollisionComponent* collider = m_pIce->m_pOwner->GetComponent<CollisionComponent>();
 	collider->SetLayer(CollisionLayer::STATIC);
 }
 
 IceBlockState* Idle::Push(glm::vec2 direction) {
 	
-	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
-	glm::vec4 bounds{ collider->GetBounds() };
-	bounds.x += direction.x*1;
-	bounds.y += direction.y*1;
-
-	// Check for collision in moving direction
-
-	CollisionHit hitResult{ CollisionComponent::CheckCollision(bounds, {collider}) };
-
-	// Start break
-	if (hitResult.hit && hitResult.collider->GetLayer() == CollisionLayer::STATIC) {
-		return new Break(m_pOwner);
+	if (m_pIce->IsEgg()) {
+		return new Break(m_pIce);
 	}
 
+	CollisionComponent* collider = m_pIce->m_pOwner->GetComponent<CollisionComponent>();
+	glm::vec3 pos{ m_pIce->GetOwner()->GetLocalPosition() };
+	pos.x += direction.x * 1;
+	pos.y += direction.y * 1;
+	m_pIce->m_pOwner->SetLocalPosition(pos);
+
+
+	// Check for collision in moving direction
+	CollisionHit hitResult{ collider->CheckCollision( {}, {CollisionLayer::STATIC, CollisionLayer::DYNAMIC})};
+	pos.x -= direction.x * 1;
+	pos.y -= direction.y * 1;
+	m_pIce->m_pOwner->SetLocalPosition(pos);
+
+
+	// Start break
+	if (hitResult.hit) {
+		return new Break(m_pIce);
+	}
 	// Start push
-	return new Sliding(m_pOwner, m_Speed, direction);
+	return new Sliding(m_pIce, direction);
 
 }
 
 // -- Break State --
-Break::Break(engine::GameObject* pOwner)
-	: IceBlockState(pOwner)
-{
-	m_pOwner->GetComponent<SlidingComponent>()->m_Broken.Broadcast(m_pOwner);
-	m_pOwner->Destroy();
-}
-
-// Egg State --
-
-Egg::Egg(engine::GameObject* pOwner)
-	: IceBlockState(pOwner)
+Break::Break(SlidingComponent* component)
+	: IceBlockState(component)
 {
 }
 
-void Egg::OnEnter() {
-	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
-	collider->SetLayer(CollisionLayer::STATIC);
-
-	m_pOwner->GetComponent<engine::TextureRenderComponent>()->Destroy();
-	m_pOwner->AddComponent<engine::TextureRenderComponent>("egg.png");
-}
-
-IceBlockState* Egg::Push(glm::vec2 /*direction*/) {
-
-	return new Break(m_pOwner);
+IceBlockState* Break::Update() {
+	
+	if (!m_pIce->IsDiamond()) {
+		m_pIce->m_pOwner->GetComponent<SlidingComponent>()->m_Broken.Broadcast(m_pIce);
+		m_pIce->m_pOwner->Destroy();
+	}
+	
+	return nullptr;
 }

@@ -26,6 +26,9 @@ void EnemySpawner::Update() {
 
 void EnemySpawner::PickEnemyLocations(std::vector<engine::GameObject*> locations, int amount) {
 	
+	// Empty previous locations
+	m_SpawnLocations.clear();
+
 	std::shuffle(locations.begin(), locations.end(), m_RandomEngine);
 	std::for_each(locations.begin(), locations.begin() + amount, [&](engine::GameObject* location) {
 		location->GetComponent<SlidingComponent>()->HideEgg();
@@ -48,7 +51,6 @@ void EnemySpawner::SpawnEnemy() {
 		m_SpawnLocations[0]->Destroy();
 		m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), m_SpawnLocations[0]), m_SpawnLocations.end());
 
-
 	}
 }
 
@@ -57,9 +59,9 @@ void EnemySpawner::OnNotify(AIMovement* component) {
 	m_ActiveEnemies.erase(std::remove(m_ActiveEnemies.begin(), m_ActiveEnemies.end(), component->GetOwner()), m_ActiveEnemies.end());
 }
 
-void EnemySpawner::OnNotify(engine::GameObject* object) {
+void EnemySpawner::OnNotify(SlidingComponent* component) {
 
-	m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), object), m_SpawnLocations.end());
+	m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), component->GetOwner()), m_SpawnLocations.end());
 }
 
 std::vector<engine::GameObject*> EnemySpawner::GetEnemies() const {

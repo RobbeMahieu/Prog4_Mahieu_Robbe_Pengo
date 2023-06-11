@@ -120,7 +120,7 @@ Die::Die(AIMovement* pMovement)
 	: EnemyState(pMovement)
 {
 
-	m_pMovement->m_pKilled.Broadcast();
+	m_pMovement->m_pKilled.Broadcast(pMovement);
 
 	m_pMovement->GetOwner()->Destroy();
 }

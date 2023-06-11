@@ -15,7 +15,7 @@ namespace pengo {
 		public:
 			PushComponent(engine::GameObject* pOwner, engine::Keyboard* device);
 			PushComponent(engine::GameObject* pOwner, engine::XBoxController* device);
-			virtual ~PushComponent() = default;
+			virtual ~PushComponent();
 
 			PushComponent(const PushComponent& other) = delete;
 			PushComponent(PushComponent&& other) = delete;

@@ -14,7 +14,7 @@ namespace pengo {
 		public:
 			PlayerMovement(engine::GameObject* pOwner, float speed, engine::Keyboard* device);
 			PlayerMovement(engine::GameObject* pOwner, float speed, engine::XBoxController* device);
-			virtual ~PlayerMovement() = default;
+			virtual ~PlayerMovement();
 
 			PlayerMovement(const PlayerMovement& other) = delete;
 			PlayerMovement(PlayerMovement&& other) = delete;

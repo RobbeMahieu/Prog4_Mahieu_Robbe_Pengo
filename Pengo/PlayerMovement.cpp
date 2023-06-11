@@ -35,3 +35,10 @@ PlayerMovement::PlayerMovement(engine::GameObject* pOwner, float speed)
 {
 }
 
+PlayerMovement::~PlayerMovement() {
+	engine::InputManager::GetInstance().UnbindAction(m_MoveUp.get());
+	engine::InputManager::GetInstance().UnbindAction(m_MoveDown.get());
+	engine::InputManager::GetInstance().UnbindAction(m_MoveLeft.get());
+	engine::InputManager::GetInstance().UnbindAction(m_MoveRight.get());
+}
+

@@ -14,11 +14,11 @@ EnemySpawner::EnemySpawner(engine::GameObject* pOwner)
 }
 
 void EnemySpawner::Update() {
-	if (m_EnemyCounter < 3) {
+	if (m_ActiveEnemies.size() < 3) {
 		SpawnEnemy();
 	}
 
-	if (m_EnemyCounter == 0) {
+	if (m_ActiveEnemies.size() == 0) {
 		m_EnemiesKilled.Broadcast();
 	}
 }
@@ -36,17 +36,22 @@ void EnemySpawner::SpawnEnemy() {
 		// Spawn enemy
 		engine::GameObject* enemy = CreateSnowBee(m_SpawnLocations[0]->GetWorldPosition());
 		enemy->AttachTo(m_pOwner, true);
+		enemy->GetComponent<AIMovement>()->m_pKilled.AddObserver(this);
+		m_ActiveEnemies.push_back(enemy);
 
-		// Destroy Ice block (later on fade out)
+		// Destroy Ice block
 		m_SpawnLocations[0]->Destroy();
 		m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), m_SpawnLocations[0]), m_SpawnLocations.end());
 
-		enemy->GetComponent<AIMovement>()->m_pKilled.AddObserver(this);
 
-		++m_EnemyCounter;
 	}
 }
 
-void EnemySpawner::OnNotify() {
-	--m_EnemyCounter;
+void EnemySpawner::OnNotify(AIMovement* component) {
+
+	m_ActiveEnemies.erase(std::remove(m_ActiveEnemies.begin(), m_ActiveEnemies.end(), component->GetOwner()), m_ActiveEnemies.end());
+}
+
+std::vector<engine::GameObject*> EnemySpawner::GetEnemies() const {
+	return m_ActiveEnemies;
 }

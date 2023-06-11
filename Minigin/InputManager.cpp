@@ -58,6 +58,9 @@ void InputManager::BindAction(unsigned int key, Command* pCommand, int deviceInd
 }
 
 void InputManager::UnbindAction(Command* pCommand) {
+
+	if (m_ActionMapping.size() == 0) { return; }
+
 	m_ActionMapping.erase(std::remove_if(m_ActionMapping.begin(), m_ActionMapping.end(), [&](const ActionMap& action) {
 
 		return action.command == pCommand;

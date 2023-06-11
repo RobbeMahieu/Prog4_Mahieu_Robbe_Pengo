@@ -10,19 +10,14 @@ HealthComponent::HealthComponent(engine::GameObject* pOwner, int startingHealth)
 }
 
 void HealthComponent::TakeDamage(int amount) {
-	m_Health -= amount;
-	HealthChanged.Broadcast(m_Health);
-
-	if (m_Health <= 0) {
-		m_pOwner->Destroy();
-	}
+	SetHealth(m_Health - amount);
 }
 
 void HealthComponent::SetHealth(int newHealth) {
 	m_Health = newHealth;
-	HealthChanged.Broadcast(m_Health);
+	HealthChanged.Broadcast(this, m_Health);
 
-	if (m_Health <= 0) {
+	if (m_Health < 0) {
 		m_pOwner->Destroy();
 	}
 }

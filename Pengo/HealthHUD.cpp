@@ -10,10 +10,10 @@ HealthHUD::HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthCompone
 	, m_pTextRenderer{ pOwner->GetComponent<engine::TextRenderComponent>() }
 {
 	pHealthComponent->HealthChanged.AddObserver(this);
-	OnNotify(pHealthComponent->GetHealth());
+	OnNotify(pHealthComponent, pHealthComponent->GetHealth());
 }
 
-void HealthHUD::OnNotify(int amount) {
+void HealthHUD::OnNotify(HealthComponent* /*component*/, int amount) {
 	if (m_pTextRenderer) {
 		m_pTextRenderer->SetText("Lives: " + std::to_string(amount));
 	}

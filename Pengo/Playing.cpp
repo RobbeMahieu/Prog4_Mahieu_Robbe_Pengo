@@ -5,6 +5,7 @@
 #include <InputManager.h>
 #include <Keyboard.h>
 #include "EndScreen.h"
+#include "HealthComponent.h"
 
 using namespace pengo;
 
@@ -36,7 +37,7 @@ void Playing::OnEnter() {
 
 	// Spawn players
 	engine::Keyboard* keyboard = engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
-	int health{ 5 };
+	int health{ 3 };
 	float movementSpeed{ 100.0f };
 
 	m_pPlayers.push_back(CreatePlayer("pengo.png", keyboard, health, movementSpeed, glm::vec3{ 200, 250, 0 }));
@@ -48,6 +49,10 @@ void Playing::OnEnter() {
 
 	// Events
 	m_pEnemySpawner->m_EnemiesKilled.AddObserver(this);
+	for (engine::GameObject* player : m_pPlayers)
+	{
+		player->GetComponent<HealthComponent>()->HealthChanged.AddObserver(this);
+	}
 
 }
 
@@ -70,6 +75,18 @@ GameState* Playing::Update() {
 
 void Playing::OnNotify(){
 	m_WonLevel = true;
+}
+
+void Playing::OnNotify(HealthComponent* /*component*/, int health) {
+	// Player died
+	if (health >= 0) {
+		RestartLevel();
+
+	}
+	else {
+		m_IsPlaying = false;
+		m_WonLevel = false;
+	}
 }
 
 void Playing::NextLevel() {
@@ -96,4 +113,23 @@ void Playing::NextLevel() {
 
 	// Increase LevelIndex
 	++m_LevelIndex;
+}
+
+void Playing::RestartLevel() {
+	// Reset player positions
+	for (engine::GameObject* player : m_pPlayers)
+	{
+		player->SetLocalPosition(glm::vec3{ 200, 250, 0 });
+	}
+
+	// Set enemies to corners
+	std::vector<engine::GameObject*> m_Enemies{ m_pEnemySpawner->GetEnemies() };
+	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
+
+		// Refactor to not have hard coded values
+		int x =  (i % 2) * 432;
+		int y =  (i / 2) * 496;
+
+		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
+	}
 }

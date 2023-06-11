@@ -23,3 +23,7 @@ PushComponent::PushComponent(engine::GameObject* pOwner)
 	, m_Push{ std::make_unique<PushCommand>(m_pOwner) }
 {
 }
+
+PushComponent::~PushComponent() {
+	engine::InputManager::GetInstance().UnbindAction(m_Push.get());
+}

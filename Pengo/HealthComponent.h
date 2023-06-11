@@ -27,7 +27,7 @@ namespace pengo {
 			void SetHealth(int newHealth);
 
 		public:
-			engine::Subject<int> HealthChanged;
+			engine::Subject<HealthComponent*, int> HealthChanged;
 
 	};
 }

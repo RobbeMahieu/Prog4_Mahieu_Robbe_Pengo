@@ -33,7 +33,7 @@ namespace pengo {
 			friend class Turning;
 
 			// Events
-			engine::Subject<> m_pKilled;
+			engine::Subject<AIMovement*> m_pKilled;
 
 		private:
 			std::vector<DirectionOption> m_MovementOptions;

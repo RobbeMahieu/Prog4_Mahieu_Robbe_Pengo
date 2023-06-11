@@ -6,8 +6,9 @@ namespace pengo {
 
 	class LevelLoader;
 	class EnemySpawner;
+	class HealthComponent;
 
-	class Playing final : public GameState, engine::Observer<>
+	class Playing final : public GameState, engine::Observer<>, engine::Observer<HealthComponent*, int>
 	{
 		public:
 			Playing(engine::GameObject* pOwner);
@@ -16,6 +17,7 @@ namespace pengo {
 			virtual GameState* Update() override;
 
 			virtual void OnNotify() override;
+			virtual void OnNotify(HealthComponent* component, int health) override;
 
 		private:
 			engine::GameObject* m_pGame;
@@ -31,6 +33,7 @@ namespace pengo {
 			int m_LevelIndex;
 
 			void NextLevel();
+			void RestartLevel();
 	};
 
 }

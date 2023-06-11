@@ -8,7 +8,7 @@ namespace pengo {
 
 	class HealthComponent;
 
-	class HealthHUD : public engine::Component, public engine::Observer<int>
+	class HealthHUD : public engine::Component, public engine::Observer<HealthComponent*, int>
 	{
 		public:
 			HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthComponent);
@@ -22,7 +22,7 @@ namespace pengo {
 			virtual void Update() override {}
 			virtual void FixedUpdate() override {}
 
-			virtual void OnNotify(int health) override;
+			virtual void OnNotify(HealthComponent* component, int health) override;
 
 		private:
 			engine::TextRenderComponent* m_pTextRenderer;

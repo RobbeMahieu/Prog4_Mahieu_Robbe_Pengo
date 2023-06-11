@@ -109,6 +109,10 @@
     <ClCompile Include="DiamondSpawner.cpp">
       <Filter>Components\IceBlocks</Filter>
     </ClCompile>
+    <ClCompile Include="StunComponent.cpp">
+      <Filter>Components\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="StunCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -189,5 +193,9 @@
     <ClInclude Include="DiamondSpawner.h">
       <Filter>Components\IceBlocks</Filter>
     </ClInclude>
+    <ClInclude Include="StunComponent.h">
+      <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="StunCommand.h" />
   </ItemGroup>
 </Project>

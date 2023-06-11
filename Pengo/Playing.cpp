@@ -2,6 +2,7 @@
 #include "LevelLoader.h"
 #include "EnemySpawner.h"
 #include "Player.h"
+#include "Block.h"
 #include <InputManager.h>
 #include <Keyboard.h>
 #include "EndScreen.h"
@@ -38,6 +39,10 @@ void Playing::OnEnter() {
 	m_pLevelLoader->AddLevelPath("../Data/Levels/level3.dat");
 	m_pEnemySpawner = m_pGame->AddComponent<EnemySpawner>();
 	m_pDiamondSpawner = m_pGame->AddComponent<DiamondSpawner>();
+
+	// Add walls
+	engine::GameObject* walls{ CreateWalls(16, 448, 512) };
+	walls->AttachTo(m_pGame, false);
 
 	// Spawn players
 	engine::Keyboard* keyboard = engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();

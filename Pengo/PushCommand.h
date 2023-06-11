@@ -5,6 +5,7 @@
 namespace pengo {
 
 	class SlidingComponent;
+	class StunComponent;
 
 	class PushCommand : public engine::Command
 	{
@@ -19,11 +20,16 @@ namespace pengo {
 
 		virtual void Execute() override;
 		bool CanPush();
+		bool CanStun();
 
 	private:
 		engine::GameObject* m_pOwner;
 
 		SlidingComponent* m_ClosestIce;
+		StunComponent* m_ClosestWall;
+
+		void Push();
+		void Stun();
 	};
 }
 

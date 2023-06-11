@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "TextureRenderComponent.h"
 #include "SlidingComponent.h"
+#include "StunComponent.h"
 
 using namespace pengo;
 
@@ -15,8 +16,33 @@ engine::GameObject* pengo::CreateBlock(std::string texturePath, glm::vec3 positi
 	return block;
 }
 
-engine::GameObject* pengo::CreateWallBlock(glm::vec3 position) {
-	return CreateBlock("wall.png", position, 16, CollisionLayer::STATIC);
+engine::GameObject* pengo::CreateWalls(float blockSize, float width, float height) {
+	engine::GameObject* walls = new engine::GameObject();
+	walls->AddComponent<engine::TextureRenderComponent>("wall.png");
+
+	engine::GameObject* topWall = new engine::GameObject();
+	topWall->AddComponent<CollisionComponent>(width, blockSize, false, CollisionLayer::STATIC);
+	topWall->AddComponent<StunComponent>();
+	topWall->AttachTo(walls, false);
+
+	engine::GameObject* bottomWall = new engine::GameObject();
+	bottomWall->SetLocalPosition(0, height - blockSize);
+	bottomWall->AddComponent<CollisionComponent>(width, blockSize, false, CollisionLayer::STATIC);
+	bottomWall->AddComponent<StunComponent>();
+	bottomWall->AttachTo(walls, false);
+
+	engine::GameObject* leftWall = new engine::GameObject();
+	leftWall->AddComponent<CollisionComponent>(blockSize, height, false, CollisionLayer::STATIC);
+	leftWall->AddComponent<StunComponent>();
+	leftWall->AttachTo(walls, false);
+
+	engine::GameObject* rightWall = new engine::GameObject();
+	rightWall->SetLocalPosition( width - blockSize, 0);
+	rightWall->AddComponent<CollisionComponent>(blockSize, height, false, CollisionLayer::STATIC);
+	rightWall->AddComponent<StunComponent>();
+	rightWall->AttachTo(walls, false);
+
+	return walls;
 }
 
 engine::GameObject* pengo::CreateIceBlock(glm::vec3 position) {

@@ -63,6 +63,11 @@ void AIMovement::UpdateOptions(){
 
 	}
 }
+void AIMovement::Stun() {
+	auto state = m_pState->Stun();
+	TransitionTo(state);
+}
+
 
 void AIMovement::TransitionTo(EnemyState* state) {
 	if (state && state != m_pState) {

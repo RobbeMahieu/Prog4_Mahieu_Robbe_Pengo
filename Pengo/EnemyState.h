@@ -14,6 +14,7 @@ namespace pengo {
 			virtual void OnEnter() = 0;
 			virtual EnemyState* Update() = 0;
 			virtual EnemyState* HandleCollision(CollisionComponent* collider) = 0;
+			virtual EnemyState* Stun() = 0;
 
 		protected:
 			AIMovement* m_pMovement;
@@ -26,6 +27,7 @@ namespace pengo {
 			virtual void OnEnter() override;
 			virtual EnemyState* Update() override;
 			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+			virtual EnemyState* Stun();
 
 		private:
 			int m_DirectionCount;
@@ -35,18 +37,20 @@ namespace pengo {
 		public:
 			Turning(AIMovement* pMovement);
 			virtual ~Turning() = default;
-			virtual void OnEnter() override {};
+			virtual void OnEnter() override;
 			virtual EnemyState* Update() override;
 			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+			virtual EnemyState* Stun();
 	};
 
 	class Stuck final : public EnemyState {
-		public:
-			Stuck(AIMovement* pMovement);
-			virtual ~Stuck() = default;
-			virtual void OnEnter() override {};
-			virtual EnemyState* Update() override { return nullptr; };
-			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+	public:
+		Stuck(AIMovement* pMovement);
+		virtual ~Stuck() = default;
+		virtual void OnEnter() override {};
+		virtual EnemyState* Update() override { return nullptr; };
+		virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+		virtual EnemyState* Stun() { return nullptr; };
 	};
 
 	class Die final : public EnemyState {
@@ -57,6 +61,21 @@ namespace pengo {
 		virtual void OnEnter() override {};
 		virtual EnemyState* Update() override { return nullptr; }
 		virtual EnemyState* HandleCollision(CollisionComponent* /*collider*/) override { return nullptr; }
+		virtual EnemyState* Stun() { return nullptr; };
+	};
+
+	class Stunned final : public EnemyState {
+		public:
+			Stunned(AIMovement* pMovement);
+			virtual ~Stunned() = default;
+			virtual void OnEnter() override;
+			virtual EnemyState* Update() override;
+			virtual EnemyState* HandleCollision(CollisionComponent* collider) override;
+			virtual EnemyState* Stun();
+
+		private:
+			float m_StunTime;
+			float m_AccuTime;
 	};
 }
 

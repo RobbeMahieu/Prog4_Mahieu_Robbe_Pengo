@@ -1,6 +1,8 @@
 #include "EnemyState.h"
 #include "AIMovement.h"
 #include "MoveCommand.h"
+#include "KillPlayerComponent.h"
+#include "GameTime.h"
 
 using namespace pengo;
 
@@ -53,10 +55,21 @@ EnemyState* Moving::HandleCollision(CollisionComponent* other) {
 	return new Turning(m_pMovement);
 }
 
+EnemyState* Moving::Stun() {
+	return new Stunned(m_pMovement);
+}
+
 // -- Turning State --
 Turning::Turning(AIMovement* pMovement)
 	: EnemyState(pMovement)
 {
+}
+
+void Turning::OnEnter() {
+	KillPlayerComponent* killComponent{ m_pMovement->m_pOwner->GetComponent<KillPlayerComponent>() };
+	if (killComponent) {
+		killComponent->Enable(true);
+	}
 }
 
 EnemyState* Turning::Update() {
@@ -101,6 +114,10 @@ EnemyState* Turning::HandleCollision(CollisionComponent* other) {
 	return nullptr;
 }
 
+EnemyState* Turning::Stun() {
+	return new Stunned(m_pMovement);
+}
+
 // -- Stuck State --
 Stuck::Stuck(AIMovement* pMovement)
 	: EnemyState(pMovement)
@@ -123,4 +140,43 @@ Die::Die(AIMovement* pMovement)
 	m_pMovement->m_pKilled.Broadcast(pMovement);
 
 	m_pMovement->GetOwner()->Destroy();
+}
+
+// -- Stunned State --
+Stunned::Stunned(AIMovement* pMovement)
+	: EnemyState(pMovement)
+	, m_AccuTime{ 0.0f }
+	, m_StunTime{ 5.0f }
+{
+}
+
+void Stunned::OnEnter() {
+	KillPlayerComponent* killComponent{ m_pMovement->m_pOwner->GetComponent<KillPlayerComponent>() };
+	if (killComponent) {
+		killComponent->Enable(false);
+	}
+}
+
+EnemyState* Stunned::Update() {
+	m_AccuTime += engine::GameTime::GetInstance().GetElapsedSec();
+
+	if (m_AccuTime >= m_StunTime) {
+		return new Turning(m_pMovement);
+	}
+
+	return nullptr;
+}
+
+EnemyState* Stunned::HandleCollision(CollisionComponent* other) {
+	if (other->GetLayer() == CollisionLayer::PLAYER) {
+		return new Die(m_pMovement);
+	}
+
+	return nullptr;
+}
+
+EnemyState* Stunned::Stun() {
+
+	m_AccuTime = 0.0f;
+	return nullptr;
 }

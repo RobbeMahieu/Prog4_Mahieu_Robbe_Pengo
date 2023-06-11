@@ -21,6 +21,11 @@ namespace pengo {
 			virtual void FixedUpdate() override {}
 
 			virtual void OnNotify(CollisionComponent* other);
+			
+			void Enable(bool enable);
+
+		private:
+			bool m_Enabled;
 
 	};
 }

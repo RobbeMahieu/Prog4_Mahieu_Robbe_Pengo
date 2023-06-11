@@ -11,7 +11,14 @@ KillPlayerComponent::KillPlayerComponent(engine::GameObject* pOwner)
 }
 
 void KillPlayerComponent::OnNotify(CollisionComponent* other) {
+
+	if (!m_Enabled) { return; }
+
 	if (other->GetOwner()->GetComponent<PlayerMovement>()) {
 		other->GetOwner()->GetComponent<HealthComponent>()->TakeDamage(1);
 	}
+}
+
+void KillPlayerComponent::Enable(bool enable) {
+	m_Enabled = enable;
 }

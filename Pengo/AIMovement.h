@@ -25,12 +25,14 @@ namespace pengo {
 
 			virtual void Update() override;
 			virtual void FixedUpdate() override {}
+			void Stun();
 
 			virtual void OnNotify(CollisionComponent* other);
 
 			// Give states access to variables instead of constantly passing them around
 			friend class Moving;
 			friend class Turning;
+			friend class Stunned;
 
 			// Events
 			engine::Subject<AIMovement*> m_pKilled;

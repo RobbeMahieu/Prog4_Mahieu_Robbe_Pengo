@@ -31,40 +31,6 @@ void load()
 
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("Pengo");
 
-	// Background
-	auto background = new engine::GameObject();
-	background->SetLocalPosition(0, 0);
-	background->AddComponent<engine::TextureRenderComponent>("controls.png");
-	scene.Add(background);
-
-	// Walls
-	int wallSize = 16;
-	int widthSize = 448 / wallSize;
-	int heightSize = 512 / wallSize;
-
-	// Top Bottom
-	for (int i{ 0 }; i < widthSize; ++i) {
-
-		// Top
-		auto wallTop = CreateWallBlock(glm::vec3{ i * wallSize, 0, 0 });
-		scene.Add(wallTop);
-
-		// Bottom
-		auto wallBottom = CreateWallBlock(glm::vec3{ i * wallSize, (heightSize - 1) * wallSize, 0 });
-		scene.Add(wallBottom);
-
-	}
-
-	for (int i{ 0 }; i < heightSize; ++i) {
-		// Left
-		auto wallLeft = CreateWallBlock(glm::vec3{ 0, i * wallSize, 0 });
-		scene.Add(wallLeft);
-
-		// Right
-		auto wallRight = CreateWallBlock(glm::vec3{ (widthSize - 1) * wallSize, i * wallSize, 0 });
-		scene.Add(wallRight);
-	}
-
 	// Game Manager
 	engine::GameObject* gameManager{ new engine::GameObject() };
 	gameManager->AddComponent<GameManager>();

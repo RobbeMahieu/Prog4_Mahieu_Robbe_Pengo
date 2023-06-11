@@ -159,9 +159,7 @@ void CollisionComponent::SetLayer(CollisionLayer layer) {
 }
 
 CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*> toIgnore, std::vector<CollisionLayer> hitLayers) {
-	
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
-	toIgnore.emplace_back(this);
+		toIgnore.emplace_back(this);
 
 	CollisionHit closestHitResult{};
 	float closestDistance{FLT_MAX};
@@ -169,17 +167,13 @@ CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*
 	for (CollisionComponent* other : m_pColliders) {
 		
 		// Ignore this collider
-		if (std::find(toIgnore.begin(), toIgnore.end(), other) != toIgnore.end()) {
+		if (std::find(toIgnore.begin(), toIgnore.end(), other) != toIgnore.end() ||
+			std::find(hitLayers.begin(), hitLayers.end(), other->GetLayer()) == hitLayers.end()	) {
 			continue;
 		}
 
 		// Only return the closest hit
 		CollisionHit hitResult = CollidesWith(other);
-
-		// Ignore this layer
-		if (hitResult.hit && std::find(hitLayers.begin(), hitLayers.end(), hitResult.collider->GetLayer()) == hitLayers.end()) {
-			continue;
-		}
 
 		if (hitResult.hit && hitResult.distance < closestDistance) { 
 			closestHitResult = hitResult;
@@ -188,6 +182,29 @@ CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*
 	}
 
 	return closestHitResult;
+}
+
+std::vector<CollisionHit> CollisionComponent::GetAllColliding(std::vector<CollisionComponent*> toIgnore, std::vector<CollisionLayer> hitLayers) {
+
+	toIgnore.emplace_back(this);
+	std::vector<CollisionHit> hits{};
+
+	for (CollisionComponent* other : m_pColliders) {
+
+		// Ignore this collider
+		if (std::find(toIgnore.begin(), toIgnore.end(), other) != toIgnore.end() ||
+			std::find(hitLayers.begin(), hitLayers.end(), other->GetLayer()) == hitLayers.end()) {
+			continue;
+		}
+
+
+		CollisionHit hitResult = CollidesWith(other);
+		if (hitResult.hit){
+			hits.push_back(hitResult);
+		}
+	}
+
+	return hits;
 }
 
 CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {

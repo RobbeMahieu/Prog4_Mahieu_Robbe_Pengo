@@ -23,6 +23,7 @@ namespace pengo {
 
 		private:
 			GameState* m_pState;
+			bool m_MusicStarted;
 
 			void TransitionTo(GameState* state);
 	};

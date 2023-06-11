@@ -17,6 +17,7 @@ namespace engine {
 			SDL_SoundSystem& operator=(SDL_SoundSystem&& other) = delete;
 
 			void Play(const std::string& path, float volume);
+			void PlayMusic(const std::string& path, float volume);
 
 		private:
 

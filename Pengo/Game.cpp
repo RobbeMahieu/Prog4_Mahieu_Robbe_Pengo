@@ -51,7 +51,6 @@ int main(int, char* []) {
 // Gameplay related:
 // - Versus
 // - Sprites + animations if time
-// - Sound
 // - Named scores
 // - Clean up + asserts
 // - Refactor enemy, ice, points

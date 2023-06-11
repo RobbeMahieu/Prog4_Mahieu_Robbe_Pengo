@@ -19,6 +19,7 @@ class SDL_SoundSystem::SDL_SoundSystemImpl {
 		SDL_SoundSystemImpl& operator=(SDL_SoundSystemImpl&& other) = delete;
 
 		void Play(const std::string& path, float volume);
+		void PlayMusic(const std::string& path, float volume);
 
 	private:
 		// Queue variables
@@ -29,6 +30,7 @@ class SDL_SoundSystem::SDL_SoundSystemImpl {
 
 		// Mapped sounds
 		std::unordered_map<std::string, Mix_Chunk*> m_pSoundEffects;
+		std::unordered_map<std::string, Mix_Music*> m_pMusic;
 
 		// Concurrency variables
 		std::mutex m_QueueLock;
@@ -39,6 +41,7 @@ class SDL_SoundSystem::SDL_SoundSystemImpl {
 		// Sound functions
 		void ProcessRequests();
 		void PlaySound(const std::string& path, float volume);
+		void PlaySong(const std::string& path, float volume);
 };
 
 
@@ -55,6 +58,9 @@ void SDL_SoundSystem::Play(const std::string& path, float volume) {
 	pImpl->Play(path, volume);
 }
 
+void SDL_SoundSystem::PlayMusic(const std::string& path, float volume) {
+	pImpl->PlayMusic(path, volume);
+}
 
 
 // Sound System Impl
@@ -74,6 +80,13 @@ SDL_SoundSystem::SDL_SoundSystemImpl::~SDL_SoundSystemImpl() {
 	for (auto& effect : m_pSoundEffects) {
 		if (effect.second) {
 			Mix_FreeChunk(effect.second);
+		}
+	}
+
+	// Free music
+	for (auto& music : m_pMusic) {
+		if (music.second) {
+			Mix_FreeMusic(music.second);
 		}
 	}
 
@@ -130,6 +143,25 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::Play(const std::string& path, float v
 	m_HasRequests.notify_all();
 }
 
+void SDL_SoundSystem::SDL_SoundSystemImpl::PlayMusic(const std::string& path, float volume) {
+
+	// Lock the queue
+	std::lock_guard<std::mutex> lk(m_QueueLock);
+
+	// No place for requests
+	if ((m_Tail + 1) % m_MaxRequests == m_Head) {
+		std::cout << "Warning! Audio buffer full!";
+		return;
+	}
+
+	// Add to queue
+	m_pRequests[m_Tail] = std::bind(&SDL_SoundSystem::SDL_SoundSystemImpl::PlaySong, this, path, volume);
+	m_Tail = (m_Tail + 1) % m_MaxRequests;
+
+	// Notify condition
+	m_HasRequests.notify_all();
+}
+
 void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySound(const std::string& path, float volume) {
 	
 	// Load sound effect if it's not loaded in yet
@@ -140,4 +172,16 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySound(const std::string& path, fl
 	// Play Sound Effect
 	int channel = Mix_PlayChannel(-1, m_pSoundEffects[path], 0);
 	Mix_Volume(channel, int(volume* MIX_MAX_VOLUME));
+}
+
+void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySong(const std::string& path, float volume) {
+
+	// Load sound effect if it's not loaded in yet
+	if (m_pMusic.find(path) == m_pMusic.end()) {
+		m_pMusic[path] = Mix_LoadMUS(path.c_str());
+	}
+
+	// Play Sound Effect
+	int channel = Mix_PlayMusic(m_pMusic[path], -1);
+	Mix_Volume(channel, int(volume * MIX_MAX_VOLUME));
 }

@@ -8,6 +8,7 @@ namespace pengo {
 
 	class IceBlockState;
 
+	// Might not be the best name fot this component anymore
 	class SlidingComponent : public engine::Component, public engine::Observer<CollisionComponent*>
 	{
 		public:
@@ -23,8 +24,12 @@ namespace pengo {
 			virtual void FixedUpdate() override {}
 
 			void Push(glm::vec2 direction);
+			void HideEgg();
 
 			void OnNotify(CollisionComponent* other) override;
+
+			engine::Subject<engine::GameObject*> m_Broken;
+
 
 		private:
 			void TransitionTo(IceBlockState* state);

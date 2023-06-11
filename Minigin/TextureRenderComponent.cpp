@@ -19,3 +19,7 @@ void TextureRenderComponent::Render() const {
 		Renderer::GetInstance().RenderTexture(*m_Texture, position.x, position.y);
 	}
 }
+
+void TextureRenderComponent::SetTexture(const std::string& path) {
+	m_Texture = ResourceManager::GetInstance().LoadTexture(path);
+}

@@ -21,6 +21,8 @@ namespace engine {
 		virtual void Update() override {};
 		virtual void FixedUpdate() override {};
 
+		void SetTexture(const std::string& path);
+
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 	};

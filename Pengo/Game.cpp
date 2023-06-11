@@ -95,8 +95,9 @@ int main(int, char* []) {
 // Gameplay related:
 // - Multiplayer
 // - Diamond bonus
-// - Game loop
-// - Sprites
+// - Walls
+// - Sprites + animations if time
 // - Sound
 // - Menu
+// - End screen
 //

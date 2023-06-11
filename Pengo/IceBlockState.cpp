@@ -3,6 +3,9 @@
 #include "CollisionComponent.h"
 #include "PushComponent.h"
 #include "GameTime.h"
+#include "TextureRenderComponent.h"
+#include "EnemySpawner.h"
+#include "SlidingComponent.h"
 
 using namespace pengo;
 
@@ -78,5 +81,26 @@ IceBlockState* Idle::Push(glm::vec2 direction) {
 Break::Break(engine::GameObject* pOwner)
 	: IceBlockState(pOwner)
 {
+	m_pOwner->GetComponent<SlidingComponent>()->m_Broken.Broadcast(m_pOwner);
 	m_pOwner->Destroy();
+}
+
+// Egg State --
+
+Egg::Egg(engine::GameObject* pOwner)
+	: IceBlockState(pOwner)
+{
+}
+
+void Egg::OnEnter() {
+	CollisionComponent* collider = m_pOwner->GetComponent<CollisionComponent>();
+	collider->SetLayer(CollisionLayer::STATIC);
+
+	m_pOwner->GetComponent<engine::TextureRenderComponent>()->Destroy();
+	m_pOwner->AddComponent<engine::TextureRenderComponent>("egg.png");
+}
+
+IceBlockState* Egg::Push(glm::vec2 /*direction*/) {
+
+	return new Break(m_pOwner);
 }

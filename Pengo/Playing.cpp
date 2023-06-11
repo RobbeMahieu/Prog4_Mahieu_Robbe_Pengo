@@ -109,7 +109,9 @@ void Playing::NextLevel() {
 	m_pLevel->AttachTo(m_pGame, false);
 
 	// Spawn enemies
-	m_pEnemySpawner->PickEnemyLocations(m_pLevel->GetChildren(), 1);
+	m_pEnemySpawner->PickEnemyLocations(m_pLevel->GetChildren(), 6);
+
+	// Spawn diamonds
 
 	// Increase LevelIndex
 	++m_LevelIndex;
@@ -127,8 +129,8 @@ void Playing::RestartLevel() {
 	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
 
 		// Refactor to not have hard coded values
-		int x =  (i % 2) * 432;
-		int y =  (i / 2) * 496;
+		int x =  (i % 2) * 384;
+		int y =  (i / 2) * 448;
 
 		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
 	}

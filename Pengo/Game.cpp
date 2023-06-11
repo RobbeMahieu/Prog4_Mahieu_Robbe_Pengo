@@ -60,11 +60,9 @@ int main(int, char* []) {
 // Add own struct for rect
 // 
 // Gameplay related:
-// - Multiplayer
+// - Versus
 // - Sprites + animations if time
 // - Sound
 // - HUD
-// - Score
-// - Menu
 // - End screen
 //

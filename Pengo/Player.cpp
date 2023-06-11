@@ -3,7 +3,6 @@
 #include "PlayerMovement.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
-#include "PointComponent.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "TextRenderComponent.h"
@@ -11,7 +10,6 @@
 #include "HealthHUD.h"
 #include "PushComponent.h"
 #include "KillPlayerComponent.h"
-#include "SnowBeeMovement.h"
 
 using namespace pengo;
 
@@ -33,13 +31,12 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard
 
 	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::PLAYER);
 	player->AddComponent<HealthComponent>(health);
-	player->AddComponent<PointComponent>();
 
 
 	return player;
 }
 
-engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, engine::Keyboard* keyboard, engine::XBoxController* controller, glm::vec3 position = glm::vec3{ 0,0,0 }) {
+engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, engine::Keyboard* keyboard, engine::XBoxController* controller, glm::vec3 position) {
 	auto bee = new engine::GameObject();
 	bee->SetLocalPosition(position);
 	bee->AddComponent<engine::TextureRenderComponent>("Sprites/snowbee.png");
@@ -65,7 +62,7 @@ engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, glm::vec
 
 	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	HealthComponent* pPlayerHealth = pPlayer->GetComponent<HealthComponent>();
-	PointComponent* pPlayerPoints = pPlayer->GetComponent<PointComponent>();
+	//PointComponent* pPlayerPoints = pPlayer->GetComponent<PointComponent>();
 
 	if (pPlayerHealth) {
 		auto playerHealthHUD = new engine::GameObject();
@@ -74,13 +71,13 @@ engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, glm::vec
 		playerHealthHUD->AttachTo(playerHUD, false);
 	}
 
-	if (pPlayerPoints) {
+	/*if (pPlayerPoints) {
 		auto playerPointsHUD = new engine::GameObject();
 		playerPointsHUD->AddComponent<engine::TextRenderComponent>("points", textFont);
 		playerPointsHUD->AddComponent<PointsHUD>(pPlayerPoints);
 		playerPointsHUD->AttachTo(playerHUD, false);
 		playerPointsHUD->SetLocalPosition(0, 20);
-	}
+	}*/
 
 	return playerHUD;
 }

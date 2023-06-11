@@ -6,12 +6,12 @@
 
 namespace pengo {
 
-	class PointComponent;
+	class PointManager;
 
 	class PointsHUD : public engine::Component, public engine::Observer<int>
 	{
 		public:
-			PointsHUD(engine::GameObject* pOwner, PointComponent* pPointComponent);
+			PointsHUD(engine::GameObject* pOwner, PointManager* pPointComponent);
 			virtual ~PointsHUD() = default;
 
 			PointsHUD(const PointsHUD& other) = delete;

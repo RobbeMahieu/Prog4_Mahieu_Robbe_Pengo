@@ -1,6 +1,7 @@
 #pragma once
 #include "GameState.h"
 #include <SubjectObserver.h>
+#include <chrono>
 
 namespace pengo {
 
@@ -26,7 +27,9 @@ namespace pengo {
 
 			bool m_IsPlaying;
 			bool m_WonLevel;
-
+			
+			// Put in seperate component if time
+			std::chrono::steady_clock::time_point m_LevelStartTime;
 
 			LevelLoader* m_pLevelLoader;
 			EnemySpawner* m_pEnemySpawner;
@@ -38,9 +41,10 @@ namespace pengo {
 			int m_LevelIndex;
 
 			void NextLevel();
-			void RestartLevel();
 
 			void AddPlayers();
+
+			void CalculateBonus();
 	};
 
 }

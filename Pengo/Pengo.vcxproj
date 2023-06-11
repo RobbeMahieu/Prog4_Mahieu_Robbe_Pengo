@@ -42,7 +42,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playing.cpp" />
-    <ClCompile Include="PointComponent.cpp" />
+    <ClCompile Include="PointManager.cpp" />
     <ClCompile Include="PointsHUD.cpp" />
     <ClCompile Include="PushCommand.cpp" />
     <ClCompile Include="PushComponent.cpp" />
@@ -73,7 +73,7 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playing.h" />
-    <ClInclude Include="PointComponent.h" />
+    <ClInclude Include="PointManager.h" />
     <ClInclude Include="PointsHUD.h" />
     <ClInclude Include="PushCommand.h" />
     <ClInclude Include="PushComponent.h" />

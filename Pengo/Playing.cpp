@@ -10,6 +10,7 @@
 #include "EndScreen.h"
 #include "HealthComponent.h"
 #include "DiamondSpawner.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -25,6 +26,7 @@ Playing::Playing(engine::GameObject* pOwner, GameMode mode)
 	, m_pLevel{ nullptr }
 	, m_pGame{ nullptr }
 	, m_GameMode{ mode }
+	, m_LevelStartTime{}
 {
 }
 
@@ -80,6 +82,8 @@ GameState* Playing::Update() {
 
 void Playing::OnNotify(){
 	m_WonLevel = true;
+
+	CalculateBonus();
 }
 
 void Playing::OnNotify(HealthComponent* component, int health) {
@@ -94,6 +98,8 @@ void Playing::OnNotify(HealthComponent* component, int health) {
 }
 
 void Playing::NextLevel() {
+
+	m_LevelStartTime = std::chrono::high_resolution_clock::now();
 
 	// Check if there is a next level
 	if (m_LevelIndex >= m_pLevelLoader->GetLevelAmount()) {
@@ -172,5 +178,14 @@ void Playing::AddPlayers() {
 			m_pPlayers.push_back(player);
 
 			break;
+	}
+}
+
+void Playing::CalculateBonus() {
+	auto currentTime{ std::chrono::high_resolution_clock::now() };
+	float seconds{ std::chrono::duration<float>(currentTime - m_LevelStartTime).count() };
+
+	if (seconds < 60.0f) {
+		PointManager::GetInstance().AddScore(int(60.0f - seconds) * 100);
 	}
 }

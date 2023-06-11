@@ -1,11 +1,11 @@
 #include "PointsHUD.h"
 #include "GameObject.h"
 #include "TextRenderComponent.h"
-#include "PointComponent.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
-PointsHUD::PointsHUD(engine::GameObject* pOwner, PointComponent* pPointComponent)
+PointsHUD::PointsHUD(engine::GameObject* pOwner, PointManager* pPointComponent)
 	: Component(pOwner)
 	, m_pTextRenderer{ pOwner->GetComponent<engine::TextRenderComponent>() }
 {

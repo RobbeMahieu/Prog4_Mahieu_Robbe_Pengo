@@ -30,7 +30,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PointComponent.cpp">
+    <ClCompile Include="PointManager.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
@@ -123,7 +123,7 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PointComponent.h">
+    <ClInclude Include="PointManager.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">

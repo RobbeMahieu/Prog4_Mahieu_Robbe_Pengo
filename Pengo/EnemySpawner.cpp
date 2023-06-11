@@ -2,6 +2,7 @@
 #include "SnowBee.h"
 #include "AIMovement.h"
 #include "SlidingComponent.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -57,11 +58,17 @@ void EnemySpawner::SpawnEnemy() {
 void EnemySpawner::OnNotify(AIMovement* component) {
 
 	m_ActiveEnemies.erase(std::remove(m_ActiveEnemies.begin(), m_ActiveEnemies.end(), component->GetOwner()), m_ActiveEnemies.end());
+
+	// Reward points
+	PointManager::GetInstance().AddScore(500);
 }
 
 void EnemySpawner::OnNotify(SlidingComponent* component) {
 
 	m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), component->GetOwner()), m_SpawnLocations.end());
+
+	// Reward points
+	PointManager::GetInstance().AddScore(500);
 }
 
 std::vector<engine::GameObject*> EnemySpawner::GetEnemies() const {

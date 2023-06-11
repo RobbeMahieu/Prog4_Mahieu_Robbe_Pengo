@@ -4,11 +4,11 @@
 #include <Keyboard.h>
 #include <XBoxController.h>
 #include <memory>
+#include <SubjectObserver.h>
 
 namespace pengo {
 
 	class PushCommand;
-	class SlidingComponent;
 
 	class PushComponent : public engine::Component
 	{

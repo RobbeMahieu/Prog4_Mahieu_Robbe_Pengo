@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include "CollisionComponent.h"
 #include "StunComponent.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -69,6 +70,9 @@ void PushCommand::Push() {
 	glm::vec2 direction{ options[0].second };
 
 	m_ClosestIce->Push(direction);
+
+	// Reward points
+	PointManager::GetInstance().AddScore(50);
 }
 
 bool PushCommand::CanStun() {

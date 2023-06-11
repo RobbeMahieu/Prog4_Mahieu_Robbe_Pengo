@@ -1,6 +1,7 @@
 #pragma once
 #include <Component.h>
 #include <GameObject.h>
+#include <SubjectObserver.h>
 
 namespace pengo {
 

@@ -1,6 +1,7 @@
 #include "StunComponent.h"
 #include "CollisionComponent.h"
 #include "AIMovement.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -28,4 +29,7 @@ void StunComponent::StunEnemies(glm::vec2 direction) {
 	for (const CollisionHit& hit : hitResult) {
 		hit.object->GetComponent<AIMovement>()->Stun();
 	}
+
+	// Reward points
+	PointManager::GetInstance().AddScore(int(50 * hitResult.size()));
 }

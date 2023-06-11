@@ -3,6 +3,12 @@
 
 namespace pengo {
 	
+	enum class GameMode {
+		Single,
+		Versus,
+		Coop,
+	};
+
 	class GameState
 	{
 		public:

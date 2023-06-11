@@ -12,7 +12,7 @@ namespace pengo {
 	class Playing final : public GameState, engine::Observer<>, engine::Observer<HealthComponent*, int>
 	{
 		public:
-			Playing(engine::GameObject* pOwner);
+			Playing(engine::GameObject* pOwner, GameMode mode);
 			virtual ~Playing() = default;
 			virtual void OnEnter() override;
 			virtual GameState* Update() override;
@@ -26,17 +26,21 @@ namespace pengo {
 
 			bool m_IsPlaying;
 			bool m_WonLevel;
-			bool m_PlayerDied;
+
 
 			LevelLoader* m_pLevelLoader;
 			EnemySpawner* m_pEnemySpawner;
 			DiamondSpawner* m_pDiamondSpawner;
 			std::vector<engine::GameObject*> m_pPlayers;
 
+			GameMode m_GameMode;
+
 			int m_LevelIndex;
 
 			void NextLevel();
 			void RestartLevel();
+
+			void AddPlayers();
 	};
 
 }

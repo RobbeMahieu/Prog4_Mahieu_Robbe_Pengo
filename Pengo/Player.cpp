@@ -10,36 +10,54 @@
 #include "PointsHUD.h"
 #include "HealthHUD.h"
 #include "PushComponent.h"
+#include "KillPlayerComponent.h"
+#include "SnowBeeMovement.h"
 
 using namespace pengo;
 
-engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard* pDevice, int health, float movementSpeed, glm::vec3 position) {
+engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard* keyboard, engine::XBoxController* controller, int health, float movementSpeed, glm::vec3 position) {
 
 	auto player = new engine::GameObject();
 	player->SetLocalPosition(position);
 	player->AddComponent<engine::TextureRenderComponent>(spritePath);
-	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
+
+	if (keyboard) {
+		player->AddComponent<PlayerMovement>(movementSpeed, keyboard);
+		player->AddComponent<PushComponent>(keyboard);
+	}
+
+	if (controller) {
+		player->AddComponent<PlayerMovement>(movementSpeed, controller);
+		player->AddComponent<PushComponent>(controller);
+	}
+
 	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::PLAYER);
 	player->AddComponent<HealthComponent>(health);
 	player->AddComponent<PointComponent>();
-	player->AddComponent<PushComponent>(pDevice);
+
 
 	return player;
 }
 
-engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::XBoxController* pDevice, int health, float movementSpeed, glm::vec3 position) {
+engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, engine::Keyboard* keyboard, engine::XBoxController* controller, glm::vec3 position = glm::vec3{ 0,0,0 }) {
+	auto bee = new engine::GameObject();
+	bee->SetLocalPosition(position);
+	bee->AddComponent<engine::TextureRenderComponent>("Sprites/snowbee.png");
+	bee->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::ENEMY);
+	
+	if (keyboard) {
+		bee->AddComponent<PlayerMovement>(50.0f, keyboard);
+	}
 
-	auto player = new engine::GameObject();
-	player->SetLocalPosition(position);
-	player->AddComponent<engine::TextureRenderComponent>(spritePath);
-	player->AddComponent<PlayerMovement>(movementSpeed, pDevice);
-	player->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::PLAYER);
-	player->AddComponent<HealthComponent>(health);
-	player->AddComponent<PointComponent>();
-	player->AddComponent<PushComponent>(pDevice);
+	if (controller) {
+		bee->AddComponent<PlayerMovement>(50.0f, controller);
+	}
 
-	return player;
+	bee->AddComponent<KillPlayerComponent>();
+
+	return bee;
 }
+
 
 engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, glm::vec3 position) {
 	auto playerHUD = new engine::GameObject();

@@ -28,7 +28,7 @@ void load()
 	// (I'd like to do this automatically in the future)
 	engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
 	engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
-
+	engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(1);
 
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("Pengo");
 

@@ -19,8 +19,6 @@ namespace pengo{
 			engine::GameObject* m_pMenu;
 			engine::GameObject* m_pCursor;
 			std::vector<engine::GameObject*> m_pButtons;
-
-			GameState* Select(int index);
 	};
 
 }

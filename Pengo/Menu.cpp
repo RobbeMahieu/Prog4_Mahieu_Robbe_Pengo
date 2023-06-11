@@ -83,12 +83,8 @@ GameState* Menu::Update() {
 	}
 
 	if (MenuInteractor::GetOptionChosen()) {
-		return Select(index);
+		return new Playing(m_pOwner, GameMode(index));
 	}
 
 	return nullptr;
-}
-
-GameState* Menu::Select(int /*index*/) {
-	return new Playing(m_pOwner);
 }

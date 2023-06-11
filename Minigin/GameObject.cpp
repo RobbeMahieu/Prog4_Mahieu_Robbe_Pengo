@@ -14,6 +14,11 @@ void GameObject::Destroy() {
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) {
 		child->Destroy();
 	});
+
+	// Destroy components
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) {
+		component->Destroy();
+	});
 }
 
 bool GameObject::IsMarkedForDestroy() {
@@ -56,7 +61,7 @@ void GameObject::Render() const
 
 void GameObject::SetLocalPosition(float x, float y)
 {
-	m_LocalPosition = glm::vec3{ x,y, 0.0f };
+	m_LocalPosition = glm::vec3{ round(x), round(y), 0.0f };
 	m_PositionChanged = true;
 }
 
@@ -67,7 +72,7 @@ void GameObject::SetLocalPosition(glm::vec3 position)
 
 void GameObject::SetWorldPosition(float x, float y)
 {
-	m_LocalPosition = glm::vec3{ x,y, 0.0f };
+	m_LocalPosition = glm::vec3{ round(x), round(y), 0.0f };
 	if (m_pParent) {
 		m_LocalPosition -=	m_pParent->GetWorldPosition();
 	}

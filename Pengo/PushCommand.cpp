@@ -19,7 +19,16 @@ void PushCommand::Execute() {
 	glm::vec3 distanceBetween{ m_ClosestIce->GetOwner()->GetWorldPosition() - m_pOwner->GetWorldPosition() };
 
 	glm::vec2 direction = (abs(distanceBetween.x) > abs(distanceBetween.y)) ? glm::vec2{1,0} : glm::vec2{0,1};
-	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x),distanceBetween.y / abs(distanceBetween.y) };
+
+	// Divide by 0 protection
+	if (distanceBetween.x == 0) {
+		distanceBetween.x = 1;
+	}
+	if (distanceBetween.y == 0) {
+		distanceBetween.y = 1;
+	}
+
+	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x), distanceBetween.y / abs(distanceBetween.y) };
 	direction *= sign;
 
 	m_ClosestIce->Push(direction);

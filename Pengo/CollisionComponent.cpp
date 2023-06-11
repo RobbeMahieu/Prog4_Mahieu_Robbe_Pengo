@@ -9,8 +9,8 @@ std::vector<CollisionComponent*> CollisionComponent::m_pColliders{};
 
 CollisionComponent::CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger, CollisionLayer layer)
 	: Component(pOwner)
-	, m_Width{ width-1 }
-	, m_Height{ height-1 }
+	, m_Width{ width }
+	, m_Height{ height }
 	, m_IsTrigger{ trigger }
 	, m_Layer{ layer }
 	, m_FrameStart{ std::chrono::high_resolution_clock::now() }
@@ -65,6 +65,8 @@ void CollisionComponent::FixedUpdate() {
 
 		// Did hit!
 		m_pCollided.insert(other);
+		CollisionLayer currentLayer = m_Layer;
+		CollisionLayer otherLayer = other->m_Layer;
 
 		// Resolve Events
 		if (m_pColliding.contains(other)) {
@@ -85,15 +87,15 @@ void CollisionComponent::FixedUpdate() {
 
 		// Maybe use some kind of collision matrix for this?
 		bool getsMoved{
-			m_Layer == CollisionLayer::PLAYER ||
-			(m_Layer == CollisionLayer::ENEMY && (other->m_Layer == CollisionLayer::STATIC || other->m_Layer == CollisionLayer::DYNAMIC)) ||
-			(m_Layer == CollisionLayer::DYNAMIC && other->m_Layer == CollisionLayer::STATIC)
+			currentLayer == CollisionLayer::PLAYER ||
+			(currentLayer == CollisionLayer::ENEMY && (otherLayer == CollisionLayer::STATIC || otherLayer == CollisionLayer::DYNAMIC)) ||
+			(currentLayer == CollisionLayer::DYNAMIC && otherLayer == CollisionLayer::STATIC)
 		};
 
 		bool otherGetsMoved{
-			other->m_Layer == CollisionLayer::PLAYER ||
-			(other->m_Layer == CollisionLayer::ENEMY && (m_Layer == CollisionLayer::STATIC || m_Layer == CollisionLayer::DYNAMIC)) ||
-			(other->m_Layer == CollisionLayer::DYNAMIC && m_Layer == CollisionLayer::STATIC)
+			otherLayer == CollisionLayer::PLAYER ||
+			(otherLayer == CollisionLayer::ENEMY && (currentLayer == CollisionLayer::STATIC || currentLayer == CollisionLayer::DYNAMIC)) ||
+			(otherLayer == CollisionLayer::DYNAMIC && currentLayer == CollisionLayer::STATIC)
 		};
 
 		if (getsMoved && otherGetsMoved) {
@@ -119,24 +121,25 @@ void CollisionComponent::FixedUpdate() {
 
 void CollisionComponent::Render() const {
 	// For debug purposes
-	/*glm::vec3 pos{m_pOwner->GetWorldPosition()};
+	glm::vec3 pos{m_pOwner->GetWorldPosition()};
 	SDL_Rect rectangle{ int(pos.x), int(pos.y), int(m_Width), int(m_Height) };
 	SDL_Color drawColor{ 0,0,255,255 };
 
-	switch (m_Type) {
-		case PhysicsType::STATIC:
+	switch (m_Layer) {
+		case CollisionLayer::STATIC:
 			drawColor = SDL_Color(255, 0, 0, 255);
 			break;
-		case PhysicsType::MOVABLE:
+		case CollisionLayer::DYNAMIC:
 			drawColor = SDL_Color(0, 0, 255, 255);
 			break;
-		case PhysicsType::DYNAMIC:
+		case CollisionLayer::PLAYER:
+		case CollisionLayer::ENEMY:
 			drawColor = SDL_Color(0, 255, 0, 255);
 			break;
 	}
 
 	SDL_SetRenderDrawColor(engine::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);*/
+	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
 }
 
 const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding() const {
@@ -155,10 +158,10 @@ void CollisionComponent::SetLayer(CollisionLayer layer) {
 	m_Layer = layer;
 }
 
-CollisionHit CollisionComponent::CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore) {
+CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*> toIgnore, std::vector<CollisionLayer> hitLayers) {
 	
-	glm::vec3 pos{ collider->m_pOwner->GetWorldPosition() };
-	toIgnore.emplace_back(collider);
+	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	toIgnore.emplace_back(this);
 
 	CollisionHit closestHitResult{};
 	float closestDistance{FLT_MAX};
@@ -171,7 +174,13 @@ CollisionHit CollisionComponent::CheckCollision(CollisionComponent* collider, st
 		}
 
 		// Only return the closest hit
-		CollisionHit hitResult = collider->CollidesWith(other);
+		CollisionHit hitResult = CollidesWith(other);
+
+		// Ignore this layer
+		if (hitResult.hit && std::find(hitLayers.begin(), hitLayers.end(), hitResult.collider->GetLayer()) == hitLayers.end()) {
+			continue;
+		}
+
 		if (hitResult.hit && hitResult.distance < closestDistance) { 
 			closestHitResult = hitResult;
 			closestDistance = hitResult.distance;
@@ -179,26 +188,6 @@ CollisionHit CollisionComponent::CheckCollision(CollisionComponent* collider, st
 	}
 
 	return closestHitResult;
-}
-
-CollisionHit CollisionComponent::CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore) {
-
-	return CheckCollision(bounds.x, bounds.y, bounds.z, bounds.w, toIgnore);
-}
-
-CollisionHit CollisionComponent::CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore) {
-	
-	// Create temporary collision component
-	engine::GameObject* object{ new engine::GameObject()};
-	object->SetLocalPosition(x, y);
-	CollisionComponent* collider = object->AddComponent<CollisionComponent>(width, height);
-
-	CollisionHit hitResult{ CheckCollision(collider, toIgnore) };
-
-	// Delete temp component
-	delete object;
-	
-	return hitResult;
 }
 
 CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
@@ -221,6 +210,8 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 
 		return hitResult;
 	}
+
+	//std::cout << "Collides!\n";
 
 	// Collision has happened!
 	glm::vec3 diff{};

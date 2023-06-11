@@ -1,12 +1,16 @@
 #include "SlidingComponent.h"
-#include "GameObject.h"
+#include <GameObject.h>
 #include "IceBlockState.h"
+#include <TextureRenderComponent.h>
 
 using namespace pengo;
 
 SlidingComponent::SlidingComponent(engine::GameObject* pOwner, float speed)
 	: Component(pOwner)
-	, m_pState{ new Idle(pOwner, speed)}
+	, m_pState{ new Idle(this)}
+	, m_Speed{ speed }
+	, m_IsDiamond{ false }
+	, m_IsEgg{ false }
 {
 	// So this component needs to be added after a collision one, could be done better
 	m_pOwner->GetComponent<CollisionComponent>()->OnCollision.AddObserver(this);
@@ -43,5 +47,19 @@ void SlidingComponent::Push(glm::vec2 direction) {
 }
 
 void SlidingComponent::HideEgg() {
-	TransitionTo(new Egg(m_pOwner));
+	m_IsEgg = true;
+	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("egg.png");
+}
+
+void SlidingComponent::SetDiamond() {
+	m_IsDiamond = true;
+	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("diamond.png");
+}
+
+bool SlidingComponent::IsEgg() const {
+	return m_IsEgg;
+}
+
+bool SlidingComponent::IsDiamond() const {
+	return m_IsDiamond;
 }

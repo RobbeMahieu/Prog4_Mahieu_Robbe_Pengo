@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIMovement.cpp" />
+    <ClCompile Include="DiamondSpawner.cpp" />
     <ClCompile Include="EndScreen.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="EnemyState.cpp" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMovement.h" />
+    <ClInclude Include="DiamondSpawner.h" />
     <ClInclude Include="EndScreen.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="EnemyState.h" />

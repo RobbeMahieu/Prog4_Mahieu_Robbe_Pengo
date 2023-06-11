@@ -7,8 +7,11 @@
 namespace pengo {
 
 	class IceBlockState;
+	class Sliding;
+	class Idle;
+	class Break;
 
-	// Might not be the best name fot this component anymore
+
 	class SlidingComponent : public engine::Component, public engine::Observer<CollisionComponent*>
 	{
 		public:
@@ -25,16 +28,30 @@ namespace pengo {
 
 			void Push(glm::vec2 direction);
 			void HideEgg();
+			void SetDiamond();
+
+			bool IsEgg() const;
+			bool IsDiamond() const;
 
 			void OnNotify(CollisionComponent* other) override;
 
-			engine::Subject<engine::GameObject*> m_Broken;
+			engine::Subject<SlidingComponent*> m_Broken;
+
+			// Give states access to variables
+			friend class IceBlockState;
+			friend class Sliding;
+			friend class Idle;
+			friend class Break;
 
 
 		private:
 			void TransitionTo(IceBlockState* state);
 
 			IceBlockState* m_pState;
+			float m_Speed;
+
+			bool m_IsEgg;
+			bool m_IsDiamond;
 	};
 	
 }

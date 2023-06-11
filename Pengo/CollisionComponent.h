@@ -55,9 +55,7 @@ namespace pengo {
 			engine::Subject<CollisionComponent*> Collides;
 			engine::Subject<CollisionComponent*> EndCollision;
 
-			static CollisionHit CheckCollision(float x, float y, float width, float height, std::vector<CollisionComponent*> toIgnore = {});
-			static CollisionHit CheckCollision(glm::vec4 bounds, std::vector<CollisionComponent*> toIgnore = {});
-			static CollisionHit CheckCollision(CollisionComponent* collider, std::vector<CollisionComponent*> toIgnore = {});
+			CollisionHit CheckCollision(std::vector<CollisionComponent*> toIgnore = {}, std::vector<CollisionLayer> hitLayers = {});
 
 		private:
 			float m_Width;

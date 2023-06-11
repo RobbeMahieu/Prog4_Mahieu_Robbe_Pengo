@@ -6,6 +6,7 @@ namespace pengo {
 
 	class LevelLoader;
 	class EnemySpawner;
+	class DiamondSpawner;
 	class HealthComponent;
 
 	class Playing final : public GameState, engine::Observer<>, engine::Observer<HealthComponent*, int>
@@ -28,6 +29,7 @@ namespace pengo {
 
 			LevelLoader* m_pLevelLoader;
 			EnemySpawner* m_pEnemySpawner;
+			DiamondSpawner* m_pDiamondSpawner;
 			std::vector<engine::GameObject*> m_pPlayers;
 
 			int m_LevelIndex;

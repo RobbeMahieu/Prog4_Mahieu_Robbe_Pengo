@@ -6,6 +6,7 @@
 #include <Keyboard.h>
 #include "EndScreen.h"
 #include "HealthComponent.h"
+#include "DiamondSpawner.h"
 
 using namespace pengo;
 
@@ -15,6 +16,7 @@ Playing::Playing(engine::GameObject* pOwner)
 	, m_WonLevel{ true }
 	, m_pLevelLoader{ nullptr }
 	, m_pEnemySpawner{ nullptr }
+	, m_pDiamondSpawner{ nullptr }
 	, m_pPlayers{}
 	, m_LevelIndex{ 0 }
 	, m_pLevel{ nullptr }
@@ -34,6 +36,7 @@ void Playing::OnEnter() {
 	m_pLevelLoader->AddLevelPath("../Data/Levels/level2.dat");
 	m_pLevelLoader->AddLevelPath("../Data/Levels/level3.dat");
 	m_pEnemySpawner = m_pGame->AddComponent<EnemySpawner>();
+	m_pDiamondSpawner = m_pGame->AddComponent<DiamondSpawner>();
 
 	// Spawn players
 	engine::Keyboard* keyboard = engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
@@ -53,7 +56,6 @@ void Playing::OnEnter() {
 	{
 		player->GetComponent<HealthComponent>()->HealthChanged.AddObserver(this);
 	}
-
 }
 
 GameState* Playing::Update() {
@@ -62,7 +64,6 @@ GameState* Playing::Update() {
 	if (m_WonLevel) {
 		NextLevel();
 	}
-
 
 	// Game end
 	if (!m_IsPlaying) { 
@@ -112,6 +113,7 @@ void Playing::NextLevel() {
 	m_pEnemySpawner->PickEnemyLocations(m_pLevel->GetChildren(), 6);
 
 	// Spawn diamonds
+	m_pDiamondSpawner->PickDiamondLocations(m_pLevel->GetChildren(), 3);
 
 	// Increase LevelIndex
 	++m_LevelIndex;
@@ -129,8 +131,8 @@ void Playing::RestartLevel() {
 	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
 
 		// Refactor to not have hard coded values
-		int x =  (i % 2) * 384;
-		int y =  (i / 2) * 448;
+		int x =  16 +(i % 2) * 384;
+		int y =  16 +(i / 2) * 448;
 
 		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
 	}

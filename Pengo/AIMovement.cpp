@@ -45,15 +45,18 @@ void AIMovement::UpdateOptions(){
 
 	for (DirectionOption& option : m_MovementOptions) {
 
-		glm::vec4 bounds{ m_pCollider->GetBounds() };
 		glm::vec2 direction{ option.second->GetDirection() };
 
+		glm::vec3 pos{ m_pOwner->GetLocalPosition() };
+		pos.x += direction.x * 2;
+		pos.y += direction.y * 2;
+		m_pOwner->SetLocalPosition(pos);
 
-		// Move in the desired direction to check if something is in the way
-		bounds.x += direction.x * 2;
-		bounds.y += direction.y * 2;
+		CollisionHit hitResult{ m_pCollider->CheckCollision() };
 
-		CollisionHit hitResult{ CollisionComponent::CheckCollision(bounds, { m_pCollider }) };
+		pos.x -= direction.x * 2;
+		pos.y -= direction.y * 2;
+		m_pOwner->SetLocalPosition(pos);
 
 		// Only account for static/movable collision
 		option.first = (hitResult.hit && (hitResult.collider->GetLayer() == CollisionLayer::STATIC || hitResult.collider->GetLayer() == CollisionLayer::DYNAMIC));

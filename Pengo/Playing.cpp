@@ -14,6 +14,7 @@ Playing::Playing(engine::GameObject* pOwner)
 	: GameState(pOwner)
 	, m_IsPlaying{ true }
 	, m_WonLevel{ true }
+	, m_PlayerDied{ false }
 	, m_pLevelLoader{ nullptr }
 	, m_pEnemySpawner{ nullptr }
 	, m_pDiamondSpawner{ nullptr }
@@ -60,6 +61,10 @@ void Playing::OnEnter() {
 
 GameState* Playing::Update() {
 
+	if (m_PlayerDied) {
+		RestartLevel();
+	}
+
 	// Next Level
 	if (m_WonLevel) {
 		NextLevel();
@@ -81,8 +86,7 @@ void Playing::OnNotify(){
 void Playing::OnNotify(HealthComponent* /*component*/, int health) {
 	// Player died
 	if (health >= 0) {
-		RestartLevel();
-
+		m_PlayerDied = true;
 	}
 	else {
 		m_IsPlaying = false;
@@ -136,4 +140,7 @@ void Playing::RestartLevel() {
 
 		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
 	}
+
+	m_PlayerDied = false;
+
 }

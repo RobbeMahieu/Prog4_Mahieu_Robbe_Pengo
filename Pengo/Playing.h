@@ -26,6 +26,7 @@ namespace pengo {
 
 			bool m_IsPlaying;
 			bool m_WonLevel;
+			bool m_PlayerDied;
 
 			LevelLoader* m_pLevelLoader;
 			EnemySpawner* m_pEnemySpawner;

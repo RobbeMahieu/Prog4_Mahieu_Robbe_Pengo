@@ -3,6 +3,7 @@
 #include <vector>
 #include <GameObject.h>
 #include <random>
+#include <SubjectObserver.h>
 
 namespace pengo {
 	
@@ -22,10 +23,13 @@ namespace pengo {
 
 			void PickDiamondLocations(std::vector<engine::GameObject*> locations, int amount);
 
+			engine::Subject<DiamondSpawner*> m_DiamondsAlligned;
+
 		private:
 			std::vector<engine::GameObject*> m_pDiamonds;
 
 			// Random engine
 			std::default_random_engine m_RandomEngine;
+			bool m_BonusAwarded;
 	};
 }

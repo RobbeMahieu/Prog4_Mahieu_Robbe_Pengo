@@ -21,6 +21,6 @@ engine::GameObject* pengo::CreateWallBlock(glm::vec3 position) {
 
 engine::GameObject* pengo::CreateIceBlock(glm::vec3 position) {
 	engine::GameObject* block = CreateBlock("ice.png", position, 32, CollisionLayer::STATIC);
-	block->AddComponent<SlidingComponent>(40.0f);
+	block->AddComponent<SlidingComponent>(200.0f);
 	return block;
 }

@@ -3,8 +3,7 @@
 #include <vector>
 #include <GameObject.h>
 #include <random>
-#include <Observer.h>
-#include <Subject.h>
+#include <SubjectObserver.h>
 
 namespace pengo {
 

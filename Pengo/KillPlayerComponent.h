@@ -1,7 +1,7 @@
 #pragma once
 #include <Component.h>
 #include <GameObject.h>
-#include <Observer.h>
+#include <SubjectObserver.h>
 #include "CollisionComponent.h"
 
 namespace pengo {

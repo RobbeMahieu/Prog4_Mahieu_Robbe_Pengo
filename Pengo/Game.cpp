@@ -89,7 +89,6 @@ int main(int, char* []) {
 
 // Todo:
 // Commands with parameters (low priority)
-// Think about command ownership (high priority)
 // Look into prototype (low priority)
 // Add own struct for rect
 // 

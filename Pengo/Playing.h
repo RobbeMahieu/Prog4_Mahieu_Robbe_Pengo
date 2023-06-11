@@ -1,6 +1,6 @@
 #pragma once
 #include "GameState.h"
-#include <Observer.h>
+#include <SubjectObserver.h>
 
 namespace pengo {
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <memory>
-#include "Observer.h"
+#include <SubjectObserver.h>
 #include "TextRenderComponent.h"
 
 namespace pengo {

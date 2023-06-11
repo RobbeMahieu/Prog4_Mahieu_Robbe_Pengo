@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <InputManager.h>
 #include <Keyboard.h>
+#include "EndScreen.h"
 
 using namespace pengo;
 
@@ -15,6 +16,8 @@ Playing::Playing(engine::GameObject* pOwner)
 	, m_pEnemySpawner{ nullptr }
 	, m_pPlayers{}
 	, m_LevelIndex{ 0 }
+	, m_pLevel{ nullptr }
+	, m_pGame{ nullptr }
 {
 }
 
@@ -58,8 +61,8 @@ GameState* Playing::Update() {
 
 	// Game end
 	if (!m_IsPlaying) { 
-		std::cout << "Reached End!\n";
-		return nullptr; 
+		m_pGame->Destroy();
+		return new EndScreen(m_pOwner, m_WonLevel); 
 	}
 
 	return nullptr;
@@ -70,13 +73,14 @@ void Playing::OnNotify(){
 }
 
 void Playing::NextLevel() {
-	m_WonLevel = false;
 
 	// Check if there is a next level
 	if (m_LevelIndex >= m_pLevelLoader->GetLevelAmount()) {
 		m_IsPlaying = false;
 		return;
 	}
+
+	m_WonLevel = false;
 
 	// Clear everything in the level
 	if (m_pLevel) {

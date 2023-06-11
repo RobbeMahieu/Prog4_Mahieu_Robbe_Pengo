@@ -100,6 +100,12 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Components\GameData\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="EndScreen.cpp">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -169,6 +175,12 @@
       <Filter>Components\GameData\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="Playing.h">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Components\GameData\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScreen.h">
       <Filter>Components\GameData\GameStates</Filter>
     </ClInclude>
   </ItemGroup>

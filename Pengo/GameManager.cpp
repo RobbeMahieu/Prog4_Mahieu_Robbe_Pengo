@@ -1,12 +1,13 @@
 #include "GameManager.h"
 #include "GameState.h"
+#include "Menu.h"
 #include "Playing.h"
 
 using namespace pengo;
 
 GameManager::GameManager(engine::GameObject* pOwner)
 	: Component(pOwner)
-	, m_pState{ new Playing(pOwner) }
+	, m_pState{ new Menu(pOwner) }
 {
 	m_pState->OnEnter();
 }

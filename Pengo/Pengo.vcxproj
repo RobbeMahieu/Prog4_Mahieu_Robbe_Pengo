@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIMovement.cpp" />
+    <ClCompile Include="EndScreen.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="KillPlayerComponent.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -46,11 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMovement.h" />
+    <ClInclude Include="EndScreen.h" />
     <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="KillPlayerComponent.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="CollisionComponent.h" />

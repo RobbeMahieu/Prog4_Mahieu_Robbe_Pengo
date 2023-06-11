@@ -5,8 +5,7 @@
 #include <memory>
 #include <random>
 #include "EnemyState.h"
-#include <Observer.h>
-#include <Subject.h>
+#include <SubjectObserver.h>
 
 namespace pengo {
 

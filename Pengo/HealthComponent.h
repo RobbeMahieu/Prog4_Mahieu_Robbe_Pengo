@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "Subject.h"
+#include <SubjectObserver.h>
 
 namespace pengo {
 

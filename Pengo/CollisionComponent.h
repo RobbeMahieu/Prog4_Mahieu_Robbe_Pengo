@@ -1,7 +1,7 @@
 #pragma once
 #include <Component.h>
 #include <GameObject.h>
-#include "Subject.h"
+#include <SubjectObserver.h>
 #include <vector>
 #include <unordered_set>
 #include <glm/glm.hpp>

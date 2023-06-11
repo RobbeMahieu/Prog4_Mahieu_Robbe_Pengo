@@ -35,10 +35,10 @@ bool PushCommand::CanPush() {
 
 		// Get closest iceblock
 		float closestDistance{ FLT_MAX };
-		glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+		glm::vec2 pos{ m_pOwner->GetComponent<CollisionComponent>()->GetCenter() };
 
 		for (SlidingComponent* block : iceBlocks) {
-			glm::vec3 otherPos{ block->GetOwner()->GetWorldPosition()};
+			glm::vec2 otherPos{ block->GetOwner()->GetComponent<CollisionComponent>()->GetCenter() };
 			float distance{ glm::distance(pos, otherPos) };
 			if (distance < closestDistance) {
 				m_ClosestIce = block;
@@ -55,21 +55,18 @@ bool PushCommand::CanPush() {
 void PushCommand::Push() {
 	if (!CanPush()) { return; }
 
-	// Calculate direction
-	glm::vec3 distanceBetween{ m_ClosestIce->GetOwner()->GetWorldPosition() - m_pOwner->GetWorldPosition() };
+	glm::vec4 bounds{ m_pOwner->GetComponent<CollisionComponent>()->GetBounds() };
+	glm::vec4 otherBounds{ m_ClosestIce->GetOwner()->GetComponent<CollisionComponent>()->GetBounds() };
 
-	glm::vec2 direction = (abs(distanceBetween.x) > abs(distanceBetween.y)) ? glm::vec2{ 1,0 } : glm::vec2{ 0,1 };
+	std::vector<std::pair<float, glm::vec2>> options{
+		{ abs(bounds.x - otherBounds.x - otherBounds.z), { 1,0 }},
+		{ abs(bounds.x + bounds.z - otherBounds.x), { -1,0 } },
+		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,1 } },
+		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,-1 } }
+	};
 
-	// Divide by 0 protection
-	if (distanceBetween.x == 0) {
-		distanceBetween.x = 1;
-	}
-	if (distanceBetween.y == 0) {
-		distanceBetween.y = 1;
-	}
-
-	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x), distanceBetween.y / abs(distanceBetween.y) };
-	direction *= sign;
+	std::sort(options.begin(), options.end(), [](const auto& a, const auto& b) { return a.first > b.first; });
+	glm::vec2 direction{ options[0].second };
 
 	m_ClosestIce->Push(direction);
 }
@@ -91,12 +88,10 @@ bool PushCommand::CanStun() {
 		// Get closest wall
 		float closestDistance{ FLT_MAX };
 
-		glm::vec4 bounds{ m_pOwner->GetComponent<CollisionComponent>()->GetBounds()};
-		glm::vec3 pos{ bounds.x + bounds.z / 2, bounds.y + bounds.w / 2, 0 };
+		glm::vec2 pos{ m_pOwner->GetComponent<CollisionComponent>()->GetCenter()};
 
 		for (StunComponent* block : walls) {
-			bounds = block->GetOwner()->GetComponent<CollisionComponent>()->GetBounds();
-			glm::vec3 otherPos{ bounds.x + bounds.z / 2, bounds.y + bounds.w / 2, 0 };
+			glm::vec2 otherPos{ block->GetOwner()->GetComponent<CollisionComponent>()->GetCenter() };
 			float distance{ glm::distance(pos, otherPos) };
 			if (distance < closestDistance) {
 				m_ClosestWall = block;
@@ -115,24 +110,20 @@ void PushCommand::Stun() {
 
 	// Calculate direction
 	glm::vec4 bounds{ m_pOwner->GetComponent<CollisionComponent>()->GetBounds() };
-	glm::vec3 pos{ bounds.x + bounds.z / 2, bounds.y + bounds.w / 2, 0 };
+	glm::vec4 otherBounds{ m_ClosestWall->GetOwner()->GetComponent<CollisionComponent>()->GetBounds() };
 
-	bounds = m_ClosestWall->GetOwner()->GetComponent<CollisionComponent>()->GetBounds();
-	glm::vec3 otherPos{ bounds.x + bounds.z / 2, bounds.y + bounds.w / 2, 0 };
+	std::vector<std::pair<float, glm::vec2>> options{
+		{ abs(bounds.x - otherBounds.x - otherBounds.z), { -1,0 }},
+		{ abs(bounds.x + bounds.z - otherBounds.x), { 1,0 } },
+		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,-1 } },
+		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,1 } }
+	};
 
-	glm::vec3 distanceBetween{ otherPos - pos };
-	glm::vec2 direction = (abs(distanceBetween.x) < abs(distanceBetween.y)) ? glm::vec2{ 1,0 } : glm::vec2{ 0,1 };
+	std::sort(options.begin(), options.end(), [](const auto& a, const auto& b) {
+		return a.first > b.first;
+	});
 
-	// Divide by 0 protection
-	if (distanceBetween.x == 0) {
-		distanceBetween.x = 1;
-	}
-	if (distanceBetween.y == 0) {
-		distanceBetween.y = 1;
-	}
-
-	glm::vec2 sign{ distanceBetween.x / abs(distanceBetween.x), distanceBetween.y / abs(distanceBetween.y) };
-	direction *= sign;
-
-	m_ClosestWall->StunEnemies(-direction);
+	glm::vec2 direction{ options[0].second };
+	
+	m_ClosestWall->StunEnemies(direction);
 }

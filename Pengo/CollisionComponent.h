@@ -48,7 +48,7 @@ namespace pengo {
 			CollisionLayer GetLayer() const;
 			void SetLayer(CollisionLayer type);
 
-			// Returns x, y, width, height
+			glm::vec2 GetCenter() const;
 			glm::vec4 GetBounds() const;
 
 			engine::Subject<CollisionComponent*> OnCollision;

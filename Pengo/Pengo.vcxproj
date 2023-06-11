@@ -46,7 +46,6 @@
     <ClCompile Include="PushComponent.cpp" />
     <ClCompile Include="SlidingComponent.cpp" />
     <ClCompile Include="SnowBee.cpp" />
-    <ClCompile Include="StunCommand.cpp" />
     <ClCompile Include="StunComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +75,6 @@
     <ClInclude Include="PushComponent.h" />
     <ClInclude Include="SlidingComponent.h" />
     <ClInclude Include="SnowBee.h" />
-    <ClInclude Include="StunCommand.h" />
     <ClInclude Include="StunComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

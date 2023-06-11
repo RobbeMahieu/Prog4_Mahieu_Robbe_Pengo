@@ -245,8 +245,14 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 	return hitResult;
 }
 
+glm::vec2 CollisionComponent::GetCenter() const {
+
+	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	return glm::vec2{ pos.x + m_Width/2, pos.y + m_Height/2};
+}
+
 glm::vec4 CollisionComponent::GetBounds() const {
 
-	glm::vec2 pos{ m_pOwner->GetWorldPosition() };
+	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 	return glm::vec4{ pos.x, pos.y, m_Width, m_Height };
 }

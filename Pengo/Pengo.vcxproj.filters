@@ -112,7 +112,6 @@
     <ClCompile Include="StunComponent.cpp">
       <Filter>Components\Player</Filter>
     </ClCompile>
-    <ClCompile Include="StunCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -196,6 +195,5 @@
     <ClInclude Include="StunComponent.h">
       <Filter>Components\Player</Filter>
     </ClInclude>
-    <ClInclude Include="StunCommand.h" />
   </ItemGroup>
 </Project>

@@ -60,8 +60,6 @@ int main(int, char* []) {
 // 
 // Gameplay related:
 // - Multiplayer
-// - Diamond bonus
-// - Walls
 // - Sprites + animations if time
 // - Sound
 // - Menu

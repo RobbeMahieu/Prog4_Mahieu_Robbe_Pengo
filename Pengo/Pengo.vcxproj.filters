@@ -49,9 +49,6 @@
     <ClCompile Include="PushCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Components\UI</Filter>
-    </ClCompile>
     <ClCompile Include="HealthHUD.cpp">
       <Filter>Components\UI</Filter>
     </ClCompile>
@@ -137,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="PushCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="HealthHUD.h">
       <Filter>Components\UI</Filter>

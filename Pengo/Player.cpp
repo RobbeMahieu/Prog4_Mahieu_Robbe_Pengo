@@ -56,28 +56,22 @@ engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, eng
 }
 
 
-engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, glm::vec3 position) {
+engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, std::string iconPath, int index, glm::vec3 position) {
 	auto playerHUD = new engine::GameObject();
 	playerHUD->SetLocalPosition(position);
 
-	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 10);
+
+	// Player index
+	std::string name{ "PLAYER " + std::to_string(index) };
+	playerHUD->AddComponent<engine::TextRenderComponent>(name, textFont);
+
+	// Health hud
 	HealthComponent* pPlayerHealth = pPlayer->GetComponent<HealthComponent>();
-	//PointComponent* pPlayerPoints = pPlayer->GetComponent<PointComponent>();
-
-	if (pPlayerHealth) {
-		auto playerHealthHUD = new engine::GameObject();
-		playerHealthHUD->AddComponent<engine::TextRenderComponent>("lives", textFont);
-		playerHealthHUD->AddComponent<HealthHUD>(pPlayerHealth);
-		playerHealthHUD->AttachTo(playerHUD, false);
-	}
-
-	/*if (pPlayerPoints) {
-		auto playerPointsHUD = new engine::GameObject();
-		playerPointsHUD->AddComponent<engine::TextRenderComponent>("points", textFont);
-		playerPointsHUD->AddComponent<PointsHUD>(pPlayerPoints);
-		playerPointsHUD->AttachTo(playerHUD, false);
-		playerPointsHUD->SetLocalPosition(0, 20);
-	}*/
+	auto playerHealthHUD = new engine::GameObject();
+	playerHealthHUD->AddComponent<HealthHUD>(pPlayerHealth, iconPath);
+	playerHealthHUD->AttachTo(playerHUD, false);
+	playerHealthHUD->SetLocalPosition(0, 12);
 
 	return playerHUD;
 }

@@ -13,7 +13,6 @@
 #include "GameObject.h"
 #include "TextRenderComponent.h"
 #include "TextureRenderComponent.h"
-#include "FPSComponent.h"
 #include "XBoxController.h"
 #include "Keyboard.h"
 #include <SDL.h>
@@ -36,16 +35,6 @@ void load()
 	engine::GameObject* gameManager{ new engine::GameObject() };
 	gameManager->AddComponent<GameManager>();
 	scene.Add(gameManager);
-
-	// FPS counter
-	auto FPSCounter = new engine::GameObject();
-	auto TitleFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
-	FPSCounter->AddComponent<engine::TextRenderComponent>("test", TitleFont);
-	FPSCounter->AddComponent<FPSComponent>();
-	FPSCounter->SetLocalPosition(0, 0);
-	scene.Add(FPSCounter);
-
 }
 
 int main(int, char* []) {
@@ -65,4 +54,6 @@ int main(int, char* []) {
 // - Sound
 // - HUD
 // - End screen
+// - Clean up + asserts
+// - Refactor enemy, ice, points
 //

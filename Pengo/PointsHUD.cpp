@@ -2,19 +2,24 @@
 #include "GameObject.h"
 #include "TextRenderComponent.h"
 #include "PointManager.h"
+#include <sstream>
+#include <iomanip>
 
 using namespace pengo;
 
-PointsHUD::PointsHUD(engine::GameObject* pOwner, PointManager* pPointComponent)
+PointsHUD::PointsHUD(engine::GameObject* pOwner)
 	: Component(pOwner)
 	, m_pTextRenderer{ pOwner->GetComponent<engine::TextRenderComponent>() }
 {
-	pPointComponent->ScoreChanged.AddObserver(this);
-	OnNotify(pPointComponent->GetScore());
+	PointManager::GetInstance().ScoreChanged.AddObserver(this);
+	OnNotify(PointManager::GetInstance().GetScore());
 }
 
 void PointsHUD::OnNotify(int score) {
 	if (m_pTextRenderer) {
-		m_pTextRenderer->SetText("Points: " + std::to_string(score));
+
+		std::stringstream ss;
+		ss << std::setw(8) << std::setfill('0') << score;
+		m_pTextRenderer->SetText(ss.str());
 	}
 }

@@ -1,5 +1,6 @@
 #include "DiamondSpawner.h"
 #include "SlidingComponent.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -69,7 +70,7 @@ void DiamondSpawner::Update() {
 	if (!sameLine && !sameRow) { return; }
 
 	// Blocks are alligned!
-	std::cout << "Diamond Bonus!\n";
+	PointManager::GetInstance().AddScore(5000);
 	m_BonusAwarded = true;
 	m_DiamondsAlligned.Broadcast(this);
 }

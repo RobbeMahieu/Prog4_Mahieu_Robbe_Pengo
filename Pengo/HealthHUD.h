@@ -2,7 +2,8 @@
 #include "Component.h"
 #include <memory>
 #include <SubjectObserver.h>
-#include "TextRenderComponent.h"
+#include "TextureRenderComponent.h"
+#include <string>
 
 namespace pengo {
 
@@ -11,7 +12,7 @@ namespace pengo {
 	class HealthHUD : public engine::Component, public engine::Observer<HealthComponent*, int>
 	{
 		public:
-			HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthComponent);
+			HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthComponent, const std::string& iconPath);
 			virtual ~HealthHUD() = default;
 
 			HealthHUD(const HealthHUD& other) = delete;
@@ -25,8 +26,10 @@ namespace pengo {
 			virtual void OnNotify(HealthComponent* component, int health) override;
 
 		private:
-			engine::TextRenderComponent* m_pTextRenderer;
-
+			std::vector<engine::GameObject*> m_Lives;
+			std::string m_IconPath;
+			void AddLifeIcon();
+			void RemoveLifeIcon();
 	};
 }
 

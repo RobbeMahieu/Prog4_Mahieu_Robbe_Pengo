@@ -22,8 +22,10 @@ namespace pengo {
 			virtual void OnNotify(HealthComponent* component, int health) override;
 
 		private:
+			engine::GameObject* m_pRoot;
 			engine::GameObject* m_pGame;
 			engine::GameObject* m_pLevel;
+			engine::GameObject* m_pHUD;
 
 			bool m_IsPlaying;
 			bool m_WonLevel;
@@ -41,10 +43,9 @@ namespace pengo {
 			int m_LevelIndex;
 
 			void NextLevel();
-
 			void AddPlayers();
-
 			void CalculateBonus();
+			void AddHUD();
 	};
 
 }

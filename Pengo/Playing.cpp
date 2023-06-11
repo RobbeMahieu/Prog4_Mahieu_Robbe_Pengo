@@ -11,6 +11,8 @@
 #include "HealthComponent.h"
 #include "DiamondSpawner.h"
 #include "PointManager.h"
+#include "PointsHUD.h"
+#include "ResourceManager.h"
 
 using namespace pengo;
 
@@ -25,6 +27,8 @@ Playing::Playing(engine::GameObject* pOwner, GameMode mode)
 	, m_LevelIndex{ 0 }
 	, m_pLevel{ nullptr }
 	, m_pGame{ nullptr }
+	, m_pRoot{ nullptr }
+	, m_pHUD{ nullptr }
 	, m_GameMode{ mode }
 	, m_LevelStartTime{}
 {
@@ -32,9 +36,13 @@ Playing::Playing(engine::GameObject* pOwner, GameMode mode)
 
 void Playing::OnEnter() {
 	
+	m_pRoot = new engine::GameObject();
+	m_pRoot->AttachTo(m_pOwner, false);
+
 	// Gameobject for the game
 	m_pGame = new engine::GameObject();
-	m_pGame->AttachTo(m_pOwner, false);
+	m_pGame->AttachTo(m_pRoot, false);
+	m_pGame->SetLocalPosition(0, 32);
 
 	// Level loading
 	m_pLevelLoader = m_pGame->AddComponent<LevelLoader>(32.0f);
@@ -44,12 +52,15 @@ void Playing::OnEnter() {
 	m_pEnemySpawner = m_pGame->AddComponent<EnemySpawner>();
 	m_pDiamondSpawner = m_pGame->AddComponent<DiamondSpawner>();
 
+	// Spawn players
+	AddPlayers();
+
 	// Add walls
 	engine::GameObject* walls{ CreateWalls(16, 448, 512) };
 	walls->AttachTo(m_pGame, false);
 
-	// Spawn players
-	AddPlayers();
+	// HUD
+	AddHUD();
 
 	for (engine::GameObject* player : m_pPlayers)
 	{
@@ -73,7 +84,7 @@ GameState* Playing::Update() {
 
 	// Game end
 	if (!m_IsPlaying || m_pPlayers.size() == 0) {
-		m_pGame->Destroy();
+		m_pRoot->Destroy();
 		return new EndScreen(m_pOwner, m_WonLevel); 
 	}
 
@@ -188,4 +199,25 @@ void Playing::CalculateBonus() {
 	if (seconds < 60.0f) {
 		PointManager::GetInstance().AddScore(int(60.0f - seconds) * 100);
 	}
+}
+
+void Playing::AddHUD() {
+
+	m_pHUD = new engine::GameObject();
+	m_pHUD->AttachTo(m_pRoot, true);
+
+	// Plater HUDs
+	for (int i{ 0 }; i < m_pPlayers.size(); ++i) {
+		engine::GameObject* playerHUD = CreatePlayerHUD(m_pPlayers[i], "Sprites/smallPengo.png", i + 1);
+		playerHUD->AttachTo(m_pHUD, false);
+		playerHUD->SetLocalPosition(5 + 360.0f*i, 3);
+	}
+
+	// Score HUD
+	engine::GameObject* scoreHUD{ new engine::GameObject() };
+	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 20);
+	scoreHUD->AddComponent<engine::TextRenderComponent>(" ", textFont);
+	scoreHUD->AddComponent<PointsHUD>();
+	scoreHUD->SetLocalPosition(150, 3);
+	scoreHUD->AttachTo(m_pHUD, false);
 }

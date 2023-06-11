@@ -49,7 +49,7 @@ void Playing::OnEnter() {
 	int health{ 3 };
 	float movementSpeed{ 100.0f };
 
-	m_pPlayers.push_back(CreatePlayer("pengo.png", keyboard, health, movementSpeed, glm::vec3{ 200, 250, 0 }));
+	m_pPlayers.push_back(CreatePlayer("Sprites/pengo.png", keyboard, health, movementSpeed, glm::vec3{ 200, 250, 0 }));
 
 	for (engine::GameObject* player : m_pPlayers)
 	{

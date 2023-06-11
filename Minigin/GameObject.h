@@ -94,6 +94,7 @@ namespace engine
 			void Destroy();
 
 			std::vector<GameObject*> GetChildren() const;
+			GameObject* GetParent() const;
 
 		private:
 			void UpdateWorldPosition();

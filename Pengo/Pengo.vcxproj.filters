@@ -112,6 +112,12 @@
     <ClCompile Include="StunComponent.cpp">
       <Filter>Components\Player</Filter>
     </ClCompile>
+    <ClCompile Include="FunctionCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuInteractor.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -194,6 +200,12 @@
     </ClInclude>
     <ClInclude Include="StunComponent.h">
       <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuInteractor.h">
+      <Filter>Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -37,6 +37,8 @@ namespace engine {
 			void BindAction(unsigned int key, Command* pCommand, int deviceIndex = 0, KeyState state = KeyState::Pressed);
 			void UnbindAction(Command* pCommand);
 
+			std::vector<InputDevice*> GetInputDevices() const;
+
 		private:
 			std::vector<std::unique_ptr<InputDevice>> m_InputDevices;
 			std::vector<ActionMap> m_ActionMapping;

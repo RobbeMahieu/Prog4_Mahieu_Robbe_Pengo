@@ -48,12 +48,12 @@ void SlidingComponent::Push(glm::vec2 direction) {
 
 void SlidingComponent::HideEgg() {
 	m_IsEgg = true;
-	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("egg.png");
+	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("Sprites/egg.png");
 }
 
 void SlidingComponent::SetDiamond() {
 	m_IsDiamond = true;
-	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("diamond.png");
+	m_pOwner->GetComponent<engine::TextureRenderComponent>()->SetTexture("Sprites/diamond.png");
 }
 
 bool SlidingComponent::IsEgg() const {

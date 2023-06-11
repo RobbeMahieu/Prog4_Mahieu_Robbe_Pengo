@@ -26,7 +26,8 @@ void load()
 {
 	// Add input devices
 	// (I'd like to do this automatically in the future)
-	//engine::XBoxController* controller0 = engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
+	engine::InputManager::GetInstance().AddInputDevice<engine::Keyboard>();
+	engine::InputManager::GetInstance().AddInputDevice<engine::XBoxController>(0);
 
 
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("Pengo");
@@ -62,6 +63,8 @@ int main(int, char* []) {
 // - Multiplayer
 // - Sprites + animations if time
 // - Sound
+// - HUD
+// - Score
 // - Menu
 // - End screen
 //

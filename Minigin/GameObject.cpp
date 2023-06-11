@@ -165,3 +165,7 @@ std::vector<GameObject*> GameObject::GetChildren() const{
 
 	return children;
 }
+
+GameObject* GameObject::GetParent() const {
+	return m_pParent;
+}

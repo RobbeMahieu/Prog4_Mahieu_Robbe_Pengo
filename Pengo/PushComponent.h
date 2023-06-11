@@ -1,8 +1,8 @@
 #pragma once
 #include <Component.h>
 #include <glm/glm.hpp>
-#include "Keyboard.h"
-#include "XBoxController.h"
+#include <Keyboard.h>
+#include <XBoxController.h>
 #include <memory>
 
 namespace pengo {

@@ -1,5 +1,7 @@
 #include "InputManager.h"
 #include "SDL.h"
+#include <algorithm>
+#include <iterator>
 
 using namespace engine;
 
@@ -66,4 +68,12 @@ void InputManager::UnbindAction(Command* pCommand) {
 		return action.command == pCommand;
 
 	}), m_ActionMapping.end());
+}
+
+std::vector<InputDevice*> InputManager::GetInputDevices() const {
+	std::vector<InputDevice*> devices{};
+
+	std::transform(m_InputDevices.begin(), m_InputDevices.end(), std::inserter(devices, devices.begin()), [](auto& element) { return element.get(); });
+
+	return devices;
 }

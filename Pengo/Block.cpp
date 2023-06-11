@@ -18,7 +18,7 @@ engine::GameObject* pengo::CreateBlock(std::string texturePath, glm::vec3 positi
 
 engine::GameObject* pengo::CreateWalls(float blockSize, float width, float height) {
 	engine::GameObject* walls = new engine::GameObject();
-	walls->AddComponent<engine::TextureRenderComponent>("wall.png");
+	walls->AddComponent<engine::TextureRenderComponent>("Backgrounds/wall.png");
 
 	engine::GameObject* topWall = new engine::GameObject();
 	topWall->AddComponent<CollisionComponent>(width, blockSize, false, CollisionLayer::STATIC);
@@ -46,7 +46,7 @@ engine::GameObject* pengo::CreateWalls(float blockSize, float width, float heigh
 }
 
 engine::GameObject* pengo::CreateIceBlock(glm::vec3 position) {
-	engine::GameObject* block = CreateBlock("ice.png", position, 32, CollisionLayer::STATIC);
+	engine::GameObject* block = CreateBlock("Sprites/ice.png", position, 32, CollisionLayer::STATIC);
 	block->AddComponent<SlidingComponent>(200.0f);
 	return block;
 }

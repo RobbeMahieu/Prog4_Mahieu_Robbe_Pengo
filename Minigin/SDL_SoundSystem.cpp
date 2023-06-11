@@ -133,7 +133,6 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::Play(const std::string& path, float v
 void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySound(const std::string& path, float volume) {
 	
 	// Load sound effect if it's not loaded in yet
-	// Does this need to be locked as well?
 	if (m_pSoundEffects.find(path) == m_pSoundEffects.end()) {
 		m_pSoundEffects[path] = Mix_LoadWAV(path.c_str());
 	}

@@ -1,6 +1,7 @@
 #include "DiamondSpawner.h"
 #include "SlidingComponent.h"
 #include "PointManager.h"
+#include <GameServiceLocator.h>
 
 using namespace pengo;
 
@@ -71,6 +72,10 @@ void DiamondSpawner::Update() {
 
 	// Blocks are alligned!
 	PointManager::GetInstance().AddScore(5000);
+
+	// Bonus sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/diamonds.wav", 0.5f);
+
 	m_BonusAwarded = true;
 	m_DiamondsAlligned.Broadcast(this);
 }

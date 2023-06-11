@@ -52,7 +52,7 @@ int main(int, char* []) {
 // - Versus
 // - Sprites + animations if time
 // - Sound
-// - End screen
+// - Named scores
 // - Clean up + asserts
 // - Refactor enemy, ice, points
 //

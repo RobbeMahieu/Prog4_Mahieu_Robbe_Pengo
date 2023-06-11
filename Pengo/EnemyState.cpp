@@ -3,6 +3,7 @@
 #include "MoveCommand.h"
 #include "KillPlayerComponent.h"
 #include "GameTime.h"
+#include <GameServiceLocator.h>
 
 using namespace pengo;
 
@@ -126,6 +127,10 @@ Stuck::Stuck(AIMovement* pMovement)
 
 EnemyState* Stuck::HandleCollision(CollisionComponent* other) {
 	if (other->GetLayer() == CollisionLayer::STATIC) { 
+
+		// Die sound
+		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeDie.wav", 0.5f);
+
 		return new Die(m_pMovement); 
 	}
 
@@ -155,6 +160,9 @@ void Stunned::OnEnter() {
 	if (killComponent) {
 		killComponent->Enable(false);
 	}
+
+	// Stunned sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeStunned.wav", 0.5f);
 }
 
 EnemyState* Stunned::Update() {
@@ -169,6 +177,9 @@ EnemyState* Stunned::Update() {
 
 EnemyState* Stunned::HandleCollision(CollisionComponent* other) {
 	if (other->GetLayer() == CollisionLayer::PLAYER) {
+		// Kill sound
+		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeKilled.wav", 0.5f);
+
 		return new Die(m_pMovement);
 	}
 

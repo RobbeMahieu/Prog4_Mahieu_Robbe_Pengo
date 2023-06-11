@@ -6,6 +6,7 @@
 #include "TextureRenderComponent.h"
 #include "EnemySpawner.h"
 #include "SlidingComponent.h"
+#include <GameServiceLocator.h>
 
 using namespace pengo;
 
@@ -26,6 +27,9 @@ Sliding::Sliding(SlidingComponent* component, const glm::vec2& direction)
 void Sliding::OnEnter() {
 	CollisionComponent* collider = m_pIce->m_pOwner->GetComponent<CollisionComponent>();
 	collider->SetLayer(CollisionLayer::DYNAMIC);
+
+	// Push sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/push.wav", 0.5f);
 }
 
 IceBlockState* Sliding::Update() {
@@ -58,6 +62,10 @@ void Idle::OnEnter() {
 IceBlockState* Idle::Push(glm::vec2 direction) {
 	
 	if (m_pIce->IsEgg()) {
+
+		// Egg sound
+		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/eggDestroyed.wav", 0.5f);
+
 		return new Break(m_pIce);
 	}
 
@@ -77,6 +85,9 @@ IceBlockState* Idle::Push(glm::vec2 direction) {
 
 	// Start break
 	if (hitResult.hit) {
+		// Break sound
+		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/break.wav", 0.5f);
+
 		return new Break(m_pIce);
 	}
 	// Start push

@@ -4,6 +4,7 @@
 #include "CollisionComponent.h"
 #include "StunComponent.h"
 #include "PointManager.h"
+#include <GameServiceLocator.h>
 
 using namespace pengo;
 
@@ -130,4 +131,7 @@ void PushCommand::Stun() {
 	glm::vec2 direction{ options[0].second };
 	
 	m_ClosestWall->StunEnemies(direction);
+
+	// Push wall sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/pushWall.wav", 0.5f);
 }

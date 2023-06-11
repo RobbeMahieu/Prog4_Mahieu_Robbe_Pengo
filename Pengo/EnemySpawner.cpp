@@ -3,6 +3,7 @@
 #include "AIMovement.h"
 #include "SlidingComponent.h"
 #include "PointManager.h"
+#include "GameServiceLocator.h"
 
 using namespace pengo;
 
@@ -11,7 +12,6 @@ EnemySpawner::EnemySpawner(engine::GameObject* pOwner)
 	, m_RandomEngine{ std::random_device{}() }
 	, m_EnemyCounter{ 0 }
 	, m_EnemiesKilled{}
-
 {
 }
 
@@ -51,6 +51,9 @@ void EnemySpawner::SpawnEnemy() {
 		// Destroy Ice block
 		m_SpawnLocations[0]->Destroy();
 		m_SpawnLocations.erase(std::remove(m_SpawnLocations.begin(), m_SpawnLocations.end(), m_SpawnLocations[0]), m_SpawnLocations.end());
+
+		// Spawn sound
+		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/spawnBee.wav", 0.5f);
 
 	}
 }

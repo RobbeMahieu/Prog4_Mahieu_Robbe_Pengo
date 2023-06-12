@@ -3,6 +3,7 @@
 #include "KillPlayerComponent.h"
 #include <GameServiceLocator.h>
 #include "AIMovement.h"
+#include "PointManager.h"
 
 using namespace pengo;
 
@@ -58,6 +59,9 @@ void Stunnable::GetStunned(){
 	// Stunned sound
 	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeStunned.wav", 0.5f);
 	m_State = State::Stunned;
+
+	// Add Score
+	PointManager::GetInstance().AddScore(100);
 }
 
 void Stunnable::OnNotify(CollisionComponent* other) {

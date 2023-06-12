@@ -66,6 +66,9 @@ void EnemySpawner::OnNotify(engine::GameObject* object) {
 
 	// Reward points
 	PointManager::GetInstance().AddScore(500);
+
+	// Spawn sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeKilled.wav", 0.5f);
 }
 
 void EnemySpawner::OnNotify(SlidingComponent* component) {
@@ -74,6 +77,9 @@ void EnemySpawner::OnNotify(SlidingComponent* component) {
 
 	// Reward points
 	PointManager::GetInstance().AddScore(500);
+
+	// Spawn sound
+	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeDie.wav", 0.5f);
 }
 
 std::vector<engine::GameObject*> EnemySpawner::GetEnemies() const {

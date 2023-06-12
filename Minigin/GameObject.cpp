@@ -11,14 +11,10 @@ void GameObject::Destroy() {
 	m_IsMarkedForDestroy = true;
 
 	// Destroy children
-	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) {
-		child->Destroy();
-	});
+	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Destroy(); });
 
 	// Destroy components
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) {
-		component->Destroy();
-	});
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [=](auto& component) { component->Destroy(); });
 }
 
 bool GameObject::IsMarkedForDestroy() {
@@ -55,7 +51,7 @@ void GameObject::FixedUpdate(){
 
 void GameObject::Render() const
 {
-	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const auto& component) { component->Render();	});
+	std::for_each(m_pComponents.begin(), m_pComponents.end(), [](const auto& component) { component->Render(); });
 	std::for_each(m_pChildren.begin(), m_pChildren.end(), [=](auto& child) { child->Render(); });
 }
 
@@ -122,7 +118,6 @@ void GameObject::AttachTo(GameObject* pParent, bool keepWorldPosition) {
 
 		m_pParent->m_pChildren.push_back(std::move(child));
 	}
-
 
 	// Update position
 	if (m_pParent == nullptr) {

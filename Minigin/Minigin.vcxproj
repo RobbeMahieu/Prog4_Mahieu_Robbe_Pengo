@@ -241,7 +241,6 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SDL_SoundSystem.cpp" />
-    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TextRenderComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureRenderComponent.cpp" />

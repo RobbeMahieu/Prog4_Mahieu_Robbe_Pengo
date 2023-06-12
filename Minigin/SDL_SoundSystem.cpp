@@ -121,7 +121,7 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::ProcessRequests() {
 		}
 
 		// Get the request from the queue
-		auto request{ m_pRequests[m_Head] };
+		const auto request{ m_pRequests[m_Head] };
 		m_Head = (m_Head + 1) % m_MaxRequests;
 
 		lk.unlock();
@@ -205,7 +205,7 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySound(const std::string& path, fl
 	}
 
 	// Play Sound Effect
-	int channel = Mix_PlayChannel(-1, m_pSoundEffects[path], 0);
+	const int channel = Mix_PlayChannel(-1, m_pSoundEffects[path], 0);
 	Mix_Volume(channel, int(volume* MIX_MAX_VOLUME));
 }
 
@@ -217,7 +217,7 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySong(const std::string& path, flo
 	}
 
 	// Play Sound Effect
-	int channel = Mix_PlayMusic(m_pMusic[path], -1);
+	const int channel = Mix_PlayMusic(m_pMusic[path], -1);
 	Mix_Volume(channel, int(volume * MIX_MAX_VOLUME));
 
 	std::lock_guard<std::mutex> lk(m_MuteLock);

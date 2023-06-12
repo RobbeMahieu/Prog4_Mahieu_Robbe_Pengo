@@ -106,9 +106,6 @@
     <ClCompile Include="SDL_SoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
-    <ClCompile Include="SoundSystem.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Scenegraph</Filter>
     </ClCompile>

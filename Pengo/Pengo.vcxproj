@@ -28,8 +28,10 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="KillPlayerComponent.cpp" />
+    <ClCompile Include="LetterSelector.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MenuInteractor.cpp" />
+    <ClCompile Include="MenuHorizontalInteractor.cpp" />
+    <ClCompile Include="MenuVerticalInteractor.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -61,8 +63,10 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="KillPlayerComponent.h" />
+    <ClInclude Include="LetterSelector.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="MenuInteractor.h" />
+    <ClInclude Include="MenuHorizontalInteractor.h" />
+    <ClInclude Include="MenuVerticalInteractor.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="CollisionComponent.h" />

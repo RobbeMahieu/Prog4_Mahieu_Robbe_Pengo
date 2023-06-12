@@ -42,9 +42,3 @@ int main(int, char* []) {
 	gameEngine.Run(load);
 	return 0;
 }
-
-// Gameplay related:
-// - Versus
-// - Named scores
-// - Clean up + asserts
-//

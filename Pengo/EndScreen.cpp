@@ -4,7 +4,8 @@
 #include <TextRenderComponent.h>
 #include <ResourceManager.h>
 #include <InputManager.h>
-#include "MenuInteractor.h"
+#include "MenuHorizontalInteractor.h"
+#include "LetterSelector.h"
 #include "Playing.h"
 #include "Menu.h"
 #include "PointManager.h"
@@ -49,20 +50,26 @@ void EndScreen::OnEnter() {
 	score->AddComponent<engine::TextRenderComponent>(scoreText, textFont);
 	score->AttachTo(m_pScreen, true);
 
-	// Buttons
+	// Letter Selectors
 	auto buttonFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 25);
 
 	engine::GameObject* button = new engine::GameObject();
-	button->SetLocalPosition(120, 380);
-	button->AddComponent<engine::TextRenderComponent>("PLAY AGAIN", buttonFont);
-	button->AttachTo(m_pScreen, true);
-	m_pButtons.push_back(button);
+	button->AddComponent<engine::TextRenderComponent>("A", buttonFont);
+	button->SetLocalPosition(170, 350);
+	button->AttachTo(m_pScreen, false);
+	m_pLetterSelectors.push_back(button);
 
 	button = new engine::GameObject();
-	button->SetLocalPosition(120, 430);
-	button->AddComponent<engine::TextRenderComponent>("MENU", buttonFont);
-	button->AttachTo(m_pScreen, true);
-	m_pButtons.push_back(button);
+	button->AddComponent<engine::TextRenderComponent>("A", buttonFont);
+	button->SetLocalPosition(200, 350);
+	button->AttachTo(m_pScreen, false);
+	m_pLetterSelectors.push_back(button);
+
+	button = new engine::GameObject();
+	button->AddComponent<engine::TextRenderComponent>("A", buttonFont);
+	button->SetLocalPosition(230, 350);
+	button->AttachTo(m_pScreen, false);
+	m_pLetterSelectors.push_back(button);
 
 	// Add Scores
 	LoadHighscores();
@@ -81,9 +88,9 @@ void EndScreen::OnEnter() {
 
 	// Cursor
 	m_pCursor = new engine::GameObject();
-	m_pCursor->SetLocalPosition(-45, -5);
-	m_pCursor->AddComponent<engine::TextureRenderComponent>("Sprites/cursor.png");
-	m_pCursor->AttachTo(m_pButtons[0], false);
+	m_pCursor->SetLocalPosition(0, -25);
+	m_pCursor->AddComponent<engine::TextureRenderComponent>("Sprites/cursor2.png");
+	m_pCursor->AttachTo(m_pLetterSelectors[0], false);
 
 	// Input
 	std::vector<engine::InputDevice*> devices{ engine::InputManager::GetInstance().GetInputDevices() };
@@ -91,13 +98,22 @@ void EndScreen::OnEnter() {
 
 		engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(device) };
 		if (keyboard) {
-			m_pScreen->AddComponent<MenuInteractor>(int(m_pButtons.size()), keyboard);
+			m_pScreen->AddComponent<MenuHorizontalInteractor>(int(m_pLetterSelectors.size()), keyboard);
+
+			for (engine::GameObject* selector : m_pLetterSelectors) {
+				selector->AddComponent<LetterSelector>(keyboard);
+			}
+
 			continue;
 		}
 
 		engine::XBoxController* controller{ dynamic_cast<engine::XBoxController*>(device) };
 		if (controller) {
-			m_pScreen->AddComponent<MenuInteractor>(int(m_pButtons.size()), controller);
+			m_pScreen->AddComponent<MenuHorizontalInteractor>(int(m_pLetterSelectors.size()), controller);
+
+			for (engine::GameObject* selector : m_pLetterSelectors) {
+				selector->AddComponent<LetterSelector>(controller);
+			}
 			continue;
 		}
 	}
@@ -106,21 +122,23 @@ void EndScreen::OnEnter() {
 GameState* EndScreen::Update() {
 
 	// Get selected index
-	int index{ MenuInteractor::GetSelectedIndex() };
+	int index{ MenuHorizontalInteractor::GetSelectedIndex() };
 
-	// Updated selected item
-	if (m_pCursor->GetParent() != m_pButtons[index]) {
-		m_pCursor->AttachTo(m_pButtons[index], false);
+	// Enable right selector
+	for (int i{ 0 }; i < m_pLetterSelectors.size(); ++i) {
+		bool active{ i == index };
+		m_pLetterSelectors[i]->GetComponent<LetterSelector>()->Enable(active);
 	}
 
-	if (MenuInteractor::GetOptionChosen()) {
+	// Updated selected item
+	if (m_pCursor->GetParent() != m_pLetterSelectors[index]) {
+		m_pCursor->AttachTo(m_pLetterSelectors[index], false);
+	}
 
-		if (index == 0) {
-			return new Playing(m_pOwner, m_GameMode);
-		}
-		else {
-			return new Menu(m_pOwner);
-		}
+	// Go back to menu by submitting
+	if (MenuHorizontalInteractor::GetOptionChosen()) {
+
+		return new Menu(m_pOwner);
 	}
 
 	return nullptr;
@@ -144,13 +162,23 @@ void EndScreen::SaveHighscores() {
 
 	int HighscoreAmount{ 5 };
 
+	// Create score
+	std::string score{};
+
+	for (engine::GameObject* selector : m_pLetterSelectors) {
+		score += selector->GetComponent<LetterSelector>()->GetLetter();
+	}
+
+	score += " " + PointManager::GetInstance().GetScoreText();
+
 	// Add current score to the score list
-	m_HighScores.push_back(PointManager::GetInstance().GetScoreText());
+	m_HighScores.push_back(score);
 
 	// Sort high scores
 	std::sort(m_HighScores.begin(), m_HighScores.end(), [](const std::string& a, const std::string& b) {
-		int numA{ std::stoi(a) };
-		int numB{ std::stoi(b) };
+		
+		int numA{ std::stoi(a.substr(3,8)) };
+		int numB{ std::stoi(b.substr(3,8)) };
 		return numA > numB;
 	});
 

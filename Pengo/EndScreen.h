@@ -19,7 +19,7 @@ namespace pengo {
 
 			engine::GameObject* m_pScreen;
 			engine::GameObject* m_pCursor;
-			std::vector<engine::GameObject*> m_pButtons;
+			std::vector<engine::GameObject*> m_pLetterSelectors;
 
 			std::vector<std::string> m_HighScores;
 

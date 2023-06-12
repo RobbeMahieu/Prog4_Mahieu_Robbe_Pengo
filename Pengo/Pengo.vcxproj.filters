@@ -112,7 +112,7 @@
     <ClCompile Include="FunctionCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="MenuInteractor.cpp">
+    <ClCompile Include="MenuVerticalInteractor.cpp">
       <Filter>Components\UI</Filter>
     </ClCompile>
     <ClCompile Include="StickyComponent.cpp">
@@ -120,6 +120,12 @@
     </ClCompile>
     <ClCompile Include="Stunnable.cpp">
       <Filter>Components\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="LetterSelector.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuHorizontalInteractor.cpp">
+      <Filter>Components\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +210,7 @@
     <ClInclude Include="FunctionCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="MenuInteractor.h">
+    <ClInclude Include="MenuVerticalInteractor.h">
       <Filter>Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="StickyComponent.h">
@@ -212,6 +218,12 @@
     </ClInclude>
     <ClInclude Include="Stunnable.h">
       <Filter>Components\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterSelector.h">
+      <Filter>Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuHorizontalInteractor.h">
+      <Filter>Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

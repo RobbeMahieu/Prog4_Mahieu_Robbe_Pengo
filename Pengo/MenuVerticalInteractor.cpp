@@ -1,48 +1,49 @@
-#include "MenuInteractor.h"
+#include "MenuVerticalInteractor.h"
 #include <InputManager.h>
 
 using namespace pengo;
 
-int MenuInteractor::m_MaxIndex{ 0 };
-int MenuInteractor::m_SelectedIndex{ 0 };
-bool MenuInteractor::m_OptionChosen{ false };
+int MenuVerticalInteractor::m_MaxIndex{ 0 };
+int MenuVerticalInteractor::m_SelectedIndex{ 0 };
+bool MenuVerticalInteractor::m_OptionChosen{ false };
 
-MenuInteractor::MenuInteractor(engine::GameObject* pOwner, int maxIndex, engine::Keyboard* device)
-	: MenuInteractor(pOwner ,maxIndex)
+MenuVerticalInteractor::MenuVerticalInteractor(engine::GameObject* pOwner, int maxIndex, engine::Keyboard* device)
+	: MenuVerticalInteractor(pOwner ,maxIndex)
 {
 	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_W, m_pNavigateUp.get(), device->GetID(), engine::KeyState::OnPress);
 	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_S, m_pNavigateDown.get(), device->GetID(), engine::KeyState::OnPress);
 	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_SPACE, m_pSelect.get(), device->GetID(), engine::KeyState::OnPress);
 }
 
-MenuInteractor::MenuInteractor(engine::GameObject* pOwner, int maxIndex, engine::XBoxController* device)
-	: MenuInteractor(pOwner, maxIndex)
+MenuVerticalInteractor::MenuVerticalInteractor(engine::GameObject* pOwner, int maxIndex, engine::XBoxController* device)
+	: MenuVerticalInteractor(pOwner, maxIndex)
 {
 	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_UP, m_pNavigateUp.get(), device->GetID(), engine::KeyState::OnPress);
 	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_DOWN, m_pNavigateDown.get(), device->GetID(), engine::KeyState::OnPress);
 	engine::InputManager::GetInstance().BindAction(engine::XBoxController::BUTTON_A, m_pSelect.get(), device->GetID(), engine::KeyState::OnPress);
 }
 
-MenuInteractor::MenuInteractor(engine::GameObject* pOwner, int maxIndex)
+MenuVerticalInteractor::MenuVerticalInteractor(engine::GameObject* pOwner, int maxIndex)
 	: Component(pOwner)
-	, m_pNavigateUp{ std::make_unique<FunctionCommand>(std::bind(&MenuInteractor::ChangeIndex, this, -1)) }
-	, m_pNavigateDown{ std::make_unique<FunctionCommand>(std::bind(&MenuInteractor::ChangeIndex, this, 1)) }
-	, m_pSelect{ std::make_unique<FunctionCommand>(std::bind(&MenuInteractor::Select, this)) }
+	, m_pNavigateUp{ std::make_unique<FunctionCommand>(std::bind(&MenuVerticalInteractor::ChangeIndex, this, -1)) }
+	, m_pNavigateDown{ std::make_unique<FunctionCommand>(std::bind(&MenuVerticalInteractor::ChangeIndex, this, 1)) }
+	, m_pSelect{ std::make_unique<FunctionCommand>(std::bind(&MenuVerticalInteractor::Select, this)) }
+	, m_IsEnabled{ true }
 {
 	m_MaxIndex = maxIndex;
 	m_OptionChosen = false;
 	m_SelectedIndex = 0;
 }
 
-MenuInteractor::~MenuInteractor() {
+MenuVerticalInteractor::~MenuVerticalInteractor() {
 	engine::InputManager::GetInstance().UnbindAction(m_pNavigateUp.get());
 	engine::InputManager::GetInstance().UnbindAction(m_pNavigateDown.get());
 	engine::InputManager::GetInstance().UnbindAction(m_pSelect.get());
 }
 
-void MenuInteractor::ChangeIndex(int amount) {
+void MenuVerticalInteractor::ChangeIndex(int amount) {
 
-	if (m_OptionChosen) { return; }
+	if (m_OptionChosen ||!m_IsEnabled) { return; }
 
 	m_SelectedIndex += amount;
 
@@ -54,14 +55,18 @@ void MenuInteractor::ChangeIndex(int amount) {
 	m_SelectedIndex %= m_MaxIndex;
 }
 
-void MenuInteractor::Select() {
+void MenuVerticalInteractor::Select() {
 	m_OptionChosen = true;
 }
 
-int MenuInteractor::GetSelectedIndex() {
+int MenuVerticalInteractor::GetSelectedIndex() {
 	return m_SelectedIndex;
 }
 
-bool MenuInteractor::GetOptionChosen() {
+bool MenuVerticalInteractor::GetOptionChosen() {
 	return m_OptionChosen;
+}
+
+void MenuVerticalInteractor::Enable(bool enable) {
+	m_IsEnabled = enable;
 }

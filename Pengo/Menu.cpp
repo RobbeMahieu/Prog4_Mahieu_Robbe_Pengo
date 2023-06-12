@@ -4,7 +4,7 @@
 #include <TextRenderComponent.h>
 #include <ResourceManager.h>
 #include <InputManager.h>
-#include "MenuInteractor.h"
+#include "MenuVerticalInteractor.h"
 
 using namespace pengo;
 
@@ -50,7 +50,7 @@ void Menu::OnEnter() {
 
 	// Cursor
 	m_pCursor = new engine::GameObject();
-	m_pCursor->SetLocalPosition(-45, -5);
+	m_pCursor->SetLocalPosition(-25, 0);
 	m_pCursor->AddComponent<engine::TextureRenderComponent>("Sprites/cursor.png");
 	m_pCursor->AttachTo(m_pButtons[0], false);
 
@@ -60,13 +60,13 @@ void Menu::OnEnter() {
 
 		engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(device) };
 		if (keyboard) {
-			m_pMenu->AddComponent<MenuInteractor>(int(m_pButtons.size()), keyboard);
+			m_pMenu->AddComponent<MenuVerticalInteractor>(int(m_pButtons.size()), keyboard);
 			continue;
 		}
 
 		engine::XBoxController* controller{ dynamic_cast<engine::XBoxController*>(device) };
 		if (controller) {
-			m_pMenu->AddComponent<MenuInteractor>(int(m_pButtons.size()), controller);
+			m_pMenu->AddComponent<MenuVerticalInteractor>(int(m_pButtons.size()), controller);
 			continue;
 		}
 	}
@@ -75,14 +75,14 @@ void Menu::OnEnter() {
 GameState* Menu::Update() {
 
 	// Get selected index
-	int index{ MenuInteractor::GetSelectedIndex() };
+	int index{ MenuVerticalInteractor::GetSelectedIndex() };
 
 	// Updated selected item
 	if (m_pCursor->GetParent() != m_pButtons[index]) {
 		m_pCursor->AttachTo(m_pButtons[index], false);
 	}
 
-	if (MenuInteractor::GetOptionChosen()) {
+	if (MenuVerticalInteractor::GetOptionChosen()) {
 		return new Playing(m_pOwner, GameMode(index));
 	}
 

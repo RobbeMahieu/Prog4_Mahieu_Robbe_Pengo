@@ -6,6 +6,7 @@ using namespace pengo;
 
 KillPlayerComponent::KillPlayerComponent(engine::GameObject* pOwner)
 	: Component(pOwner)
+	, m_Enabled{ true }
 {
 	m_pOwner->GetComponent<CollisionComponent>()->OnCollision.AddObserver(this);
 }
@@ -14,7 +15,7 @@ void KillPlayerComponent::OnNotify(CollisionComponent* other) {
 
 	if (!m_Enabled) { return; }
 
-	if (other->GetOwner()->GetComponent<PlayerMovement>()) {
+	if (other->GetLayer() == CollisionLayer::PLAYER) {
 		other->GetOwner()->GetComponent<HealthComponent>()->TakeDamage(1);
 	}
 }

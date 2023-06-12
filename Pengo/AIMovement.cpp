@@ -14,7 +14,7 @@ AIMovement::AIMovement(engine::GameObject* pOwner, float speed)
 	, m_RandomNumber{0,10}
 	, m_FallbackOption{ std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,0 }, speed) }
 	, m_pState{ new Turning(this) }
-	, m_pKilled{}
+	, m_CanMove{ true }
 {
 	m_MovementOptions.emplace_back(std::make_pair(true, std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,-1 }, speed)));
 	m_MovementOptions.emplace_back(std::make_pair(true, std::make_unique<MoveCommand>(pOwner, glm::vec2{ 0,1 }, speed)));
@@ -75,4 +75,8 @@ void AIMovement::TransitionTo(EnemyState* state) {
 		m_pState = state;
 		m_pState->OnEnter();
 	}
+}
+
+void AIMovement::EnableMovement(bool enable) {
+	m_CanMove = enable;
 }

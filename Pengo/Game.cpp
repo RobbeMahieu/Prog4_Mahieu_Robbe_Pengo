@@ -43,15 +43,8 @@ int main(int, char* []) {
 	return 0;
 }
 
-// Todo:
-// Commands with parameters (low priority)
-// Look into prototype (low priority)
-// Add own struct for rect
-// 
 // Gameplay related:
 // - Versus
-// - Sprites + animations if time
 // - Named scores
 // - Clean up + asserts
-// - Refactor enemy, ice, points
 //

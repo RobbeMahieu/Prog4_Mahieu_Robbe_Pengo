@@ -115,6 +115,9 @@
     <ClCompile Include="MenuInteractor.cpp">
       <Filter>Components\UI</Filter>
     </ClCompile>
+    <ClCompile Include="StickyComponent.cpp">
+      <Filter>Components\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="MenuInteractor.h">
       <Filter>Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StickyComponent.h">
+      <Filter>Components\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

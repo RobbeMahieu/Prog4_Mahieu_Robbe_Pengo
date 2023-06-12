@@ -27,6 +27,8 @@ namespace pengo {
 			virtual void FixedUpdate() override {}
 			void Stun();
 
+			void EnableMovement(bool enable);
+
 			virtual void OnNotify(CollisionComponent* other);
 
 			// Give states access to variables instead of constantly passing them around
@@ -34,10 +36,9 @@ namespace pengo {
 			friend class Turning;
 			friend class Stunned;
 
-			// Events
-			engine::Subject<AIMovement*> m_pKilled;
-
 		private:
+			bool m_CanMove;
+
 			std::vector<DirectionOption> m_MovementOptions;
 			MoveCommand* m_CurrentOption;
 			std::unique_ptr<MoveCommand> m_FallbackOption;

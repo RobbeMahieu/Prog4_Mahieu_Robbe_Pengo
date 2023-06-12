@@ -30,6 +30,8 @@ void Moving::OnEnter() {
 
 EnemyState* Moving::Update() {
 
+	if (!m_pMovement->m_CanMove) { return nullptr; }
+
 	m_pMovement->m_CurrentOption->Execute();
 
 	// Check if extra option happened
@@ -47,11 +49,7 @@ EnemyState* Moving::Update() {
 
 EnemyState* Moving::HandleCollision(CollisionComponent* other) {
 	
-	if (other->GetLayer() == CollisionLayer::DYNAMIC) {
-		return new Stuck(m_pMovement);
-	}
-	
-	if (other->GetLayer() == CollisionLayer::PLAYER || other->GetLayer() == CollisionLayer::ENEMY) { return nullptr; }
+	if (other->GetLayer() != CollisionLayer::STATIC ) { return nullptr; }
 
 	return new Turning(m_pMovement);
 }
@@ -74,6 +72,8 @@ void Turning::OnEnter() {
 }
 
 EnemyState* Turning::Update() {
+
+	if (!m_pMovement->m_CanMove) { return nullptr; }
 
 	// Get Latest options
 	m_pMovement->UpdateOptions();
@@ -107,45 +107,10 @@ EnemyState* Turning::Update() {
 	return new Moving(m_pMovement);
 }
 
-EnemyState* Turning::HandleCollision(CollisionComponent* other) {
-	if (other->GetLayer() == CollisionLayer::DYNAMIC) { 
-		return new Stuck(m_pMovement); 
-	}
-
-	return nullptr;
-}
-
 EnemyState* Turning::Stun() {
 	return new Stunned(m_pMovement);
 }
 
-// -- Stuck State --
-Stuck::Stuck(AIMovement* pMovement)
-	: EnemyState(pMovement)
-{
-}
-
-EnemyState* Stuck::HandleCollision(CollisionComponent* other) {
-	if (other->GetLayer() == CollisionLayer::STATIC) { 
-
-		// Die sound
-		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeDie.wav", 0.5f);
-
-		return new Die(m_pMovement); 
-	}
-
-	return nullptr;
-}
-
-// -- Die State -- 
-Die::Die(AIMovement* pMovement)
-	: EnemyState(pMovement)
-{
-
-	m_pMovement->m_pKilled.Broadcast(pMovement);
-
-	m_pMovement->GetOwner()->Destroy();
-}
 
 // -- Stunned State --
 Stunned::Stunned(AIMovement* pMovement)
@@ -180,7 +145,7 @@ EnemyState* Stunned::HandleCollision(CollisionComponent* other) {
 		// Kill sound
 		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeKilled.wav", 0.5f);
 
-		return new Die(m_pMovement);
+		return nullptr;
 	}
 
 	return nullptr;

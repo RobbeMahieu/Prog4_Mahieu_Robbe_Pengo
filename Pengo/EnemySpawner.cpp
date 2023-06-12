@@ -1,6 +1,6 @@
 #include "EnemySpawner.h"
 #include "SnowBee.h"
-#include "AIMovement.h"
+#include "StickyComponent.h"
 #include "SlidingComponent.h"
 #include "PointManager.h"
 #include "GameServiceLocator.h"
@@ -45,7 +45,7 @@ void EnemySpawner::SpawnEnemy() {
 		// Spawn enemy
 		engine::GameObject* enemy = CreateSnowBee(m_SpawnLocations[0]->GetWorldPosition());
 		enemy->AttachTo(m_pOwner, true);
-		enemy->GetComponent<AIMovement>()->m_pKilled.AddObserver(this);
+		enemy->GetComponent<StickyComponent>()->m_GotSquashed.AddObserver(this);
 		m_ActiveEnemies.push_back(enemy);
 
 		// Destroy Ice block
@@ -58,9 +58,9 @@ void EnemySpawner::SpawnEnemy() {
 	}
 }
 
-void EnemySpawner::OnNotify(AIMovement* component) {
+void EnemySpawner::OnNotify(engine::GameObject* object) {
 
-	m_ActiveEnemies.erase(std::remove(m_ActiveEnemies.begin(), m_ActiveEnemies.end(), component->GetOwner()), m_ActiveEnemies.end());
+	m_ActiveEnemies.erase(std::remove(m_ActiveEnemies.begin(), m_ActiveEnemies.end(), object), m_ActiveEnemies.end());
 
 	// Reward points
 	PointManager::GetInstance().AddScore(500);

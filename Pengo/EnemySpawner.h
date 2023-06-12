@@ -10,7 +10,7 @@ namespace pengo {
 	class AIMovement;
 	class SlidingComponent;
 
-	class EnemySpawner : public engine::Component, engine::Observer<AIMovement*>, engine::Observer<SlidingComponent*>
+	class EnemySpawner : public engine::Component, engine::Observer<engine::GameObject*>, engine::Observer<SlidingComponent*>
 	{
 		public:
 			EnemySpawner(engine::GameObject* pOwner);
@@ -27,7 +27,7 @@ namespace pengo {
 			void PickEnemyLocations(std::vector<engine::GameObject*> locations, int amount);
 			void SpawnEnemy();
 
-			virtual void OnNotify(AIMovement* component) override;
+			virtual void OnNotify(engine::GameObject* object) override;
 			virtual void OnNotify(SlidingComponent* object) override;
 
 			std::vector<engine::GameObject*> GetEnemies() const;

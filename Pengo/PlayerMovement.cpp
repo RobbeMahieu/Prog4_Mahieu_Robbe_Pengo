@@ -28,7 +28,7 @@ PlayerMovement::PlayerMovement(engine::GameObject* pOwner, float speed, engine::
 }
 PlayerMovement::PlayerMovement(engine::GameObject* pOwner, float speed)
 	: Component(pOwner)
-	, m_CanMove{ false }
+	, m_CanMove{ true }
 	, m_MoveUp{ std::make_unique<MoveCommand>(pOwner, glm::vec2{0,-1}, speed)}
 	, m_MoveDown{ std::make_unique<MoveCommand>(pOwner, glm::vec2{0,1}, speed)}
 	, m_MoveLeft{ std::make_unique<MoveCommand>(pOwner, glm::vec2{-1,0}, speed)}

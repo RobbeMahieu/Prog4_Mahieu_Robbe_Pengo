@@ -15,8 +15,9 @@ namespace engine {
 			LoggingSoundSystem& operator=(const LoggingSoundSystem& other) = delete;
 			LoggingSoundSystem& operator=(LoggingSoundSystem&& other) = delete;
 
-			void Play(const std::string& path, float volume);
-			void PlayMusic(const std::string& path, float volume);
+			void Play(const std::string& path, float volume) override;
+			void PlayMusic(const std::string& path, float volume) override;
+			void SetMute(bool mute) override;
 
 		private:
 			std::unique_ptr<SoundSystem> m_RealSS;

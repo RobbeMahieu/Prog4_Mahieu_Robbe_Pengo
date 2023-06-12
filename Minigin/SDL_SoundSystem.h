@@ -16,8 +16,9 @@ namespace engine {
 			SDL_SoundSystem& operator=(const SDL_SoundSystem& other) = delete;
 			SDL_SoundSystem& operator=(SDL_SoundSystem&& other) = delete;
 
-			void Play(const std::string& path, float volume);
-			void PlayMusic(const std::string& path, float volume);
+			void Play(const std::string& path, float volume) override;
+			void PlayMusic(const std::string& path, float volume) override;
+			void SetMute(bool mute) override;
 
 		private:
 

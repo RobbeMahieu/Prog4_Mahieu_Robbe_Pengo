@@ -16,3 +16,8 @@ void LoggingSoundSystem::PlayMusic(const std::string& path, float volume) {
 	m_RealSS->PlayMusic(path, volume);
 	std::cout << "Playing song: " << path << " at a volume of: " << volume << "\n";
 }
+
+void LoggingSoundSystem::SetMute(bool mute) {
+	m_RealSS->SetMute(mute);
+	std::cout << "Setting mute: " << mute;
+}

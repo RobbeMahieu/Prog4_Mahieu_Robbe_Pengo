@@ -25,11 +25,11 @@ void GameObject::Update(){
 	
 	// Update 
 	// Needs to be an indexed loop cause components/children can be added and will mess up the iterators
-	for (int i{ 0 }; i < m_pComponents.size(); ++i) {
+	for (size_t i{ 0 }; i < m_pComponents.size(); ++i) {
 		m_pComponents[i]->Update();
 	}
 
-	for (int i{ 0 }; i < m_pChildren.size(); ++i) {
+	for (size_t i{ 0 }; i < m_pChildren.size(); ++i) {
 		m_pChildren[i]->Update();
 	}
 
@@ -40,11 +40,11 @@ void GameObject::Update(){
 
 void GameObject::FixedUpdate(){
 	// Needs to be an indexed loop cause components/children can be added and will mess up the iterators
-	for (int i{ 0 }; i < m_pComponents.size(); ++i) {
+	for (size_t i{ 0 }; i < m_pComponents.size(); ++i) {
 		m_pComponents[i]->FixedUpdate();
 	}
 
-	for (int i{ 0 }; i < m_pChildren.size(); ++i) {
+	for (size_t i{ 0 }; i < m_pChildren.size(); ++i) {
 		m_pChildren[i]->FixedUpdate();
 	}
 }

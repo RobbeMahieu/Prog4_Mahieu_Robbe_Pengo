@@ -78,7 +78,7 @@ void EndScreen::OnEnter() {
 	highScores->AddComponent<engine::TextRenderComponent>(highscoreText, textFont);
 	highScores->AttachTo(m_pScreen, true);
 
-	for (int i{ 0 }; i < m_HighScores.size(); ++i) {
+	for (int i{ 0 }; i < int(m_HighScores.size()); ++i) {
 		engine::GameObject* highscore = new engine::GameObject();
 		highscore->SetLocalPosition(60, 5 + 20.0f * (1 + i));
 		highscore->AddComponent<engine::TextRenderComponent>(m_HighScores[i], textFont);
@@ -124,7 +124,7 @@ GameState* EndScreen::Update() {
 	const int index{ MenuHorizontalInteractor::GetSelectedIndex() };
 
 	// Enable right selector
-	for (int i{ 0 }; i < m_pLetterSelectors.size(); ++i) {
+	for (int i{ 0 }; i < int(m_pLetterSelectors.size()); ++i) {
 		const bool active{ i == index };
 		m_pLetterSelectors[i]->GetComponent<LetterSelector>()->Enable(active);
 	}

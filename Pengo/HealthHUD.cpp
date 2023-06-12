@@ -19,9 +19,9 @@ HealthHUD::HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthCompone
 
 void HealthHUD::OnNotify(HealthComponent* /*component*/, int amount) {
 	
-	while (m_Lives.size() != amount && amount >= 0) {
+	while (int(m_Lives.size()) != amount && amount >= 0) {
 
-		if (m_Lives.size() < amount) {
+		if (int(m_Lives.size()) < amount) {
 			AddLifeIcon();
 		}
 		else {

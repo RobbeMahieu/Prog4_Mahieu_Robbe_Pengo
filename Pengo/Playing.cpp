@@ -160,9 +160,9 @@ void Playing::AddPlayers() {
 	const float movementSpeed{ 100.0f };
 
 	const std::vector<engine::InputDevice*> devices{ engine::InputManager::GetInstance().GetInputDevices() };
-	const engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(devices[0]) };
-	const engine::XBoxController* controller1{ dynamic_cast<engine::XBoxController*>(devices[1]) };
-	const engine::XBoxController* controller2{ dynamic_cast<engine::XBoxController*>(devices[2]) };
+	engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(devices[0]) };
+	engine::XBoxController* controller1{ dynamic_cast<engine::XBoxController*>(devices[1]) };
+	engine::XBoxController* controller2{ dynamic_cast<engine::XBoxController*>(devices[2]) };
 	assert(keyboard && controller1 && controller2 && "Device was not correct!");
 
 	// Add skip level input
@@ -225,7 +225,7 @@ void Playing::AddHUD() {
 	m_pHUD->AttachTo(m_pRoot, true);
 
 	// Plater HUDs
-	for (int i{ 0 }; i < m_pPlayers.size(); ++i) {
+	for (int i{ 0 }; i < int(m_pPlayers.size()); ++i) {
 		engine::GameObject* playerHUD = CreatePlayerHUD(m_pPlayers[i], "Sprites/smallPengo.png", i + 1);
 		playerHUD->AttachTo(m_pHUD, false);
 		playerHUD->SetLocalPosition(5 + 360.0f*i, 3);
@@ -250,7 +250,7 @@ void Playing::RestartLevel() {
 
 	// Set enemies to corners
 	std::vector<engine::GameObject*> m_Enemies{ m_pEnemySpawner->GetEnemies() };
-	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
+	for (int i{ 0 }; i < int(m_Enemies.size()); ++i) {
 		// Refactor to not have hard coded values
 		const int x = 16 + (i % 2) * 384;
 		const int y = 16 + (i / 2) * 448;

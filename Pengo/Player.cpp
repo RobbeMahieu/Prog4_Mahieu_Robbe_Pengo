@@ -10,6 +10,8 @@
 #include "HealthHUD.h"
 #include "PushComponent.h"
 #include "KillPlayerComponent.h"
+#include "StickyComponent.h"
+#include "Stunnable.h"
 
 using namespace pengo;
 
@@ -39,7 +41,7 @@ engine::GameObject* pengo::CreatePlayer(std::string spritePath, engine::Keyboard
 engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, engine::Keyboard* keyboard, engine::XBoxController* controller, glm::vec3 position) {
 	auto bee = new engine::GameObject();
 	bee->SetLocalPosition(position);
-	bee->AddComponent<engine::TextureRenderComponent>("Sprites/snowbee.png");
+	bee->AddComponent<engine::TextureRenderComponent>("Sprites/snowbeeAlt.png");
 	bee->AddComponent<CollisionComponent>(32.0f, 32.0f, false, CollisionLayer::ENEMY);
 	
 	if (keyboard) {
@@ -50,7 +52,9 @@ engine::GameObject* pengo::CreateControllableSnowBee(std::string spritePath, eng
 		bee->AddComponent<PlayerMovement>(50.0f, controller);
 	}
 
+	bee->AddComponent<StickyComponent>();
 	bee->AddComponent<KillPlayerComponent>();
+	bee->AddComponent<Stunnable>();
 
 	return bee;
 }

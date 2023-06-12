@@ -61,13 +61,13 @@ void PushCommand::Push() {
 	glm::vec4 otherBounds{ m_ClosestIce->GetOwner()->GetComponent<CollisionComponent>()->GetBounds() };
 
 	std::vector<std::pair<float, glm::vec2>> options{
-		{ abs(bounds.x - otherBounds.x - otherBounds.z), { 1,0 }},
-		{ abs(bounds.x + bounds.z - otherBounds.x), { -1,0 } },
-		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,1 } },
-		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,-1 } }
+		{ abs(bounds.x - otherBounds.x - otherBounds.z), { -1,0 }},
+		{ abs(bounds.x + bounds.z - otherBounds.x), { 1,0 } },
+		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,-1 } },
+		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,1 } }
 	};
 
-	std::sort(options.begin(), options.end(), [](const auto& a, const auto& b) { return a.first > b.first; });
+	std::sort(options.begin(), options.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
 	glm::vec2 direction{ options[0].second };
 
 	m_ClosestIce->Push(direction);
@@ -118,14 +118,14 @@ void PushCommand::Stun() {
 	glm::vec4 otherBounds{ m_ClosestWall->GetOwner()->GetComponent<CollisionComponent>()->GetBounds() };
 
 	std::vector<std::pair<float, glm::vec2>> options{
-		{ abs(bounds.x - otherBounds.x - otherBounds.z), { -1,0 }},
-		{ abs(bounds.x + bounds.z - otherBounds.x), { 1,0 } },
-		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,-1 } },
-		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,1 } }
+		{ abs(bounds.x - otherBounds.x - otherBounds.z), { 1,0 }},
+		{ abs(bounds.x + bounds.z - otherBounds.x), { -1,0 } },
+		{ abs(bounds.y - otherBounds.y - otherBounds.w), { 0,1 } },
+		{ abs(bounds.y + bounds.w - otherBounds.y), { 0,-1 } }
 	};
 
 	std::sort(options.begin(), options.end(), [](const auto& a, const auto& b) {
-		return a.first > b.first;
+		return a.first < b.first;
 	});
 
 	glm::vec2 direction{ options[0].second };

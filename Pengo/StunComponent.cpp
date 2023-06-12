@@ -1,6 +1,6 @@
 #include "StunComponent.h"
 #include "CollisionComponent.h"
-#include "AIMovement.h"
+#include "Stunnable.h"
 #include "PointManager.h"
 
 using namespace pengo;
@@ -27,7 +27,7 @@ void StunComponent::StunEnemies(glm::vec2 direction) {
 
 	// Stun them
 	for (const CollisionHit& hit : hitResult) {
-		hit.object->GetComponent<AIMovement>()->Stun();
+		hit.object->GetComponent<Stunnable>()->GetStunned();
 	}
 
 	// Reward points

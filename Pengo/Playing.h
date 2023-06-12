@@ -51,6 +51,7 @@ namespace pengo {
 			void AddPlayers();
 			void CalculateBonus();
 			void AddHUD();
+			void RestartLevel();
 	};
 
 }

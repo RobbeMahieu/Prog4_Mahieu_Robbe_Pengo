@@ -25,7 +25,6 @@ namespace pengo {
 
 			virtual void Update() override;
 			virtual void FixedUpdate() override {}
-			void Stun();
 
 			void EnableMovement(bool enable);
 
@@ -34,7 +33,6 @@ namespace pengo {
 			// Give states access to variables instead of constantly passing them around
 			friend class Moving;
 			friend class Turning;
-			friend class Stunned;
 
 		private:
 			bool m_CanMove;

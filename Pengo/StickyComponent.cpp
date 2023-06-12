@@ -27,7 +27,10 @@ void StickyComponent::OnNotify(CollisionComponent* other) {
 
 		// For AI
 		AIMovement* movement = m_pOwner->GetComponent<AIMovement>();
-		movement->EnableMovement(false);
+		if (movement) {
+			movement->EnableMovement(false);
+		}
+
 
 		m_State = State::Stuck;
 	}

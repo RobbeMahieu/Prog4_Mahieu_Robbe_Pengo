@@ -118,6 +118,9 @@
     <ClCompile Include="StickyComponent.cpp">
       <Filter>Components\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Stunnable.cpp">
+      <Filter>Components\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.h">
@@ -205,6 +208,9 @@
       <Filter>Components\UI</Filter>
     </ClInclude>
     <ClInclude Include="StickyComponent.h">
+      <Filter>Components\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Stunnable.h">
       <Filter>Components\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

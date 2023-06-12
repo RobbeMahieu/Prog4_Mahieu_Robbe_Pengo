@@ -26,6 +26,7 @@ namespace pengo {
 			
 			void PickEnemyLocations(std::vector<engine::GameObject*> locations, int amount);
 			void SpawnEnemy();
+			void AddPlayerEnemy(engine::GameObject* player);
 
 			virtual void OnNotify(engine::GameObject* object) override;
 			virtual void OnNotify(SlidingComponent* object) override;

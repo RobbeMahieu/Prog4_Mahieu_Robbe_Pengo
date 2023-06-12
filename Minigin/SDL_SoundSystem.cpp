@@ -133,9 +133,9 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::ProcessRequests() {
 
 void SDL_SoundSystem::SDL_SoundSystemImpl::Play(const std::string& path, float volume) {
 	
-	std::lock_guard<std::mutex> muteLock(m_MuteLock);
+	std::unique_lock<std::mutex> muteLock(m_MuteLock);
 	if (m_IsMuted) { return; }
-	m_MuteLock.unlock();
+	muteLock.unlock();
 
 	// Lock the queue
 	std::lock_guard<std::mutex> lk(m_QueueLock);
@@ -195,9 +195,9 @@ void SDL_SoundSystem::SDL_SoundSystemImpl::SetMute(bool mute) {
 
 void SDL_SoundSystem::SDL_SoundSystemImpl::PlaySound(const std::string& path, float volume) {
 	
-	std::lock_guard<std::mutex> lk(m_MuteLock);
+	std::unique_lock<std::mutex> muteLock(m_MuteLock);
 	if (m_IsMuted) { return; }
-	m_MuteLock.unlock();
+	muteLock.unlock();
 
 	// Load sound effect if it's not loaded in yet
 	if (m_pSoundEffects.find(path) == m_pSoundEffects.end()) {

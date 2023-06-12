@@ -114,7 +114,7 @@ void Playing::OnNotify(){
 
 void Playing::OnNotify(HealthComponent* component, int health) {
 	// Player died
-	component->GetOwner()->SetLocalPosition(glm::vec3{ 200, 250, 0 });
+	RestartLevel();
 	
 	// Player has no more lives
 	if (health < 0) {
@@ -201,9 +201,10 @@ void Playing::AddPlayers() {
 
 			// Create controllable enemy
 			engine::GameObject* player2{ CreateControllableSnowBee("Sprites/pengo.png", nullptr, controller1)};
-			player2->SetLocalPosition(128, 224);
+			player2->SetLocalPosition(0, 0);
 			player2->AttachTo(m_pGame, false);
 			m_pPlayers.push_back(player);
+			m_pEnemySpawner->AddPlayerEnemy(player2);
 
 			break;
 	}
@@ -237,4 +238,22 @@ void Playing::AddHUD() {
 	scoreHUD->AddComponent<PointsHUD>();
 	scoreHUD->SetLocalPosition(150, 3);
 	scoreHUD->AttachTo(m_pHUD, false);
+}
+
+void Playing::RestartLevel() {
+
+	// Reset player positions
+	for (engine::GameObject* player : m_pPlayers)
+	{
+		player->SetLocalPosition(glm::vec3{ 200, 250, 0 });
+	}
+
+	// Set enemies to corners
+	std::vector<engine::GameObject*> m_Enemies{ m_pEnemySpawner->GetEnemies() };
+	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
+		// Refactor to not have hard coded values
+		int x = 16 + (i % 2) * 384;
+		int y = 16 + (i / 2) * 448;
+		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
+	}
 }

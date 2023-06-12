@@ -49,6 +49,7 @@
     <ClCompile Include="SnowBee.cpp" />
     <ClCompile Include="StickyComponent.cpp" />
     <ClCompile Include="StunComponent.cpp" />
+    <ClCompile Include="Stunnable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMovement.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="SnowBee.h" />
     <ClInclude Include="StickyComponent.h" />
     <ClInclude Include="StunComponent.h" />
+    <ClInclude Include="Stunnable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

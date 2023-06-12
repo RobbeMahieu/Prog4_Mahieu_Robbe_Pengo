@@ -54,10 +54,6 @@ EnemyState* Moving::HandleCollision(CollisionComponent* other) {
 	return new Turning(m_pMovement);
 }
 
-EnemyState* Moving::Stun() {
-	return new Stunned(m_pMovement);
-}
-
 // -- Turning State --
 Turning::Turning(AIMovement* pMovement)
 	: EnemyState(pMovement)
@@ -107,52 +103,4 @@ EnemyState* Turning::Update() {
 	return new Moving(m_pMovement);
 }
 
-EnemyState* Turning::Stun() {
-	return new Stunned(m_pMovement);
-}
 
-
-// -- Stunned State --
-Stunned::Stunned(AIMovement* pMovement)
-	: EnemyState(pMovement)
-	, m_AccuTime{ 0.0f }
-	, m_StunTime{ 5.0f }
-{
-}
-
-void Stunned::OnEnter() {
-	KillPlayerComponent* killComponent{ m_pMovement->m_pOwner->GetComponent<KillPlayerComponent>() };
-	if (killComponent) {
-		killComponent->Enable(false);
-	}
-
-	// Stunned sound
-	engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeStunned.wav", 0.5f);
-}
-
-EnemyState* Stunned::Update() {
-	m_AccuTime += engine::GameTime::GetInstance().GetElapsedSec();
-
-	if (m_AccuTime >= m_StunTime) {
-		return new Turning(m_pMovement);
-	}
-
-	return nullptr;
-}
-
-EnemyState* Stunned::HandleCollision(CollisionComponent* other) {
-	if (other->GetLayer() == CollisionLayer::PLAYER) {
-		// Kill sound
-		engine::GameServiceLocator::GetSoundSystem().Play("../Data/Sounds/beeKilled.wav", 0.5f);
-
-		return nullptr;
-	}
-
-	return nullptr;
-}
-
-EnemyState* Stunned::Stun() {
-
-	m_AccuTime = 0.0f;
-	return nullptr;
-}

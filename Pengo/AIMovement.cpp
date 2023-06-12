@@ -63,10 +63,6 @@ void AIMovement::UpdateOptions(){
 
 	}
 }
-void AIMovement::Stun() {
-	auto state = m_pState->Stun();
-	TransitionTo(state);
-}
 
 
 void AIMovement::TransitionTo(EnemyState* state) {
@@ -78,5 +74,10 @@ void AIMovement::TransitionTo(EnemyState* state) {
 }
 
 void AIMovement::EnableMovement(bool enable) {
+
+	if (enable) {
+		TransitionTo(new Turning(this));
+	}
+
 	m_CanMove = enable;
 }

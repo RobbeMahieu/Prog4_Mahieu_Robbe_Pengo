@@ -2,6 +2,7 @@
 #include <TextureRenderComponent.h>
 #include "CollisionComponent.h"
 #include "AIMovement.h"
+#include "Stunnable.h"
 #include "StickyComponent.h"
 #include "KillPlayerComponent.h"
 
@@ -16,6 +17,7 @@ engine::GameObject* pengo::CreateSnowBee(glm::vec3 position) {
 	bee->AddComponent<AIMovement>(50.0f);
 	bee->AddComponent<StickyComponent>();
 	bee->AddComponent<KillPlayerComponent>();
+	bee->AddComponent<Stunnable>();
 
 	return bee;
 }

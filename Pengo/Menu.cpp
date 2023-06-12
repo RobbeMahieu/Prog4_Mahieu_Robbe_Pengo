@@ -28,7 +28,7 @@ void Menu::OnEnter() {
 	m_pMenu->AddComponent<engine::TextureRenderComponent>("Backgrounds/menu.png");
 
 	// Buttons
-	auto buttonFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 25);
+	const auto buttonFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 25);
 
 	engine::GameObject* button = new engine::GameObject();
 	button->SetLocalPosition(120, 280);
@@ -75,7 +75,7 @@ void Menu::OnEnter() {
 GameState* Menu::Update() {
 
 	// Get selected index
-	int index{ MenuVerticalInteractor::GetSelectedIndex() };
+	const int index{ MenuVerticalInteractor::GetSelectedIndex() };
 
 	// Updated selected item
 	if (m_pCursor->GetParent() != m_pButtons[index]) {

@@ -4,6 +4,7 @@
 #include <GameServiceLocator.h>
 #include "AIMovement.h"
 #include "PointManager.h"
+#include "PlayerMovement.h"
 
 using namespace pengo;
 
@@ -39,6 +40,11 @@ void Stunnable::Update() {
 		if (movement) {
 			movement->EnableMovement(true);
 		}
+
+		PlayerMovement* movementPlayer = m_pOwner->GetComponent<PlayerMovement>();
+		if (movementPlayer) {
+			movementPlayer->EnableMovement(true);
+		}
 	}
 }
 
@@ -54,6 +60,12 @@ void Stunnable::GetStunned(){
 	AIMovement* movement = m_pOwner->GetComponent<AIMovement>();
 	if (movement) {
 		movement->EnableMovement(false);
+	}
+
+	// For Player
+	PlayerMovement* movementPlayer = m_pOwner->GetComponent<PlayerMovement>();
+	if (movementPlayer) {
+		movementPlayer->EnableMovement(false);
 	}
 
 	// Stunned sound

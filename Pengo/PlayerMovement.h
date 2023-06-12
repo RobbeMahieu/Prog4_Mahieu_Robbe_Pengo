@@ -24,7 +24,12 @@ namespace pengo {
 			virtual void Update() override {};
 			virtual void FixedUpdate() override {}
 
+			void EnableMovement(bool enable);
+			bool CanMove() const;
+
 		private:
+			bool m_CanMove;
+
 			PlayerMovement(engine::GameObject* pOwner, float speed);
 
 			// Move Commands (will be used to unbind in the future)

@@ -13,11 +13,12 @@ EnemySpawner::EnemySpawner(engine::GameObject* pOwner)
 	, m_RandomEngine{ std::random_device{}() }
 	, m_EnemyCounter{ 0 }
 	, m_EnemiesKilled{}
+	, m_MaxActiveEnemies{ 3 }
 {
 }
 
 void EnemySpawner::Update() {
-	if (m_ActiveEnemies.size() < 3) {
+	if (m_ActiveEnemies.size() < m_MaxActiveEnemies) {
 		SpawnEnemy();
 	}
 

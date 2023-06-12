@@ -35,24 +35,23 @@ void EndScreen::OnEnter() {
 	m_pScreen->AttachTo(m_pOwner, false);
 
 	// Add title
-	auto titleFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 40);
-	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 15);
+	const auto titleFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 40);
+	const auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 15);
+	const auto buttonFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 25);
 
-	std::string titleText{ m_DidWin ? "YOU WON!" : "GAME OVER" };
+	const std::string titleText{ m_DidWin ? "YOU WON!" : "GAME OVER" };
 	engine::GameObject* title = new engine::GameObject();
 	title->SetLocalPosition(50, 50);
 	title->AddComponent<engine::TextRenderComponent>(titleText, titleFont);
 	title->AttachTo(m_pScreen, true);
 
-	std::string scoreText{ "SCORE: " + PointManager::GetInstance().GetScoreText() };
+	const std::string scoreText{ "SCORE: " + PointManager::GetInstance().GetScoreText() };
 	engine::GameObject* score = new engine::GameObject();
 	score->SetLocalPosition(110, 110);
 	score->AddComponent<engine::TextRenderComponent>(scoreText, textFont);
 	score->AttachTo(m_pScreen, true);
 
 	// Letter Selectors
-	auto buttonFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 25);
-
 	engine::GameObject* button = new engine::GameObject();
 	button->AddComponent<engine::TextRenderComponent>("A", buttonFont);
 	button->SetLocalPosition(170, 350);
@@ -73,7 +72,7 @@ void EndScreen::OnEnter() {
 
 	// Add Scores
 	LoadHighscores();
-	std::string highscoreText{ "---- HIGH SCORES ---- " };
+	const std::string highscoreText{ "---- HIGH SCORES ---- " };
 	engine::GameObject* highScores = new engine::GameObject();
 	highScores->SetLocalPosition(70, 160);
 	highScores->AddComponent<engine::TextRenderComponent>(highscoreText, textFont);
@@ -122,11 +121,11 @@ void EndScreen::OnEnter() {
 GameState* EndScreen::Update() {
 
 	// Get selected index
-	int index{ MenuHorizontalInteractor::GetSelectedIndex() };
+	const int index{ MenuHorizontalInteractor::GetSelectedIndex() };
 
 	// Enable right selector
 	for (int i{ 0 }; i < m_pLetterSelectors.size(); ++i) {
-		bool active{ i == index };
+		const bool active{ i == index };
 		m_pLetterSelectors[i]->GetComponent<LetterSelector>()->Enable(active);
 	}
 
@@ -160,7 +159,7 @@ void EndScreen::LoadHighscores() {
 
 void EndScreen::SaveHighscores() {
 
-	int HighscoreAmount{ 5 };
+	const int HighscoreAmount{ 5 };
 
 	// Create score
 	std::string score{};

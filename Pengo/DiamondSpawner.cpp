@@ -39,8 +39,8 @@ void DiamondSpawner::Update() {
 	bool sameLine{ true };
 	bool sameRow{ true };
 	for (int i{ 0 }; i < int(m_pDiamonds.size() - 1); ++i) {
-		glm::vec3 pos1{ m_pDiamonds[i]->GetWorldPosition() };
-		glm::vec3 pos2{ m_pDiamonds[i+1]->GetWorldPosition()};
+		const glm::vec3 pos1{ m_pDiamonds[i]->GetWorldPosition() };
+		const glm::vec3 pos2{ m_pDiamonds[i+1]->GetWorldPosition()};
 
 		sameLine &= pos1.y == pos2.y;
 		sameRow &= pos1.x == pos2.x;
@@ -52,15 +52,17 @@ void DiamondSpawner::Update() {
 
 	// Sort in order of their position
 	std::sort(m_pDiamonds.begin(), m_pDiamonds.end(), [&](engine::GameObject* a, engine::GameObject* b) {
-		glm::vec3 posA{ a->GetWorldPosition() };
-		glm::vec3 posB{ b->GetWorldPosition() };
+		const glm::vec3 posA{ a->GetWorldPosition() };
+		const glm::vec3 posB{ b->GetWorldPosition() };
 
 		return (sameLine) ? posA.x > posB.x : posA.y > posB.y;
 	});
 
+
+	// Check if they are next to each other
 	for (int i{ 0 }; i < int(m_pDiamonds.size() - 1); ++i) {
-		glm::vec3 pos1{ m_pDiamonds[i]->GetWorldPosition() };
-		glm::vec3 pos2{ m_pDiamonds[i + 1]->GetWorldPosition() };
+		const glm::vec3 pos1{ m_pDiamonds[i]->GetWorldPosition() };
+		const glm::vec3 pos2{ m_pDiamonds[i + 1]->GetWorldPosition() };
 
 		sameLine &= pos1.x - pos2.x == 32;
 		sameRow &= pos1.y - pos2.y == 32;

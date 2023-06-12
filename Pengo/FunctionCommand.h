@@ -8,7 +8,7 @@ namespace pengo {
 	class FunctionCommand : public engine::Command
 	{
 		public:
-			explicit FunctionCommand(std::function<void()> function);
+			explicit FunctionCommand(const std::function<void()>& function);
 			virtual ~FunctionCommand() = default;
 
 			FunctionCommand(const FunctionCommand& other) = delete;
@@ -19,6 +19,6 @@ namespace pengo {
 			virtual void Execute() override;
 
 		private:
-			std::function<void()> m_Function;
+			const std::function<void()> m_Function;
 	};
 }

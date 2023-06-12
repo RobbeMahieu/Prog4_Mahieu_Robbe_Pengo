@@ -64,10 +64,10 @@ engine::GameObject* pengo::CreatePlayerHUD(engine::GameObject* pPlayer, std::str
 	auto playerHUD = new engine::GameObject();
 	playerHUD->SetLocalPosition(position);
 
-	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 10);
+	const auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 10);
 
 	// Player index
-	std::string name{ "PLAYER " + std::to_string(index) };
+	const std::string name{ "PLAYER " + std::to_string(index) };
 	playerHUD->AddComponent<engine::TextRenderComponent>(name, textFont);
 
 	// Health hud

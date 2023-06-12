@@ -36,7 +36,7 @@ void CollisionComponent::FixedUpdate() {
 		return;
 	}
 
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	const glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 	CollisionHit hitResult{};
 
 	for (CollisionComponent* other : m_pColliders) {
@@ -65,8 +65,8 @@ void CollisionComponent::FixedUpdate() {
 
 		// Did hit!
 		m_pCollided.insert(other);
-		CollisionLayer currentLayer = m_Layer;
-		CollisionLayer otherLayer = other->m_Layer;
+		const CollisionLayer currentLayer = m_Layer;
+		const CollisionLayer otherLayer = other->m_Layer;
 
 		// Resolve Events
 		if (m_pColliding.contains(other)) {
@@ -86,13 +86,13 @@ void CollisionComponent::FixedUpdate() {
 		}
 
 		// Maybe use some kind of collision matrix for this?
-		bool getsMoved{
+		const bool getsMoved{
 			currentLayer == CollisionLayer::PLAYER ||
 			(currentLayer == CollisionLayer::ENEMY && (otherLayer == CollisionLayer::STATIC || otherLayer == CollisionLayer::DYNAMIC)) ||
 			(currentLayer == CollisionLayer::DYNAMIC && otherLayer == CollisionLayer::STATIC)
 		};
 
-		bool otherGetsMoved{
+		const bool otherGetsMoved{
 			otherLayer == CollisionLayer::PLAYER ||
 			(otherLayer == CollisionLayer::ENEMY && (currentLayer == CollisionLayer::STATIC || currentLayer == CollisionLayer::DYNAMIC)) ||
 			(otherLayer == CollisionLayer::DYNAMIC && currentLayer == CollisionLayer::STATIC)
@@ -121,7 +121,7 @@ void CollisionComponent::FixedUpdate() {
 
 void CollisionComponent::Render() const {
 	// For debug purposes
-	glm::vec3 pos{m_pOwner->GetWorldPosition()};
+	/*glm::vec3 pos{m_pOwner->GetWorldPosition()};
 	SDL_Rect rectangle{ int(pos.x), int(pos.y), int(m_Width), int(m_Height) };
 	SDL_Color drawColor{ 0,0,255,255 };
 
@@ -139,7 +139,7 @@ void CollisionComponent::Render() const {
 	}
 
 	SDL_SetRenderDrawColor(engine::Renderer::GetInstance().GetSDLRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
-	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);
+	SDL_RenderDrawRect(engine::Renderer::GetInstance().GetSDLRenderer(), &rectangle);*/
 }
 
 const std::unordered_set<CollisionComponent*> CollisionComponent::GetColliding() const {
@@ -159,7 +159,7 @@ void CollisionComponent::SetLayer(CollisionLayer layer) {
 }
 
 CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*> toIgnore, std::vector<CollisionLayer> hitLayers) {
-		toIgnore.emplace_back(this);
+	toIgnore.emplace_back(this);
 
 	CollisionHit closestHitResult{};
 	float closestDistance{FLT_MAX};
@@ -173,7 +173,7 @@ CollisionHit CollisionComponent::CheckCollision( std::vector<CollisionComponent*
 		}
 
 		// Only return the closest hit
-		CollisionHit hitResult = CollidesWith(other);
+		const CollisionHit hitResult = CollidesWith(other);
 
 		if (hitResult.hit && hitResult.distance < closestDistance) { 
 			closestHitResult = hitResult;
@@ -198,7 +198,7 @@ std::vector<CollisionHit> CollisionComponent::GetAllColliding(std::vector<Collis
 		}
 
 
-		CollisionHit hitResult = CollidesWith(other);
+		const CollisionHit hitResult = CollidesWith(other);
 		if (hitResult.hit){
 			hits.push_back(hitResult);
 		}
@@ -211,13 +211,13 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 
 	CollisionHit hitResult{};
 
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
-	glm::vec3 otherPos{ other->m_pOwner->GetWorldPosition() };
+	const glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	const glm::vec3 otherPos{ other->m_pOwner->GetWorldPosition() };
 
-	float differenceLeft{ pos.x - otherPos.x - other->m_Width };
-	float differenceRight{ pos.x + m_Width - otherPos.x };
-	float differenceTop{ pos.y - otherPos.y - other->m_Height };
-	float differenceBottom{ pos.y + m_Height - otherPos.y };
+	const float differenceLeft{ pos.x - otherPos.x - other->m_Width };
+	const float differenceRight{ pos.x + m_Width - otherPos.x };
+	const float differenceTop{ pos.y - otherPos.y - other->m_Height };
+	const float differenceBottom{ pos.y + m_Height - otherPos.y };
 
 	// No collision
 	if (differenceBottom <= 0
@@ -228,13 +228,11 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 		return hitResult;
 	}
 
-	//std::cout << "Collides!\n";
-
 	// Collision has happened!
 	glm::vec3 diff{};
 	diff.x = (abs(differenceLeft) < abs(differenceRight)) ? differenceLeft : differenceRight;
 	diff.y = (abs(differenceTop) < abs(differenceBottom)) ? differenceTop : differenceBottom;
-	glm::vec3 offset{ abs(diff.x) < abs(diff.y) ? glm::vec3{ diff.x, 0, 0 } : glm::vec3{ 0, diff.y, 0 } };
+	const glm::vec3 offset{ abs(diff.x) < abs(diff.y) ? glm::vec3{ diff.x, 0, 0 } : glm::vec3{ 0, diff.y, 0 } };
 
 	hitResult.hit = true;
 	hitResult.object = other->m_pOwner;
@@ -247,12 +245,12 @@ CollisionHit CollisionComponent::CollidesWith(CollisionComponent* other) {
 
 glm::vec2 CollisionComponent::GetCenter() const {
 
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	const glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 	return glm::vec2{ pos.x + m_Width/2, pos.y + m_Height/2};
 }
 
 glm::vec4 CollisionComponent::GetBounds() const {
 
-	glm::vec3 pos{ m_pOwner->GetWorldPosition() };
+	const glm::vec3 pos{ m_pOwner->GetWorldPosition() };
 	return glm::vec4{ pos.x, pos.y, m_Width, m_Height };
 }

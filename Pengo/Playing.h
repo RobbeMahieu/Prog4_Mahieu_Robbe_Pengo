@@ -33,7 +33,6 @@ namespace pengo {
 			bool m_IsPlaying;
 			bool m_WonLevel;
 			
-			// Put in seperate component if time
 			std::chrono::steady_clock::time_point m_LevelStartTime;
 
 			LevelLoader* m_pLevelLoader;

@@ -1,5 +1,6 @@
 #include "MoveCommand.h"
 #include "GameTime.h"
+#include "PlayerMovement.h"
 
 using namespace pengo;
 
@@ -13,7 +14,11 @@ MoveCommand::MoveCommand(engine::GameObject* object, glm::vec2 direction, float 
 }
 
 void MoveCommand::Execute() {
-	float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
+
+	PlayerMovement* playerMovement{ m_pObject->GetComponent<PlayerMovement>() };
+	if (playerMovement && !playerMovement->CanMove()) { return; }
+
+	const float elapsedSec{ engine::GameTime::GetInstance().GetElapsedSec() };
 
 	glm::vec3 pos = m_pObject->GetLocalPosition();
 	pos.x += m_Speed * elapsedSec * m_Direction.x;

@@ -32,12 +32,12 @@ AIMovement::~AIMovement() {
 
 void AIMovement::Update() {
 
-	auto state = m_pState->Update();
+	const auto state = m_pState->Update();
 	TransitionTo(state);
 }
 
 void AIMovement::OnNotify(CollisionComponent* other) {
-	auto state = m_pState->HandleCollision(other);
+	const auto state = m_pState->HandleCollision(other);
 	TransitionTo(state);
 }
 
@@ -45,22 +45,21 @@ void AIMovement::UpdateOptions(){
 
 	for (DirectionOption& option : m_MovementOptions) {
 
-		glm::vec2 direction{ option.second->GetDirection() };
+		const glm::vec2 direction{ option.second->GetDirection() };
 
 		glm::vec3 pos{ m_pOwner->GetLocalPosition() };
 		pos.x += direction.x * 2;
 		pos.y += direction.y * 2;
 		m_pOwner->SetLocalPosition(pos);
 
-		CollisionHit hitResult{ m_pCollider->CheckCollision() };
+		// Only account for static/movable collision
+		const CollisionHit hitResult{ m_pCollider->CheckCollision({}, {CollisionLayer::STATIC, CollisionLayer::DYNAMIC}) };
 
 		pos.x -= direction.x * 2;
 		pos.y -= direction.y * 2;
 		m_pOwner->SetLocalPosition(pos);
 
-		// Only account for static/movable collision
-		option.first = (hitResult.hit && (hitResult.collider->GetLayer() == CollisionLayer::STATIC || hitResult.collider->GetLayer() == CollisionLayer::DYNAMIC));
-
+		option.first = hitResult.hit;
 	}
 }
 

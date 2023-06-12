@@ -156,13 +156,13 @@ void Playing::NextLevel() {
 
 void Playing::AddPlayers() {
 
-	int health{ 3 };
-	float movementSpeed{ 100.0f };
+	const int health{ 3 };
+	const float movementSpeed{ 100.0f };
 
-	std::vector<engine::InputDevice*> devices{ engine::InputManager::GetInstance().GetInputDevices() };
-	engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(devices[0]) };
-	engine::XBoxController* controller1{ dynamic_cast<engine::XBoxController*>(devices[1]) };
-	engine::XBoxController* controller2{ dynamic_cast<engine::XBoxController*>(devices[2]) };
+	const std::vector<engine::InputDevice*> devices{ engine::InputManager::GetInstance().GetInputDevices() };
+	const engine::Keyboard* keyboard{ dynamic_cast<engine::Keyboard*>(devices[0]) };
+	const engine::XBoxController* controller1{ dynamic_cast<engine::XBoxController*>(devices[1]) };
+	const engine::XBoxController* controller2{ dynamic_cast<engine::XBoxController*>(devices[2]) };
 	assert(keyboard && controller1 && controller2 && "Device was not correct!");
 
 	// Add skip level input
@@ -211,8 +211,8 @@ void Playing::AddPlayers() {
 }
 
 void Playing::CalculateBonus() {
-	auto currentTime{ std::chrono::high_resolution_clock::now() };
-	float seconds{ std::chrono::duration<float>(currentTime - m_LevelStartTime).count() };
+	const auto currentTime{ std::chrono::high_resolution_clock::now() };
+	const float seconds{ std::chrono::duration<float>(currentTime - m_LevelStartTime).count() };
 
 	if (seconds < 60.0f) {
 		PointManager::GetInstance().AddScore(int(60.0f - seconds) * 100);
@@ -233,7 +233,7 @@ void Playing::AddHUD() {
 
 	// Score HUD
 	engine::GameObject* scoreHUD{ new engine::GameObject() };
-	auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 20);
+	const auto textFont = engine::ResourceManager::GetInstance().LoadFont("Arcade.otf", 20);
 	scoreHUD->AddComponent<engine::TextRenderComponent>(" ", textFont);
 	scoreHUD->AddComponent<PointsHUD>();
 	scoreHUD->SetLocalPosition(150, 3);
@@ -252,8 +252,8 @@ void Playing::RestartLevel() {
 	std::vector<engine::GameObject*> m_Enemies{ m_pEnemySpawner->GetEnemies() };
 	for (int i{ 0 }; i < m_Enemies.size(); ++i) {
 		// Refactor to not have hard coded values
-		int x = 16 + (i % 2) * 384;
-		int y = 16 + (i / 2) * 448;
+		const int x = 16 + (i % 2) * 384;
+		const int y = 16 + (i / 2) * 448;
 		m_Enemies[i]->SetLocalPosition(glm::vec3{ x,y,0 });
 	}
 }

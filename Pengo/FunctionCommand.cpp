@@ -2,7 +2,7 @@
 
 using namespace pengo;
 
-FunctionCommand::FunctionCommand(std::function<void()> function)
+FunctionCommand::FunctionCommand(const std::function<void()>& function)
 	: Command()
 	, m_Function{ function }
 {

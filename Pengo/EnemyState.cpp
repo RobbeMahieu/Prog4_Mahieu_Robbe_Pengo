@@ -36,7 +36,7 @@ EnemyState* Moving::Update() {
 
 	// Check if extra option happened
 	m_pMovement->UpdateOptions();
-	int newCount = int(std::count_if(m_pMovement->m_MovementOptions.begin(), m_pMovement->m_MovementOptions.end(), [](auto& element) { return !element.first; }));
+	const int newCount = int(std::count_if(m_pMovement->m_MovementOptions.begin(), m_pMovement->m_MovementOptions.end(), [](auto& element) { return !element.first; }));
 
 	if (newCount > m_DirectionCount) {
 		return new Turning(m_pMovement);

@@ -2,6 +2,7 @@
 #include "CollisionComponent.h"
 #include "SlidingComponent.h"
 #include "AIMovement.h"
+#include "PlayerMovement.h"
 
 using namespace pengo;
 
@@ -26,12 +27,16 @@ void StickyComponent::OnNotify(CollisionComponent* other) {
 		m_pBlock = other->GetOwner()->GetComponent<SlidingComponent>();
 
 		// For AI
-		AIMovement* movement = m_pOwner->GetComponent<AIMovement>();
-		if (movement) {
-			movement->EnableMovement(false);
+		AIMovement* movementAI = m_pOwner->GetComponent<AIMovement>();
+		if (movementAI) {
+			movementAI->EnableMovement(false);
 		}
 
-
+		// For Player
+		PlayerMovement* movementPlayer = m_pOwner->GetComponent<PlayerMovement>();
+		if (movementPlayer) {
+			movementPlayer->EnableMovement(false);
+		}
 		m_State = State::Stuck;
 	}
 

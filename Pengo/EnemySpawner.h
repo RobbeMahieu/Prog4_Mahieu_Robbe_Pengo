@@ -43,6 +43,7 @@ namespace pengo {
 			std::default_random_engine m_RandomEngine;
 
 			int m_EnemyCounter;
+			float m_MaxActiveEnemies;
 	};
 
 }

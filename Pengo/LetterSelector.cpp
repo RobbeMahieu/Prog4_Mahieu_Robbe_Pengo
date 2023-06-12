@@ -44,7 +44,7 @@ void LetterSelector::ChangeLetter(int amount) {
 		m_Letter = 'A';
 	}
 
-	std::string text{ m_Letter };
+	const std::string text{ m_Letter };
 	m_TextRenderer->SetText(text);
 }
 

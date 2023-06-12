@@ -7,7 +7,7 @@ namespace pengo {
 	class CollisionComponent;
 	class SlidingComponent;
 
-	class Stunnable : public engine::Component, engine::Observer<CollisionComponent*>
+	class Stunnable final : public engine::Component, engine::Observer<CollisionComponent*>
 	{
 
 		enum State {

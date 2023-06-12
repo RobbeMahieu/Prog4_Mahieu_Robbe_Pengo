@@ -7,7 +7,7 @@
 
 namespace pengo {
 	
-	class DiamondSpawner : public engine::Component
+	class DiamondSpawner final : public engine::Component
 	{
 		public:
 			DiamondSpawner(engine::GameObject* pOwner);

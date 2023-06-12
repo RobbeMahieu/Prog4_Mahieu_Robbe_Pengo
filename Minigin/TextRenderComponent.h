@@ -7,7 +7,7 @@
 
 namespace engine {
 
-	class TextRenderComponent : public Component
+	class TextRenderComponent final : public Component
 	{
 	public:
 		TextRenderComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font);

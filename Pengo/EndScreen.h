@@ -4,7 +4,7 @@
 
 namespace pengo {
 
-	class EndScreen : public GameState
+	class EndScreen final : public GameState
 	{
 		public:
 			EndScreen(engine::GameObject* pOwner, bool didWin, GameMode mode);

@@ -7,7 +7,7 @@
 
 namespace pengo {
 
-	class MenuHorizontalInteractor : public engine::Component
+	class MenuHorizontalInteractor final : public engine::Component
 	{
 	public:
 		MenuHorizontalInteractor(engine::GameObject* pOwner, int maxIndex, engine::Keyboard* device);

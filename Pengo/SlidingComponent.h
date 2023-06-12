@@ -12,7 +12,7 @@ namespace pengo {
 	class Break;
 
 
-	class SlidingComponent : public engine::Component, public engine::Observer<CollisionComponent*>
+	class SlidingComponent final : public engine::Component, public engine::Observer<CollisionComponent*>
 	{
 		public:
 			SlidingComponent(engine::GameObject* pOwner, float speed);

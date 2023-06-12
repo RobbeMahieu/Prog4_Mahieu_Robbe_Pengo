@@ -8,7 +8,7 @@ namespace pengo {
 	class CollisionComponent;
 	class SlidingComponent;
 	
-	class StickyComponent : public engine::Component, engine::Observer<CollisionComponent*>
+	class StickyComponent final : public engine::Component, engine::Observer<CollisionComponent*>
 	{
 		enum State {
 			Free,

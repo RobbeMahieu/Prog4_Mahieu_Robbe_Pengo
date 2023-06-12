@@ -4,7 +4,7 @@
 
 namespace engine {
 
-	class LoggingSoundSystem : public SoundSystem
+	class LoggingSoundSystem final : public SoundSystem
 	{
 		public:
 			LoggingSoundSystem(std::unique_ptr<SoundSystem>&& realSS);

@@ -6,7 +6,7 @@
 
 namespace engine {
 
-	class TextureRenderComponent : public Component
+	class TextureRenderComponent final : public Component
 	{
 	public:
 		TextureRenderComponent(GameObject* pOwner, const std::string& texturePath);

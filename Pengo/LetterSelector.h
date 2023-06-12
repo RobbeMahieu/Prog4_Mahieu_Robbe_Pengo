@@ -9,7 +9,7 @@ namespace pengo {
 
 	class FunctionCommand;
 
-	class LetterSelector : public engine::Component
+	class LetterSelector final : public engine::Component
 	{
 		public:
 

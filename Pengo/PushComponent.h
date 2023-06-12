@@ -10,7 +10,7 @@ namespace pengo {
 
 	class PushCommand;
 
-	class PushComponent : public engine::Component
+	class PushComponent final : public engine::Component
 	{
 		public:
 			PushComponent(engine::GameObject* pOwner, engine::Keyboard* device);

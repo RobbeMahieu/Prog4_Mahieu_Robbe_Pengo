@@ -9,7 +9,7 @@ namespace pengo {
 
 	class HealthComponent;
 
-	class HealthHUD : public engine::Component, public engine::Observer<HealthComponent*, int>
+	class HealthHUD final : public engine::Component, public engine::Observer<HealthComponent*, int>
 	{
 		public:
 			HealthHUD(engine::GameObject* pOwner, HealthComponent* pHealthComponent, const std::string& iconPath);

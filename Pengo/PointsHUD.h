@@ -8,7 +8,7 @@ namespace pengo {
 
 	class PointManager;
 
-	class PointsHUD : public engine::Component, public engine::Observer<int>
+	class PointsHUD final : public engine::Component, public engine::Observer<int>
 	{
 		public:
 			PointsHUD(engine::GameObject* pOwner);

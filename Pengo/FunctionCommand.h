@@ -5,7 +5,7 @@
 
 namespace pengo {
 	
-	class FunctionCommand : public engine::Command
+	class FunctionCommand final : public engine::Command
 	{
 		public:
 			explicit FunctionCommand(const std::function<void()>& function);

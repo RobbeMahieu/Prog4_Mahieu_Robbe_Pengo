@@ -4,7 +4,7 @@
 
 namespace engine {
 
-	class GameTime : public Singleton<GameTime>
+	class GameTime final : public Singleton<GameTime>
 	{
 		public:
 			void Init();

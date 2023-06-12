@@ -7,7 +7,7 @@
 
 namespace pengo{
 
-	class Menu : public GameState
+	class Menu final : public GameState
 	{
 		public:
 			Menu(engine::GameObject* pOwner);

@@ -4,7 +4,7 @@
 
 namespace pengo {
 
-	class StunComponent : public engine::Component
+	class StunComponent final : public engine::Component
 	{
 		public:
 			StunComponent(engine::GameObject* pOwner);

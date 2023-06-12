@@ -9,7 +9,7 @@ namespace pengo {
 	class GameState;
 	class FunctionCommand;
 	
-	class GameManager : public engine::Component
+	class GameManager final : public engine::Component
 	{
 		public:
 			GameManager(engine::GameObject* pOwner);

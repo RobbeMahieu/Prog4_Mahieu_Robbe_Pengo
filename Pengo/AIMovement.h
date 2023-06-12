@@ -12,7 +12,7 @@ namespace pengo {
 	class MoveCommand;
 	typedef std::pair<bool, std::unique_ptr<MoveCommand>> DirectionOption;
 
-	class AIMovement : public engine::Component, engine::Observer<CollisionComponent*>
+	class AIMovement final : public engine::Component, engine::Observer<CollisionComponent*>
 	{
 		public:
 			AIMovement(engine::GameObject* pOwner, float speed);

@@ -6,7 +6,7 @@
 
 namespace pengo {
 
-	class KillPlayerComponent : public engine::Component, engine::Observer<CollisionComponent*>
+	class KillPlayerComponent final : public engine::Component, engine::Observer<CollisionComponent*>
 	{
 		public:
 			KillPlayerComponent(engine::GameObject* pOwner);

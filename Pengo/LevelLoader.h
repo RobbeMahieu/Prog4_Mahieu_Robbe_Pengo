@@ -6,7 +6,7 @@
 
 namespace pengo {
 
-	class LevelLoader : public engine::Component
+	class LevelLoader final : public engine::Component
 	{
 		public:
 			LevelLoader(engine::GameObject* pOwner, float gridSize);

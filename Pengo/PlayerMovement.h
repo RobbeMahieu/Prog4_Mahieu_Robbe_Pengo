@@ -9,7 +9,7 @@ namespace pengo {
 	class MoveCommand;
 	class PushCommand;
 
-	class PlayerMovement : public engine::Component
+	class PlayerMovement final : public engine::Component
 	{
 		public:
 			PlayerMovement(engine::GameObject* pOwner, float speed, engine::Keyboard* device);

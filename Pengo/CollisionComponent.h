@@ -28,7 +28,7 @@ namespace pengo {
 
 	// Origin is top left corner
 
-	class CollisionComponent : public engine::Component
+	class CollisionComponent final : public engine::Component
 	{
 		public:
 			CollisionComponent(engine::GameObject* pOwner, float width, float height, bool trigger = false, CollisionLayer layer = CollisionLayer::STATIC);

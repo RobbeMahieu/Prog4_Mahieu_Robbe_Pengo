@@ -8,7 +8,7 @@ namespace pengo {
 	class SlidingComponent;
 	class StunComponent;
 
-	class PushCommand : public engine::Command
+	class PushCommand final : public engine::Command
 	{
 	public:
 		explicit PushCommand(engine::GameObject* pOwner);

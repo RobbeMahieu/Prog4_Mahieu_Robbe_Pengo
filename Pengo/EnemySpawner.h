@@ -10,7 +10,7 @@ namespace pengo {
 	class AIMovement;
 	class SlidingComponent;
 
-	class EnemySpawner : public engine::Component, engine::Observer<engine::GameObject*>, engine::Observer<SlidingComponent*>
+	class EnemySpawner final : public engine::Component, engine::Observer<engine::GameObject*>, engine::Observer<SlidingComponent*>
 	{
 		public:
 			EnemySpawner(engine::GameObject* pOwner);

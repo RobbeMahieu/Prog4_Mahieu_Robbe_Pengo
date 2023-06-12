@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include <SubjectObserver.h>
 #include <chrono>
+#include <memory>
 
 namespace pengo {
 
@@ -9,6 +10,7 @@ namespace pengo {
 	class EnemySpawner;
 	class DiamondSpawner;
 	class HealthComponent;
+	class FunctionCommand;
 
 	class Playing final : public GameState, engine::Observer<>, engine::Observer<HealthComponent*, int>
 	{
@@ -40,6 +42,8 @@ namespace pengo {
 			std::vector<engine::GameObject*> m_pPlayers;
 
 			GameMode m_GameMode;
+
+			std::unique_ptr<FunctionCommand> m_NextLevelCommand;
 
 			int m_LevelIndex;
 

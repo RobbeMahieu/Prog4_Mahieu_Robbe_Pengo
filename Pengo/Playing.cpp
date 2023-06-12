@@ -13,6 +13,7 @@
 #include "PointManager.h"
 #include "PointsHUD.h"
 #include "ResourceManager.h"
+#include "FunctionCommand.h"
 
 using namespace pengo;
 
@@ -31,10 +32,18 @@ Playing::Playing(engine::GameObject* pOwner, GameMode mode)
 	, m_pHUD{ nullptr }
 	, m_GameMode{ mode }
 	, m_LevelStartTime{}
+	, m_NextLevelCommand{ std::make_unique<FunctionCommand>(std::bind(&Playing::NextLevel, this)) }
 {
 }
 
 void Playing::OnLeave() {
+
+	engine::InputManager::GetInstance().UnbindAction(m_NextLevelCommand.get());
+	
+	for (engine::GameObject* player :m_pPlayers) {
+		player->Destroy();
+	}
+
 	m_pRoot->Destroy();
 }
 
@@ -155,6 +164,9 @@ void Playing::AddPlayers() {
 	engine::XBoxController* controller1{ dynamic_cast<engine::XBoxController*>(devices[1]) };
 	engine::XBoxController* controller2{ dynamic_cast<engine::XBoxController*>(devices[2]) };
 	assert(keyboard && controller1 && controller2 && "Device was not correct!");
+
+	// Add skip level input
+	engine::InputManager::GetInstance().BindAction(SDL_SCANCODE_F1, m_NextLevelCommand.get(), keyboard->GetID(), engine::KeyState::OnPress);
 
 	switch (m_GameMode) {
 		case GameMode::Single:

@@ -31,6 +31,11 @@ LetterSelector::LetterSelector(engine::GameObject* pOwner)
 {
 }
 
+LetterSelector::~LetterSelector() {
+	engine::InputManager::GetInstance().UnbindAction(m_pLetterUp.get());
+	engine::InputManager::GetInstance().UnbindAction(m_pLetterDown.get());
+}
+
 void LetterSelector::ChangeLetter(int amount) {
 	if (!m_IsEnabled) { return; }
 	

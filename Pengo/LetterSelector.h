@@ -15,7 +15,7 @@ namespace pengo {
 
 			LetterSelector(engine::GameObject* pOwner, engine::Keyboard* device);
 			LetterSelector(engine::GameObject* pOwner, engine::XBoxController* device);
-			virtual ~LetterSelector() = default;
+			virtual ~LetterSelector();
 
 			LetterSelector(const LetterSelector& other) = delete;
 			LetterSelector(LetterSelector&& other) = delete;

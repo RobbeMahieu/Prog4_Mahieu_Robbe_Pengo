@@ -18,8 +18,8 @@ MenuHorizontalInteractor::MenuHorizontalInteractor(engine::GameObject* pOwner, i
 MenuHorizontalInteractor::MenuHorizontalInteractor(engine::GameObject* pOwner, int maxIndex, engine::XBoxController* device)
 	: MenuHorizontalInteractor(pOwner, maxIndex)
 {
-	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_UP, m_pNavigateLeft.get(), device->GetID(), engine::KeyState::OnPress);
-	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_DOWN, m_pNavigateRight.get(), device->GetID(), engine::KeyState::OnPress);
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_LEFT, m_pNavigateLeft.get(), device->GetID(), engine::KeyState::OnPress);
+	engine::InputManager::GetInstance().BindAction(engine::XBoxController::DPAD_RIGHT, m_pNavigateRight.get(), device->GetID(), engine::KeyState::OnPress);
 	engine::InputManager::GetInstance().BindAction(engine::XBoxController::BUTTON_A, m_pSelect.get(), device->GetID(), engine::KeyState::OnPress);
 }
 
